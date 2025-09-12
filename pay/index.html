@@ -1,563 +1,615 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #FFFFFF;
-    }
-    .container {
-      max-width: 480px;
-      margin: 40px auto;
-      background: #FFFFFF;
-      padding: 24px;
-      border-radius: 12px;
-      border: 1px solid #e0e0e0;
-      box-sizing: border-box;
-    }
-    .product-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    .product-header img {
-      width: 80px;
-      border-radius: 8px;
-    }
-    .product-header .info .name {
-      font-weight: 600;
-      font-size: 18px;
-    }
-    .product-header .info .price {
-      font-weight: bold;
-      color: #01579b;
-      font-size: 20px;
-    }
-    .divider {
-      width: 90%;
-      height: 1px;
-      background: #e0e0e0;
-      margin: 20px auto;
-    }
-    label {
-      font-weight: 500;
-      margin-top: 12px;
-      display: block;
-    }
-    input[type="text"],
-    input[type="email"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 4px;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      font-size: 16px;
-      background: #fff;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-      box-sizing: border-box;
-      position: relative;
-    }
-    .flag.mz {
-      background-image: url('https://flagcdn.com/w40/mz.png');
-      background-size: cover;
-      width: 24px;
-      height: 16px;
-      position: absolute;
-      top: 50%;
-      left: 12px;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
-    .input-wrapper {
-      position: relative;
-    }
-    .error-message {
-      color: red;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-    .coupon-toggle {
-      color: #1976d2;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .coupon-field {
-      display: none;
-      margin-top: 10px;
-      align-items: center;
-    }
-    .coupon-field input {
-      flex: 1;
-      margin-right: 10px;
-    }
-    .coupon-field button {
-      padding: 10px;
-      background: #1976d2;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .section-title {
-      font-size: 15px;
-      font-weight: bold;
-      margin: 22px 0 10px;
-    }
-    .payment-options {
-      display: flex;
-      gap: 10px;
-    }
-    .payment-option {
-      flex: 1;
-      text-align: center;
-      border: 1px solid #ccc;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      background: white;
-      transition: all 0.2s;
-    }
-    .payment-option.selected {
-      border-color: #049D43;
-    }
-    .payment-option img {
-      max-width: 60px;
-      height: auto;
-      margin-bottom: 4px;
-    }
-    .phone-field {
-      margin-top: 16px;
-      display: none;
-    }
-    .secure-payment {
-      background: #e3f2fd;
-      color: #1976d2;
-      padding: 10px;
-      border: 1px solid #bbdefb;
-      border-radius: 6px;
-      font-weight: bold;
-      margin: 20px 0 12px;
-      text-align: center;
-    }
-    .secure-payment::before {
-      content: '\1F512';
-      margin-right: 6px;
-    }
-    .btn {
-      margin-top: 10px;
-      width: 100%;
-      background: #049D43;
-      color: white;
-      font-weight: bold;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .terms {
-      font-size: 12px;
-      color: #777;
-      margin-top: 18px;
-      text-align: center;
-    }
-    .top-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #c62828;
-      color: white;
-      padding: 10px 0;
-      font-size: 16px;
-      text-align: center;
-      font-weight: bold;
-      z-index: 1000;
-    }
-    .top-bar span {
-      font-weight: bold;
-    }
-    body {
-      padding-top: 50px;
-    }
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
+const { initializeApp, cert } = require('firebase-admin/app');
+const serviceAccount = {
+  type: process.env.FIREBASE_TYPE,
+  project_id: process.env.FIREBASE_PROJECT_ID,
+  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+  private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  client_email: process.env.FIREBASE_CLIENT_EMAIL,
+  client_id: process.env.FIREBASE_CLIENT_ID,
+  auth_uri: process.env.FIREBASE_AUTH_URI,
+  token_uri: process.env.FIREBASE_TOKEN_URI,
+  auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+  client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL,
+};
 
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
+initializeApp({
+  credential: cert(serviceAccount),
+});
+const { getFirestore } = require('firebase-admin/firestore');
+const path = require('path');
+const fs = require('fs');
+require('dotenv').config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const PORT = process.env.PORT || 3000;
+
+// Loga as variáveis pra garantir que tão chegando no ambiente de deploy
+console.log('CLIENT_ID:', process.env.CLIENT_ID ? '✔️ set' : '❌ missing');
+console.log('MPESA_TOKEN:', process.env.MPESA_TOKEN ? '✔️ set' : '❌ missing');
+
+// Função SHA256 (já tem no seu código)
+function sha256(input) {
+  return crypto.createHash('sha256').update(input).digest('hex');
+}
+
+// --- CONFIGURAÇÃO DO NODEMAILER (colocar aqui, junto das imports) ---
+const transporter = nodemailer.createTransporter({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,         // coloca seu email no .env, ex: EMAIL_USER=seu-email@gmail.com
+    pass: process.env.EMAIL_PASS_APP,     // senha de app do Gmail no .env, ex: EMAIL_PASS_APP=xxxxxx
+  },
+});
+
+// Função para enviar email
+function enviarEmail(destino, assunto, conteudoHTML) {
+  const transporter = nodemailer.createTransporter({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS_APP,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: destino,
+    subject: assunto,
+    html: conteudoHTML,
+  };
+
+  transporter.sendMail(mailOptions, (erro, info) => {
+    if (erro) {
+      console.error('❌ Erro ao enviar email:', erro);
+    } else {
+      console.log('📧 Email enviado com sucesso:', info.response);
     }
-    .modal-box {
-      background: white;
-      padding: 24px 32px;
-      border-radius: 10px;
-      font-size: 18px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-    .modal-box.success {
-      border: 2px solid #4caf50;
-      color: #2e7d32;
-    }
-    .modal-box.error {
-      border: 2px solid #f44336;
-      color: #c62828;
-    }
-    .modal-box.timeout {
-      border: 2px solid #ff9800;
-      color: #e65100;
-    }
-    #overlay-processando {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
+  });
+}
 
-    .loader-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+async function notificarPushcutSecundario() {
+  try {
+    await axios.post('https://api.pushcut.io/q-XmBT8fFsxnWbOyfaBQH/notifications/Venda%20Realizada');
+    console.log('✅ Segundo Pushcut enviado');
+  } catch (err) {
+    console.error('❌ Erro ao enviar segundo Pushcut:', err.response?.data || err.message);
+  }
+}
 
-    .loader-circle {
-      width: 140px;
-      height: 140px;
-      border: 10px solid #4ade80;
-      border-top: 10px solid transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 32px;
-      font-weight: bold;
-      color: white;
-    }
+async function adicionarNaPlanilha({ nome, email, phone, metodo, amount, reference,utm_source,utm_medium,utm_campaign,utm_term,utm_content }) {
+  // Parse do JSON das credenciais direto da variável de ambiente
+  const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
-</head>
-<body>
-  <div class="top-bar">
-    ⚠ Esta oferta expira em <span id="timer">10:00</span>
-  </div>
+  const auth = new google.auth.GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
 
-  <div class="container">
-    <div class="product-header">
-      <img src="images/job img.jpg" alt="Produto" />
-      <div class="info">
-        <div class="name">Job em dolar</div>
-        <div class="price">197,00 MZN</div>
-      </div>
-    </div>
+  const sheets = google.sheets({ version: 'v4', auth: await auth.getClient() });
 
-    <div class="divider"></div>
+  const spreadsheetId = '1aVQxptqsfoBnLmgury1UdiYlRGBNrwBz7s3-HC9a_bM'; // substitua pelo ID da sua planilha
 
-    <label for="nome-input">Nome completo</label>
-    <input id="nome-input" type="text" />
-    <div id="nome-erro" class="error-message" style="display:none;">Por favor, preencha seu nome completo.</div>
+  const dataAtual = new Date().toLocaleString('pt-BR', { timeZone: 'Africa/Maputo' });
 
-    <label for="email-input">E-mail</label>
-    <input id="email-input" type="email" />
-    <div id="email-erro" class="error-message" style="display:none;">Por favor, preencha seu e-mail.</div>
-    
-    <label for="whatsapp-input">Número de WhatsApp</label>
-    <input id="whatsapp-input" type="text" />
-    <div id="whatsapp-erro" class="error-message" style="display:none;">
-      Por favor, preencha o número de WhatsApp.
-    </div>
+  const novaLinha = [[nome, email, phone, metodo, amount, reference, dataAtual,utm_source,utm_medium,utm_campaign,utm_term,utm_content]];
 
-    <div class="coupon-toggle" onclick="toggleCupom()">Tem um cupom de desconto?</div>
-    <div class="coupon-field" id="cupom-field">
-      <input type="text" placeholder="Digite o cupom" />
-      <button>Aplicar</button>
-    </div>
+  await sheets.spreadsheets.values.append({
+    spreadsheetId,
+    range: 'A1',
+    valueInputOption: 'RAW',
+    insertDataOption: 'INSERT_ROWS',
+    requestBody: {
+      values: novaLinha,
+    },
+  });
 
-    <div class="section-title">Método de pagamento</div>
-    <div class="payment-options">
-      <div class="payment-option" onclick="selectPayment(this, 'mpesa')">
-        <img src="images/mpesa.png" alt="M-Pesa" />
-        <div>M-Pesa</div>
-      </div>
-      <div class="payment-option" onclick="selectPayment(this, 'emola')">
-        <img src="images/emola.png" alt="e-Mola" />
-        <div>e-Mola</div>
-      </div>
-      <div class="payment-option" onclick="selectPayment(this, 'visa')">
-        <img src="images/visa (2).png" alt="Visa/Mastercard" />
-        <div>Visa/Mastercard</div>
-      </div>
-    </div>
+  console.log('📊 Dados adicionados na planilha');
+}
+const db = getFirestore();
 
-    <div class="phone-field" id="phone-section">
-      <label for="phone-input">Telefone</label>
-      <div>
-        <input id="phone-input" type="text" placeholder="84/85/86/87 xxxxxx" />
-      </div>
-      <div id="phone-erro" class="error-message" style="display:none;">Por favor, insira o número de telefone.</div>
-    </div>
+async function notificarPushcut() {
+  try {
+    await axios.post('https://api.pushcut.io/q-XmBT8fFsxnWbOyfaBQH/notifications/Venda%20Realizada');
+    console.log('✅ Pushcut enviado');
+  } catch (err) {
+    console.error('❌ Erro ao enviar Pushcut:', err.response?.data || err.message);
+  }
+}
 
-    <div class="secure-payment">Pagamento seguro</div>
-
-    <button class="btn" id="pagar-btn">Finalizar compra 197,00 MZN</button>
-    <div id="pagamento-status" style="display:none; margin-top: 16px; text-align: center; font-weight: bold; color: #2c3e50;"></div>
-    <div class="terms">
-      Compra segura com criptografia. Ao finalizar, você aceita os termos.<br />
-      Nenhum dado sensível é armazenado.
-    </div>
-  </div>
-
-  <div id="modal" style="display:none;" class="modal-overlay">
-    <div id="modal-box" class="modal-box"></div>
-  </div>
-
-  <div id="overlay-processando" style="display: none;">
-    <div class="loader-container">
-      <div class="loader-circle">
-        <span id="contador">45</span>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // 🎯 GERAR ORDER ID ÚNICO PARA CADA VISITANTE
-    function gerarOrderId() {
-      const timestamp = Date.now();
-      const random = Math.random().toString(36).substring(2, 8);
-      return `VP-${timestamp}-${random}`;
-    }
-
-    // Gerar orderId único quando a página carrega
-    let orderIdUnico = gerarOrderId();
-    console.log('🆔 Order ID gerado:', orderIdUnico);
-
-    function selectPayment(el, method) {
-      document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
-      el.classList.add('selected');
-      document.getElementById('phone-section').style.display = 'block';
-      const phoneInput = document.getElementById('phone-input');
-      phoneInput.dataset.metodo = method;
-      phoneInput.placeholder = method === 'mpesa' ? 'EX: 84/85 xxxxxx' : method === 'emola' ? 'EX: 86/87 xxxxxx' : 'EX: 84/85/86/87 xxxxxx';
-    }
-
-    function toggleCupom() {
-      const el = document.getElementById('cupom-field');
-      el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
-    }
-
-    function mostrarPopup(tipo, mensagem) {
-      const modal = document.getElementById('modal');
-      const modalBox = document.getElementById('modal-box');
-
-      modalBox.className = 'modal-box ' + tipo;
-      modalBox.innerText = mensagem;
-
-      modal.style.display = 'flex';
-
-      setTimeout(() => {
-        modal.style.display = 'none';
-      }, 5000);
-    }
-
-    document.getElementById('pagar-btn').addEventListener('click', async () => {
-      const nome = document.getElementById('nome-input');
-      const email = document.getElementById('email-input');
-      const phone = document.getElementById('phone-input');
-      const whatsapp = document.getElementById('whatsapp-input');
-      const metodo = phone.dataset.metodo;
-      const pagarBtn = document.getElementById('pagar-btn');
-      const statusDiv = document.getElementById('pagamento-status');
-      let erro = false;
-
-      [nome, email, phone].forEach(input => input.classList.remove('error'));
-      document.getElementById('nome-erro').style.display = 'none';
-      document.getElementById('email-erro').style.display = 'none';
-      document.getElementById('phone-erro').style.display = 'none';
-      document.getElementById('whatsapp-erro').style.display = 'none';
-
-      // Validação básica
-      if (!nome.value.trim()) {
-        nome.classList.add('error');
-        document.getElementById('nome-erro').style.display = 'block';
-        erro = true;
+// 🎯 FUNÇÕES UTMIFY - ATUALIZADAS PARA USAR ORDERID
+async function enviarEventoUtmify(dadosEvento) {
+  try {
+    const response = await axios.post(
+      'https://api.utmify.com.br/api-credentials/orders',
+      dadosEvento,
+      {
+        headers: {
+          'x-api-token': 'GScaqKrzCBdQ2IqCrJX5xusXm1lva5iTxR7k',
+          'Content-Type': 'application/json',
+        },
       }
-      if (!email.value.trim()) {
-        email.classList.add('error');
-        document.getElementById('email-erro').style.display = 'block';
-        erro = true;
+    );
+
+    console.log('✅ Evento enviado para Utmify:', dadosEvento.status, 'OrderID:', dadosEvento.orderId);
+    return response.data;
+  } catch (err) {
+    console.error('❌ Erro ao enviar evento para Utmify:', err.response?.data || err.message);
+    throw err;
+  }
+}
+
+async function criarEventoPagamentoPendente({ orderId, nome, email, phone, amount, utm_source, utm_medium, utm_campaign, utm_term, utm_content }) {
+  // Verificar se já existe evento pendente para este telefone
+  const eventoExistente = await db.collection('utmify_eventos')
+    .where('phone', '==', phone)
+    .where('status', '==', 'waiting_payment')
+    .get();
+
+  if (!eventoExistente.empty) {
+    console.log('⚠️ Já existe evento pendente para este telefone, não enviando duplicado');
+    return eventoExistente.docs[0].data().orderId;
+  }
+
+  const agora = new Date();
+  
+  // 🎯 CONVERSÃO MZN PARA USD (dividir por 64)
+  const valorMZN = parseInt(amount);
+  const valorUSD = Math.round((valorMZN / 64) * 100); // em centavos USD
+  const taxaGateway = Math.round(valorUSD * 0.07); // 7% de taxa
+  const comissaoUsuario = valorUSD - taxaGateway; // restante após taxa
+  
+  const dadosEvento = {
+    orderId, // 🎯 USA O ORDERID ÚNICO DO CHECKOUT
+    platform: "VisionPay",
+    paymentMethod: "pix",
+    status: "waiting_payment",
+    createdAt: agora.toISOString().replace('T', ' ').substring(0, 19),
+    approvedDate: null,
+    refundedAt: null,
+    customer: {
+      name: nome || "Cliente",
+      email: email || "cliente@exemplo.com",
+      phone: phone,
+      document: null,
+      country: "MZ",
+      ip: "102.0.0.1"
+    },
+    products: [{
+      id: "lifeboost-secrets",
+      name: "LifeBoost Secrets",
+      planId: null,
+      planName: null,
+      quantity: 1,
+      priceInCents: valorUSD
+    }],
+    trackingParameters: {
+      utm_source: utm_source || null,
+      utm_campaign: utm_campaign || null,
+      utm_medium: utm_medium || null,
+      utm_content: utm_content || null,
+      utm_term: utm_term || null,
+      src: null,
+      sck: null
+    },
+    commission: {
+      totalPriceInCents: valorUSD,
+      gatewayFeeInCents: taxaGateway, // 7% de taxa
+      userCommissionInCents: comissaoUsuario, // 93% comissão
+      currency: "USD"
+    },
+    isTest: false
+  };
+
+  await enviarEventoUtmify(dadosEvento);
+
+  // Salvar no Firebase para controle
+  await db.collection('utmify_eventos').add({
+    orderId,
+    phone,
+    status: 'waiting_payment',
+    created_at: agora,
+  });
+
+  console.log(`💱 Conversão: ${valorMZN} MZN → ${(valorUSD/100).toFixed(2)} USD`);
+  return orderId;
+}
+
+async function criarEventoPagamentoAprovado({ orderId, nome, email, phone, amount, utm_source, utm_medium, utm_campaign, utm_term, utm_content }) {
+  const agora = new Date();
+  
+  // 🎯 CONVERSÃO MZN PARA USD (dividir por 64)
+  const valorMZN = parseInt(amount);
+  const valorUSD = Math.round((valorMZN / 64) * 100); // em centavos USD
+  const taxaGateway = Math.round(valorUSD * 0.07); // 7% de taxa
+  const comissaoUsuario = valorUSD - taxaGateway; // restante após taxa
+  
+  const dadosEvento = {
+    orderId, // 🎯 USA O MESMO ORDERID DO EVENTO PENDENTE
+    platform: "VisionPay",
+    paymentMethod: "pix",
+    status: "paid",
+    createdAt: agora.toISOString().replace('T', ' ').substring(0, 19),
+    approvedDate: agora.toISOString().replace('T', ' ').substring(0, 19),
+    refundedAt: null,
+    customer: {
+      name: nome || "Cliente",
+      email: email || "cliente@exemplo.com",
+      phone: phone,
+      document: null,
+      country: "MZ",
+      ip: "102.0.0.1"
+    },
+    products: [{
+      id: "lifeboost-secrets",
+      name: "LifeBoost Secrets",
+      planId: null,
+      planName: null,
+      quantity: 1,
+      priceInCents: valorUSD
+    }],
+    trackingParameters: {
+      utm_source: utm_source || null,
+      utm_campaign: utm_campaign || null,
+      utm_medium: utm_medium || null,
+      utm_content: utm_content || null,
+      utm_term: utm_term || null,
+      src: null,
+      sck: null
+    },
+    commission: {
+      totalPriceInCents: valorUSD,
+      gatewayFeeInCents: taxaGateway, // 7% de taxa
+      userCommissionInCents: comissaoUsuario, // 93% comissão
+      currency: "USD"
+    },
+    isTest: false
+  };
+
+  await enviarEventoUtmify(dadosEvento);
+
+  // Atualizar status no Firebase
+  const eventoRef = await db.collection('utmify_eventos')
+    .where('orderId', '==', orderId)
+    .get();
+
+  if (!eventoRef.empty) {
+    await eventoRef.docs[0].ref.update({
+      status: 'paid',
+      approved_at: agora,
+    });
+  }
+
+  console.log(`💱 Conversão: ${valorMZN} MZN → ${(valorUSD/100).toFixed(2)} USD`);
+}
+
+// Função de recuperação
+async function enviarMensagemWhatsAppRecuperacao(telefone, nomeCliente = '') {
+  try {
+    const telefoneFormatado = telefone.startsWith('258') ? telefone : `258${telefone.replace(/^0/, '')}`;
+
+    const mensagem = `⚠️ Olá${nomeCliente ? ' ' + nomeCliente : ''}! Parece que houve um erro na sua tentativa de pagamento…
+
+Mas temos uma notícia boa 🤑
+
+Conseguimos liberar um acesso especial: em vez de pagar 197 MZN, você pode acessar tudo por apenas **97 MZN** (por tempo limitado)!
+
+👉 Finalize aqui agora:
+https://lifeboostsecrets.online/rec/
+Se tiver dúvidas, é só responder por aqui. Estamos te esperando!`;
+
+    await axios.post(
+      'https://api.z-api.io/instances/3E253C0E7BA3B028DAC01664B40E8DC7/token/557A2D63524922D69AE44772/send-text',
+      {
+        phone: telefoneFormatado,
+        message: mensagem
+      },
+      {
+        headers: {
+          'Client-Token': 'F1850a1deea6b422c9fa8baf8407628c5S'
+        }
       }
-      
-      if (!whatsapp.value.trim()) {
-        whatsapp.classList.add('error');
-        document.getElementById('whatsapp-erro').style.display = 'block';
-        erro = true;
+    );
+
+    console.log('✅ Mensagem de recuperação enviada via WhatsApp');
+  } catch (err) {
+    console.error('❌ Erro ao enviar mensagem de recuperação:', err.response?.data || err.message);
+  }
+}
+
+// 👇 Função que salva as transações falhadas
+async function salvarTransacaoFalhada({ phone, metodo, reference, erro }) {
+  try {
+    await db.collection("transacoes_falhadas_2").add({
+      phone,
+      metodo,
+      reference,
+      erro,
+      status: "falhou",
+      created_at: new Date(),
+    });
+    console.log(`⚠️ Transação falhada salva: ${erro}`);
+  } catch (err) {
+    console.error("❌ Erro ao salvar transação falhada:", err);
+  }
+}
+
+async function salvarCompra({ nome, email, phone, whatsapp, metodo, amount, reference, utm_source, utm_medium, utm_campaign, utm_term, utm_content }) {
+  const dados = {
+    nome,
+    email,
+    phone,
+    whatsapp: whatsapp || '',
+    metodo,
+    amount,
+    reference,
+    created_at: new Date(),
+    utm: {
+      source: utm_source || '',
+      medium: utm_medium || '',
+      campaign: utm_campaign || '',
+      term: utm_term || '',
+      content: utm_content || '',
+    },
+  };
+
+  const docRef = await db.collection('compras_checkout2').add(dados);
+  console.log(`✅ Compra salva no Firebase com ID: ${docRef.id}`);
+}
+
+// Rota do pagamento - ATUALIZADA PARA RECEBER ORDERID
+app.post('/api/pagar', async (req, res) => {
+  const {
+    phone, amount, reference, orderId, metodo, email, nome, pedido, whatsapp,
+    utm_source, utm_medium, utm_campaign, utm_term, utm_content, fbc, fbp
+  } = req.body;
+
+  console.log('Request body:', req.body);
+  console.log('🆔 OrderID recebido:', orderId);
+
+  console.log('UTMs capturados:', {
+    utm_source,
+    utm_medium,
+    utm_campaign,
+    utm_term,
+    utm_content
+  });
+
+  if (!phone || !amount || !reference || !metodo || !orderId) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'phone, amount, reference, orderId e metodo são obrigatórios',
+    });
+  }
+
+  let walletId, token;
+  if (metodo === 'mpesa') {
+    walletId = process.env.MPESA_WALLET_ID;
+    token = process.env.MPESA_TOKEN;
+  } else if (metodo === 'emola') {
+    walletId = process.env.EMOLA_WALLET_ID;
+    token = process.env.EMOLA_TOKEN;
+  } else {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Método inválido. Use mpesa ou emola.',
+    });
+  }
+
+  const url = `https://e2payments.explicador.co.mz/v1/c2b/${metodo}-payment/${walletId}`;
+
+  // 🎯 ENVIAR EVENTO PENDENTE PARA UTMIFY COM ORDERID ÚNICO
+  try {
+    await criarEventoPagamentoPendente({
+      orderId, // 🆔 USA O ORDERID DO CHECKOUT
+      nome,
+      email,
+      phone,
+      amount,
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      utm_term,
+      utm_content
+    });
+  } catch (err) {
+    console.error('❌ Erro ao enviar evento pendente para Utmify:', err);
+  }
+
+  try {
+    const response = await axios.post(
+      url,
+      {
+        client_id: process.env.CLIENT_ID,
+        amount: amount.toString(),
+        phone,
+        reference, // mantém o reference original para o gateway
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       }
+    );
 
-      const numero = phone.value.trim();
-      const numeroValido = validarNumero(numero, metodo);
-      if (!numeroValido || !metodo) {
-        phone.classList.add('error');
-        document.getElementById('phone-erro').style.display = 'block';
-        erro = true;
-      }
+    console.log('Resposta da API externa:', response.data);
 
-      if (erro) return;
+    // 🎯 ENVIAR EVENTO APROVADO PARA UTMIFY COM MESMO ORDERID
+    try {
+      await criarEventoPagamentoAprovado({
+        orderId, // 🆔 MESMO ORDERID DO EVENTO PENDENTE
+        nome,
+        email,
+        phone,
+        amount,
+        utm_source,
+        utm_medium,
+        utm_campaign,
+        utm_term,
+        utm_content
+      });
+    } catch (err) {
+      console.error('❌ Erro ao enviar evento aprovado para Utmify:', err);
+    }
 
-      pagarBtn.disabled = true;
-      const overlayIntervalo = mostrarOverlayProcessando(45);
+    const fbPixelId = process.env.FB_PIXEL_ID;
+    const fbAccessToken = process.env.FB_ACCESS_TOKEN;
 
+    if (fbPixelId && fbAccessToken && email && phone) {
       try {
-        const whatsapp = document.getElementById('whatsapp-input');
-        
-        // 🎯 ENVIAR ORDER ID ÚNICO PARA O SERVIDOR
-        const resposta = await fetch('https://backenv2-production.up.railway.app/api/pagar', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            phone: numero,
-            whatsapp: whatsapp.value.trim(),
-            amount: "2",
-            reference: "pesquisas", // mantém o reference original para o gateway
-            orderId: orderIdUnico,  // 🆔 NOVO: envia o orderId único
-            metodo: metodo,
-            email: email.value.trim(),
-            nome: nome.value.trim(),
-            utm_source: localStorage.getItem('utm_source') || '',
-            utm_medium: localStorage.getItem('utm_medium') || '',
-            utm_campaign: localStorage.getItem('utm_campaign') || '',
-            utm_term: localStorage.getItem('utm_term') || '',
-            utm_content: localStorage.getItem('utm_content') || '',
-            fbc: localStorage.getItem('fbc') || '',
-            fbp: localStorage.getItem('fbp') || ''
-          })
-        });
+        const payload = {
+          data: [
+            {
+              event_name: 'Purchase',
+              event_time: Math.floor(Date.now() / 1000),
+              action_source: 'website',
+              user_data: {
+                em: email ? sha256(email.trim().toLowerCase()) : undefined,
+                ph: phone ? sha256(phone.replace(/\D/g, '')) : undefined,
+                fbp: fbp || undefined,
+                fbc: fbc || undefined,
+              },
+              custom_data: {
+                currency: 'MZN',
+                value: amount,
+              }
+            }
+          ],
+          access_token: fbAccessToken,
+          test_event_code: 'TEST10707'
+        };
 
-        const resultado = await resposta.json();
-        clearInterval(overlayIntervalo);
-        esconderOverlayProcessando();
+        const response = await axios.post(
+          `https://graph.facebook.com/v19.0/${fbPixelId}/events`,
+          payload
+        );
 
-        if (resultado.status === 'ok') {
-          // Salva dados pro 1-click dos upsells
-          const _nome = nome.value.trim();
-          const _email = email.value.trim();
-          const _phoneRaw = numero;
-          const _metodo = metodo;
-          const _zap = whatsapp.value.trim() || _phoneRaw;
-
-          const _phone258 = _phoneRaw.replace(/\D/g,'').replace(/^0/,'');
-          localStorage.setItem('phone', _phoneRaw);
-          localStorage.setItem('phone258', _phone258.startsWith('258') ? _phone258 : '258' + _phone258);
-          localStorage.setItem('metodo', _metodo.toLowerCase());
-          localStorage.setItem('email', _email);
-          localStorage.setItem('nome', _nome);
-          localStorage.setItem('whatsapp', _zap);
-          
-          mostrarPopup('success', resultado.message || 'Compra aprovada com sucesso!');
-          setTimeout(() => {
-            window.location.href = "https://visionpay.site/up1/";
-          }, 3000);
-        } else {
-          mostrarPopup('error', resultado.message || 'Ocorreu um erro ao processar o pagamento.');
-        }
-      } catch (erro) {
-        clearInterval(overlayIntervalo);
-        esconderOverlayProcessando();
-
-        let mensagemErro = 'Falha no pagamento. Tente novamente.';
-
-        if (erro instanceof TypeError || erro.message.includes('timeout')) {
-          mensagemErro = 'Tempo expirado, tente efectuar o pagamento novamente.';
-        } else if (erro?.message?.includes('<html>') || erro?.message?.includes('504')) {
-          mensagemErro = 'Tempo expirado, tente efectuar o pagamento novamente.';
-        }
-
-        mostrarPopup('error', mensagemErro);
-      } finally {
-        pagarBtn.disabled = false;
+        console.log('🎯 Evento de purchase enviado pro Facebook com sucesso!');
+      } catch (fbErr) {
+        console.error('❌ Erro ao enviar evento pro Facebook:', fbErr.response?.data || fbErr.message);
       }
+    }
+
+    // Enviar e-mail se tiver email
+    const nomeCliente = nome || 'Cliente';
+
+    if (email) {
+      const textoEmailHTML = `
+        <p>Olá ${nomeCliente}, seu pedido foi recebido com sucesso!</p>
+        <p>Referência: ${reference}. Valor: MZN ${amount}.</p>
+        <p>Obrigado pela compra!</p>
+        <p>Para acessar o produto, clique no link: 
+        <a href="https://api.whatsapp.com/send/?phone=258865984978&text=Ol%C3%A1%2C+quero+receber+o+meu+acesso&type=phone_number&app_absent=0" target="_blank">Acessar produto</a></p>
+      `;
+
+      enviarEmail(email, 'Compra Confirmada!', textoEmailHTML);
+    }
+
+    // Adicionar na planilha
+    try {
+      await adicionarNaPlanilha({
+        nome: nomeCliente,
+        email,
+        phone,
+        metodo,
+        amount,
+        reference,
+        utm_source,
+        utm_medium,
+        utm_campaign,
+        utm_term,
+        utm_content
+      });
+    } catch (err) {
+      console.error('Erro ao adicionar dados na planilha:', err);
+    }
+    
+    try {
+      await salvarCompra({ nome: nomeCliente, email, phone, metodo, amount, reference, utm_source, utm_medium, utm_campaign, utm_term, utm_content });
+    } catch (err) {
+      console.error('❌ Erro ao salvar no Firebase:', err);
+    }
+    
+    try {
+      const userRef = db.collection('usuarios');
+      const q = await userRef.where('telefone', '==', phone).get();
+
+      if (q.empty) {
+        await userRef.add({
+          nome: nomeCliente,
+          telefone: phone,
+          saldo: 200,
+          dataCadastro: new Date(),
+        });
+        console.log(`📥 Novo usuário salvo em 'usuarios': ${nomeCliente}`);
+      } else {
+        console.log('👀 Usuário já existe na coleção "usuarios"');
+      }
+    } catch (err) {
+      console.error('❌ Erro ao salvar usuário em "usuarios":', err);
+    }
+    
+    // Enviar WhatsApp via Z-API
+    try {
+      const telefoneFormatado = phone.startsWith('258')
+        ? phone
+        : `258${phone.replace(/^0/, '')}`;
+
+      const mensagem = `Olá ${nomeCliente}! 👋\n\nSua transação foi aprovada com sucesso 🛒\n\n📌 Referência: *${reference}*\n💰 Valor: *MZN ${amount}*\n\nPara liberar o seu acesso à plataforma, clique no botão abaixo para enviar automaticamente a mensagem no nosso canal oficial com suporte via WhatsApp.\n✅ Basta clicar em enviar e a Natália vai te acompanhar em todo o processo.\n\nhttps://wa.me/258858093864?text=Ol%C3%A1%2C%20quero%20receber%20o%20meu%20acesso `;
+
+      await axios.post(
+        'https://api.z-api.io/instances/3E253C0E919CB028543B1A5333D349DF/token/4909422EC4EB52D5FAFB7AB1/send-text',
+        {
+          phone: telefoneFormatado,
+          message: mensagem,
+        },
+        {
+          headers: {
+            'Client-Token': 'F1850a1deea6b422c9fa8baf8407628c5S',
+          },
+        }
+      );
+
+      console.log('✅ Mensagem enviada via WhatsApp (Z-API)');
+      await notificarPushcut();
+      await notificarPushcutSecundario();
+    } catch (err) {
+      console.error('❌ Erro ao enviar mensagem pelo WhatsApp:', err.response?.data || err.message);
+    }
+
+    res.json({ status: 'ok', data: response.data });
+  } catch (err) {
+    const erroDetalhado = err?.response?.data?.message || err.message || "Erro desconhecido";
+
+    console.error('Erro na requisição externa:', erroDetalhado);
+
+    // Salvar falha no Firestore
+    await salvarTransacaoFalhada({
+      phone,
+      metodo,
+      reference,
+      erro: erroDetalhado
     });
 
-    function validarNumero(numero, metodo) {
-      if (!numero || numero.length !== 9) return false;
-      const prefixo = numero.substring(0, 2);
-      if (metodo === 'mpesa') {
-        return prefixo === '84' || prefixo === '85';
-      } else if (metodo === 'emola') {
-        return prefixo === '86' || prefixo === '87';
-      }
-      return false;
-    }
+    // ⏱️ Agenda envio de mensagem de recuperação
+    setTimeout(() => {
+      enviarMensagemWhatsAppRecuperacao(phone, nome);
+    }, 2 * 60 * 1000);
 
-    // Timer
-    let tempoRestante = 600;
+    res.status(500).json({ status: 'error', message: erroDetalhado });
+  }
+});
 
-    function atualizarTimer() {
-      const timerEl = document.getElementById('timer');
-      if (!timerEl) return;
-
-      const minutos = Math.floor(tempoRestante / 60);
-      const segundos = tempoRestante % 60;
-
-      if (tempoRestante <= 0) {
-        document.querySelector('.top-bar').innerHTML = "⛔ A contagem chegou ao 00:00! Oferta encerrada.";
-        return;
-      }
-
-      timerEl.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
-      tempoRestante--;
-    }
-
-    setInterval(atualizarTimer, 1000);
-    atualizarTimer();
-
-    function mostrarOverlayProcessando(segundos) {
-      const overlay = document.getElementById('overlay-processando');
-      const contador = document.getElementById('contador');
-      overlay.style.display = 'flex';
-
-      let tempo = segundos;
-      contador.innerText = tempo;
-
-      const intervalo = setInterval(() => {
-        tempo--;
-        contador.innerText = tempo;
-
-        if (tempo <= 0) {
-          esconderOverlayProcessando();
-          clearInterval(intervalo);
-        }
-      }, 1000);
-
-      return intervalo;
-    }
-
-    function esconderOverlayProcessando() {
-      document.getElementById('overlay-processando').style.display = 'none';
-    }
-  </script>
-</body>
-
-</html>
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
+});
