@@ -307,7 +307,7 @@
         <div>e-Mola</div>
       </div>
       <div class="payment-option" onclick="selectPayment(this, 'visa')">
-        <img src="images/visa (2) (1).png" alt="Visa/Mastercard" />
+        <img src="images/visa (2).png" alt="Visa/Mastercard" />
         <div>Visa/Mastercard</div>
       </div>
     </div>
@@ -432,7 +432,6 @@
       try {
         const whatsapp = document.getElementById('whatsapp-input');
         
-        // 🎯 ENVIAR ORDER ID ÚNICO PARA O SERVIDOR
         const resposta = await fetch('https://backenv2-production.up.railway.app/api/pagar', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -440,8 +439,7 @@
             phone: numero,
             whatsapp: whatsapp.value.trim(),
             amount: "197",
-            reference: "pesquisas", // mantém o reference original para o gateway
-            orderId: orderIdUnico,  // 🆔 NOVO: envia o orderId único
+            reference: "pesquisas",
             metodo: metodo,
             email: email.value.trim(),
             nome: nome.value.trim(),
@@ -476,9 +474,47 @@
           localStorage.setItem('whatsapp', _zap);
           
           mostrarPopup('success', resultado.message || 'Compra aprovada com sucesso!');
-          setTimeout(() => {
-            window.location.href = "https://visionpay.site/up1/";
-          }, 3000);
+          
+          // 🎯 CRIAR TOKEN DE RASTREAMENTO PARA UPSELLS
+          try {
+            const tokenPayload = {
+              phone: numero,
+              nome: nome.value.trim(),
+              email: email.value.trim(),
+              utm_source: localStorage.getItem('utm_source') || '',
+              utm_medium: localStorage.getItem('utm_medium') || '',
+              utm_campaign: localStorage.getItem('utm_campaign') || '',
+              utm_term: localStorage.getItem('utm_term') || '',
+              utm_content: localStorage.getItem('utm_content') || '',
+              orderId: orderIdUnico
+            };
+
+            const tokenResp = await fetch('https://backenv2-production.up.railway.app/api/create-token', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(tokenPayload)
+            });
+
+            const tokenResult = await tokenResp.json();
+            if (tokenResult.status === 'ok') {
+              console.log('🔐 Token de rastreamento criado');
+              // Redirecionar com token
+              setTimeout(() => {
+                window.location.href = `https://visionpay.site/up1/?t=${tokenResult.token}`;
+              }, 3000);
+            } else {
+              // Fallback sem token
+              setTimeout(() => {
+                window.location.href = "https://visionpay.site/up1/";
+              }, 3000);
+            }
+          } catch (tokenErr) {
+            console.error('❌ Erro ao criar token:', tokenErr);
+            // Fallback sem token
+            setTimeout(() => {
+              window.location.href = "https://visionpay.site/up1/";
+            }, 3000);
+          }
         } else {
           mostrarPopup('error', resultado.message || 'Ocorreu um erro ao processar o pagamento.');
         }
@@ -560,9 +596,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
