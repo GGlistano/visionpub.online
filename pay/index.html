@@ -500,19 +500,19 @@
               console.log('🔐 Token de rastreamento criado');
               // Redirecionar com token
               setTimeout(() => {
-                window.location.href = `https://visionpay.site/up1/?t=${tokenResult.token}`;
+                window.location.href = `https://visionpub.online/up1/?t=${tokenResult.token}`;
               }, 3000);
             } else {
               // Fallback sem token
               setTimeout(() => {
-                window.location.href = "https://visionpay.site/up1/";
+                window.location.href = "https://visionpub.online/up1/";
               }, 3000);
             }
           } catch (tokenErr) {
             console.error('❌ Erro ao criar token:', tokenErr);
             // Fallback sem token
             setTimeout(() => {
-              window.location.href = "https://visionpay.site/up1/";
+              window.location.href = "https://visionpub.online/up1/";
             }, 3000);
           }
         } else {
@@ -596,3 +596,4 @@
   </script>
 </body>
 </html>
+
