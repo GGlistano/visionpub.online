@@ -170,27 +170,25 @@
       text-align: center;
     }
     .top-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #c62828;
-  color: white;
-  padding: 10px 0;
-  font-size: 16px;
-  text-align: center;
-  font-weight: bold;
-  z-index: 1000;
-}
-.top-bar span {
-  font-weight: bold;
-}
-body {
-  padding-top: 50px; /* garante que o conteúdo não fique escondido atrás da barra */
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #c62828;
+      color: white;
+      padding: 10px 0;
+      font-size: 16px;
+      text-align: center;
+      font-weight: bold;
+      z-index: 1000;
+    }
+    .top-bar span {
+      font-weight: bold;
+    }
+    body {
+      padding-top: 50px;
+    }
 
-
-    /* ADICIONADO: estilos do popup modal */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -224,55 +222,51 @@ body {
       color: #e65100;
     }
     #overlay-processando {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7); /* escurece fundo */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
 
-.loader-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .loader-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.loader-circle {
-  width: 140px;
-  height: 140px;
-  border: 10px solid #4ade80; /* verde */
-  border-top: 10px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 32px;
-  font-weight: bold;
-  color: white;
-}
+    .loader-circle {
+      width: 140px;
+      height: 140px;
+      border: 10px solid #4ade80;
+      border-top: 10px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: white;
+    }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
   <div class="top-bar">
-  ⚠ Esta oferta expira em <span id="timer">10:00</span>
-</div>
+    ⚠ Esta oferta expira em <span id="timer">10:00</span>
+  </div>
 
   <div class="container">
-    <!-- conteúdo da página (sem alterações) -->
-    <!-- ... (mesmo conteúdo que você já tinha) ... -->
-
     <div class="product-header">
       <img src="images/job img.jpg" alt="Produto" />
       <div class="info">
@@ -292,12 +286,10 @@ body {
     <div id="email-erro" class="error-message" style="display:none;">Por favor, preencha seu e-mail.</div>
     
     <label for="whatsapp-input">Número de WhatsApp</label>
-<input id="whatsapp-input" type="text" />
-<div id="whatsapp-erro" class="error-message" style="display:none;">
-  Por favor, preencha o número de WhatsApp.
-</div>
-
-
+    <input id="whatsapp-input" type="text" />
+    <div id="whatsapp-erro" class="error-message" style="display:none;">
+      Por favor, preencha o número de WhatsApp.
+    </div>
 
     <div class="coupon-toggle" onclick="toggleCupom()">Tem um cupom de desconto?</div>
     <div class="coupon-field" id="cupom-field">
@@ -324,8 +316,8 @@ body {
     <div class="phone-field" id="phone-section">
       <label for="phone-input">Telefone</label>
       <div>
-  <input id="phone-input" type="text" placeholder="84/85/86/87 xxxxxx" />
-</div>
+        <input id="phone-input" type="text" placeholder="84/85/86/87 xxxxxx" />
+      </div>
       <div id="phone-erro" class="error-message" style="display:none;">Por favor, insira o número de telefone.</div>
     </div>
 
@@ -339,225 +331,269 @@ body {
     </div>
   </div>
 
-  <!-- Modal corrigido -->
   <div id="modal" style="display:none;" class="modal-overlay">
     <div id="modal-box" class="modal-box"></div>
   </div>
 
-  <script>
-  function selectPayment(el, method) {
-    document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
-    el.classList.add('selected');
-    document.getElementById('phone-section').style.display = 'block';
-    const phoneInput = document.getElementById('phone-input');
-    phoneInput.dataset.metodo = method;
-    phoneInput.placeholder = method === 'mpesa' ? 'EX: 84/85 xxxxxx' : method === 'emola' ? 'EX: 86/87 xxxxxx' : 'EX: 84/85/86/87 xxxxxx';
-  }
-
-  function toggleCupom() {
-    const el = document.getElementById('cupom-field');
-    el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
-  }
-
-  function mostrarPopup(tipo, mensagem) {
-    const modal = document.getElementById('modal');
-    const modalBox = document.getElementById('modal-box');
-
-    modalBox.className = 'modal-box ' + tipo;
-    modalBox.innerText = mensagem;
-
-    modal.style.display = 'flex';
-
-    setTimeout(() => {
-      modal.style.display = 'none';
-    }, 5000);
-  }
-
-  document.getElementById('pagar-btn').addEventListener('click', async () => {
-    const nome = document.getElementById('nome-input');
-    const email = document.getElementById('email-input');
-    const phone = document.getElementById('phone-input');
-    const whatsapp = document.getElementById('whatsapp-input');
-    const metodo = phone.dataset.metodo;
-    const pagarBtn = document.getElementById('pagar-btn');
-    const statusDiv = document.getElementById('pagamento-status');
-    let erro = false;
-
-    [nome, email, phone].forEach(input => input.classList.remove('error'));
-    document.getElementById('nome-erro').style.display = 'none';
-    document.getElementById('email-erro').style.display = 'none';
-    document.getElementById('phone-erro').style.display = 'none';
-    document.getElementById('whatsapp-erro').style.display = 'none';
-
-    // Validação básica
-    if (!nome.value.trim()) {
-      nome.classList.add('error');
-      document.getElementById('nome-erro').style.display = 'block';
-      erro = true;
-    }
-    if (!email.value.trim()) {
-      email.classList.add('error');
-      document.getElementById('email-erro').style.display = 'block';
-      erro = true;
-    }
-    
-    if (!whatsapp.value.trim()) {
-  whatsapp.classList.add('error');
-  document.getElementById('whatsapp-erro').style.display = 'block';
-  erro = true;
-}
-
-
-    const numero = phone.value.trim();
-    const numeroValido = validarNumero(numero, metodo);
-    if (!numeroValido || !metodo) {
-      phone.classList.add('error');
-      document.getElementById('phone-erro').style.display = 'block';
-      erro = true;
-    }
-
-    if (erro) return;
-
-    pagarBtn.disabled = true;
-    const overlayIntervalo = mostrarOverlayProcessando(45);
-
-   try {
-     const whatsapp = document.getElementById('whatsapp-input');
-  const resposta = await fetch('https://checkout-backend-production-4047.up.railway.app/api/pagar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      phone: numero,
-      whatsapp: whatsapp.value.trim(),
-      amount: "197",
-      reference: "pesquisas",
-      metodo: metodo,
-      email: email.value.trim(),
-      nome: nome.value.trim(),
-      utm_source: localStorage.getItem('utm_source') || '',
-      utm_medium: localStorage.getItem('utm_medium') || '',
-      utm_campaign: localStorage.getItem('utm_campaign') || '',
-      utm_term: localStorage.getItem('utm_term') || '',
-      utm_content: localStorage.getItem('utm_content') || '',
-      fbc: localStorage.getItem('fbc') || '',
-      fbp: localStorage.getItem('fbp') || ''
-    })
-  });
-
-
-      const resultado = await resposta.json();
-      clearInterval(overlayIntervalo);
-      esconderOverlayProcessando();
-
-      if (resultado.status === 'ok') {
-        // 🔐 salva dados pro 1-click dos upsells
-  const _nome     = nome.value.trim();
-  const _email    = email.value.trim();
-  const _phoneRaw = numero;            // do input (9 dígitos)
-  const _metodo   = metodo;            // 'mpesa' | 'emola'
-  const _zap      = whatsapp.value.trim() || _phoneRaw;
-
-  // se quiser, guarda também com +258 pra outros usos (whatsapp etc.)
-  const _phone258 = _phoneRaw.replace(/\D/g,'').replace(/^0/,'');
-  localStorage.setItem('phone', _phoneRaw);      // pros upsells, manda igual ao checkout
-  localStorage.setItem('phone258', _phone258.startsWith('258') ? _phone258 : '258' + _phone258);
-  localStorage.setItem('metodo', _metodo.toLowerCase());
-  localStorage.setItem('email',  _email);
-  localStorage.setItem('nome',   _nome);
-  localStorage.setItem('whatsapp', _zap);
-        mostrarPopup('success', resultado.message || 'Compra aprovada com sucesso!');
-        setTimeout(() => {
-          window.location.href = "https://visionpub.online/up1/";
-        }, 3000);
-      } else {
-        mostrarPopup('error', resultado.message || 'Ocorreu um erro ao processar o pagamento.');
-      }
-    } catch (erro) {
-      clearInterval(overlayIntervalo);
-      esconderOverlayProcessando();
-
-      let mensagemErro = 'Falha no pagamento. Tente novamente.';
-
-      if (erro instanceof TypeError || erro.message.includes('timeout')) {
-        mensagemErro = 'Tempo expirado, tente efectuar o pagamento novamente.';
-      } else if (erro?.message?.includes('<html>') || erro?.message?.includes('504')) {
-        mensagemErro = 'Tempo expirado, tente efectuar o pagamento novamente.';
-      }
-
-      mostrarPopup('error', mensagemErro);
-    } finally {
-      pagarBtn.disabled = false;
-    }
-  });
-
-  function validarNumero(numero, metodo) {
-    if (!numero || numero.length !== 9) return false;
-    const prefixo = numero.substring(0, 2);
-    if (metodo === 'mpesa') {
-      return prefixo === '84' || prefixo === '85';
-    } else if (metodo === 'emola') {
-      return prefixo === '86' || prefixo === '87';
-    }
-    return false;
-  }
-
-  // Timer
-  let tempoRestante = 600;
-
-  function atualizarTimer() {
-    const timerEl = document.getElementById('timer');
-    if (!timerEl) return;
-
-    const minutos = Math.floor(tempoRestante / 60);
-    const segundos = tempoRestante % 60;
-
-    if (tempoRestante <= 0) {
-      document.querySelector('.top-bar').innerHTML = "⛔ A contagem chegou ao 00:00! Oferta encerrada.";
-      return;
-    }
-
-    timerEl.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
-    tempoRestante--;
-  }
-
-  setInterval(atualizarTimer, 1000);
-  atualizarTimer();
-
-  function mostrarOverlayProcessando(segundos) {
-    const overlay = document.getElementById('overlay-processando');
-    const contador = document.getElementById('contador');
-    overlay.style.display = 'flex';
-
-    let tempo = segundos;
-    contador.innerText = tempo;
-
-    const intervalo = setInterval(() => {
-      tempo--;
-      contador.innerText = tempo;
-
-      if (tempo <= 0) {
-        esconderOverlayProcessando();
-        clearInterval(intervalo);
-      }
-    }, 1000);
-
-    return intervalo;
-  }
-
-  function esconderOverlayProcessando() {
-    document.getElementById('overlay-processando').style.display = 'none';
-  }
-</script>
-
-  <!-- Overlay de Processamento -->
-<div id="overlay-processando" style="display: none;">
-  <div class="loader-container">
-    <div class="loader-circle">
-      <span id="contador">45</span>
+  <div id="overlay-processando" style="display: none;">
+    <div class="loader-container">
+      <div class="loader-circle">
+        <span id="contador">45</span>
+      </div>
     </div>
   </div>
-</div>
 
+  <script>
+    // 🎯 GERAR ORDER ID ÚNICO PARA CADA VISITANTE
+    function gerarOrderId() {
+      const timestamp = Date.now();
+      const random = Math.random().toString(36).substring(2, 8);
+      return `VP-${timestamp}-${random}`;
+    }
+
+    // Gerar orderId único quando a página carrega
+    let orderIdUnico = gerarOrderId();
+    console.log('🆔 Order ID gerado:', orderIdUnico);
+
+    function selectPayment(el, method) {
+      document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('phone-section').style.display = 'block';
+      const phoneInput = document.getElementById('phone-input');
+      phoneInput.dataset.metodo = method;
+      phoneInput.placeholder = method === 'mpesa' ? 'EX: 84/85 xxxxxx' : method === 'emola' ? 'EX: 86/87 xxxxxx' : 'EX: 84/85/86/87 xxxxxx';
+    }
+
+    function toggleCupom() {
+      const el = document.getElementById('cupom-field');
+      el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function mostrarPopup(tipo, mensagem) {
+      const modal = document.getElementById('modal');
+      const modalBox = document.getElementById('modal-box');
+
+      modalBox.className = 'modal-box ' + tipo;
+      modalBox.innerText = mensagem;
+
+      modal.style.display = 'flex';
+
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 5000);
+    }
+
+    document.getElementById('pagar-btn').addEventListener('click', async () => {
+      const nome = document.getElementById('nome-input');
+      const email = document.getElementById('email-input');
+      const phone = document.getElementById('phone-input');
+      const whatsapp = document.getElementById('whatsapp-input');
+      const metodo = phone.dataset.metodo;
+      const pagarBtn = document.getElementById('pagar-btn');
+      const statusDiv = document.getElementById('pagamento-status');
+      let erro = false;
+
+      [nome, email, phone].forEach(input => input.classList.remove('error'));
+      document.getElementById('nome-erro').style.display = 'none';
+      document.getElementById('email-erro').style.display = 'none';
+      document.getElementById('phone-erro').style.display = 'none';
+      document.getElementById('whatsapp-erro').style.display = 'none';
+
+      // Validação básica
+      if (!nome.value.trim()) {
+        nome.classList.add('error');
+        document.getElementById('nome-erro').style.display = 'block';
+        erro = true;
+      }
+      if (!email.value.trim()) {
+        email.classList.add('error');
+        document.getElementById('email-erro').style.display = 'block';
+        erro = true;
+      }
+      
+      if (!whatsapp.value.trim()) {
+        whatsapp.classList.add('error');
+        document.getElementById('whatsapp-erro').style.display = 'block';
+        erro = true;
+      }
+
+      const numero = phone.value.trim();
+      const numeroValido = validarNumero(numero, metodo);
+      if (!numeroValido || !metodo) {
+        phone.classList.add('error');
+        document.getElementById('phone-erro').style.display = 'block';
+        erro = true;
+      }
+
+      if (erro) return;
+
+      pagarBtn.disabled = true;
+      const overlayIntervalo = mostrarOverlayProcessando(45);
+
+      try {
+        const whatsapp = document.getElementById('whatsapp-input');
+        
+        const resposta = await fetch('https://backenv2-production.up.railway.app/api/pagar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            phone: numero,
+            whatsapp: whatsapp.value.trim(),
+            amount: "197",
+            reference: "pesquisas",
+            orderId: orderIdUnico, // 🆔 ADICIONAR ORDERID
+            metodo: metodo,
+            email: email.value.trim(),
+            nome: nome.value.trim(),
+            utm_source: localStorage.getItem('utm_source') || '',
+            utm_medium: localStorage.getItem('utm_medium') || '',
+            utm_campaign: localStorage.getItem('utm_campaign') || '',
+            utm_term: localStorage.getItem('utm_term') || '',
+            utm_content: localStorage.getItem('utm_content') || '',
+            fbc: localStorage.getItem('fbc') || '',
+            fbp: localStorage.getItem('fbp') || ''
+          })
+        });
+
+        const resultado = await resposta.json();
+        clearInterval(overlayIntervalo);
+        esconderOverlayProcessando();
+
+        if (resultado.status === 'ok') {
+          // Salva dados pro 1-click dos upsells
+          const _nome = nome.value.trim();
+          const _email = email.value.trim();
+          const _phoneRaw = numero;
+          const _metodo = metodo;
+          const _zap = whatsapp.value.trim() || _phoneRaw;
+
+          const _phone258 = _phoneRaw.replace(/\D/g,'').replace(/^0/,'');
+          localStorage.setItem('phone', _phoneRaw);
+          localStorage.setItem('phone258', _phone258.startsWith('258') ? _phone258 : '258' + _phone258);
+          localStorage.setItem('metodo', _metodo.toLowerCase());
+          localStorage.setItem('email', _email);
+          localStorage.setItem('nome', _nome);
+          localStorage.setItem('whatsapp', _zap);
+          
+          mostrarPopup('success', resultado.message || 'Compra aprovada com sucesso!');
+          
+          // 🎯 CRIAR TOKEN DE RASTREAMENTO E REDIRECIONAR
+          try {
+            const tokenResponse = await fetch('https://backenv2-production.up.railway.app/api/create-token', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                phone: numero,
+                nome: nome.value.trim(),
+                email: email.value.trim(),
+                utm_source: localStorage.getItem('utm_source') || '',
+                utm_medium: localStorage.getItem('utm_medium') || '',
+                utm_campaign: localStorage.getItem('utm_campaign') || '',
+                utm_term: localStorage.getItem('utm_term') || '',
+                utm_content: localStorage.getItem('utm_content') || '',
+                orderId: orderIdUnico
+              })
+            });
+
+            const tokenResult = await tokenResponse.json();
+            
+            if (tokenResult.status === 'ok') {
+              // Redirecionar com token
+              setTimeout(() => {
+                window.location.href = `https://visionpub.online/up1/?t=${tokenResult.token}`;
+              }, 3000);
+            } else {
+              // Fallback sem token
+              setTimeout(() => {
+                window.location.href = "https://visionpub.online/up1/";
+              }, 3000);
+            }
+          } catch (tokenErr) {
+            console.error('❌ Erro ao criar token:', tokenErr);
+            // Fallback sem token
+            setTimeout(() => {
+              window.location.href = "https://visionpub.online/up1/";
+            }, 3000);
+          }
+        } else {
+          mostrarPopup('error', resultado.message || 'Ocorreu um erro ao processar o pagamento.');
+        }
+      } catch (erro) {
+        clearInterval(overlayIntervalo);
+        esconderOverlayProcessando();
+
+        let mensagemErro = 'Falha no pagamento. Tente novamente.';
+
+        if (erro instanceof TypeError || erro.message.includes('timeout')) {
+          mensagemErro = 'Tempo expirado, tente efectuar o pagamento novamente.';
+        } else if (erro?.message?.includes('<html>') || erro?.message?.includes('504')) {
+          mensagemErro = 'Tempo expirado, tente efectuar o pagamento novamente.';
+        }
+
+        mostrarPopup('error', mensagemErro);
+      } finally {
+        pagarBtn.disabled = false;
+      }
+    });
+
+    function validarNumero(numero, metodo) {
+      if (!numero || numero.length !== 9) return false;
+      const prefixo = numero.substring(0, 2);
+      if (metodo === 'mpesa') {
+        return prefixo === '84' || prefixo === '85';
+      } else if (metodo === 'emola') {
+        return prefixo === '86' || prefixo === '87';
+      }
+      return false;
+    }
+
+    // Timer
+    let tempoRestante = 600;
+
+    function atualizarTimer() {
+      const timerEl = document.getElementById('timer');
+      if (!timerEl) return;
+
+      const minutos = Math.floor(tempoRestante / 60);
+      const segundos = tempoRestante % 60;
+
+      if (tempoRestante <= 0) {
+        document.querySelector('.top-bar').innerHTML = "⛔ A contagem chegou ao 00:00! Oferta encerrada.";
+        return;
+      }
+
+      timerEl.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+      tempoRestante--;
+    }
+
+    setInterval(atualizarTimer, 1000);
+    atualizarTimer();
+
+    function mostrarOverlayProcessando(segundos) {
+      const overlay = document.getElementById('overlay-processando');
+      const contador = document.getElementById('contador');
+      overlay.style.display = 'flex';
+
+      let tempo = segundos;
+      contador.innerText = tempo;
+
+      const intervalo = setInterval(() => {
+        tempo--;
+        contador.innerText = tempo;
+
+        if (tempo <= 0) {
+          esconderOverlayProcessando();
+          clearInterval(intervalo);
+        }
+      }, 1000);
+
+      return intervalo;
+    }
+
+    function esconderOverlayProcessando() {
+      document.getElementById('overlay-processando').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
 
