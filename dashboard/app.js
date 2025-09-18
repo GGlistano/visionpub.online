@@ -1,7 +1,7 @@
 // Configuração Firebase
 const firebaseConfig = {
     // 🔥 SUBSTITUA PELAS SUAS CONFIGURAÇÕES DO FIREBASE
-    apiKey: "AIzaSyDJ7lrPXNJdOD_IG0G3JOc_Z8iWehOy48A",
+      apiKey: "AIzaSyDJ7lrPXNJdOD_IG0G3JOc_Z8iWehOy48A",
     authDomain: "meu-sistema-cbae7.firebaseapp.com", 
     projectId: "meu-sistema-cbae7",
     storageBucket: "meu-sistema-cbae7.firebasestorage.app",
@@ -79,10 +79,18 @@ loginForm.addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     
+    console.log('🔐 Tentando login com:', email);
+    console.log('🔥 Firebase config:', firebaseConfig);
+    
     try {
+        console.log('📡 Enviando requisição de login...');
         await auth.signInWithEmailAndPassword(email, password);
+        console.log('✅ Login realizado com sucesso!');
         loginError.classList.add('hidden');
     } catch (error) {
+        console.error('❌ Erro detalhado:', error);
+        console.error('❌ Código do erro:', error.code);
+        console.error('❌ Mensagem do erro:', error.message);
         loginError.textContent = 'Email ou senha incorretos';
         loginError.classList.remove('hidden');
     }
@@ -130,6 +138,127 @@ productImage.addEventListener('input', (e) => {
         imagePreview.classList.remove('hidden');
     } else {
         imagePreview.classList.add('hidden');
+    }
+});
+
+// Upload de imagem
+const uploadBtn = document.getElementById('upload-btn');
+const imageUpload = document.getElementById('image-upload');
+const uploadProgress = document.getElementById('upload-progress');
+
+uploadBtn.addEventListener('click', () => {
+    imageUpload.click();
+});
+
+imageUpload.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Validações
+    if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecione apenas imagens');
+        return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Imagem muito grande! Máximo 5MB');
+        return;
+    }
+    
+    // Mostrar progresso
+    uploadProgress.classList.remove('hidden');
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = 'Enviando...';
+    
+    try {
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        const response = await fetch(`${API_BASE_URL}/api/upload-image`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'ok') {
+            // Atualizar campo URL e preview
+            productImage.value = result.imageUrl;
+            const preview = imagePreview.querySelector('img');
+            preview.src = result.imageUrl;
+            imagePreview.classList.remove('hidden');
+            
+            alert('✅ Imagem enviada com sucesso!');
+        } else {
+            throw new Error(result.message || 'Erro no upload');
+        }
+        
+    } catch (error) {
+        console.error('Erro no upload:', error);
+        alert('❌ Erro ao enviar imagem: ' + error.message);
+    } finally {
+        uploadProgress.classList.add('hidden');
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = '📁 Escolher Arquivo';
+        imageUpload.value = '';
+    }
+});
+
+uploadBtn.addEventListener('click', () => {
+    imageUpload.click();
+});
+
+imageUpload.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Validações
+    if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecione apenas imagens');
+        return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Imagem muito grande! Máximo 5MB');
+        return;
+    }
+    
+    // Mostrar progresso
+    uploadProgress.classList.remove('hidden');
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = 'Enviando...';
+    
+    try {
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        const response = await fetch(`${API_BASE_URL}/api/upload-image`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'ok') {
+            // Atualizar campo URL e preview
+            productImage.value = result.imageUrl;
+            const preview = imagePreview.querySelector('img');
+            preview.src = result.imageUrl;
+            imagePreview.classList.remove('hidden');
+            
+            alert('✅ Imagem enviada com sucesso!');
+        } else {
+            throw new Error(result.message || 'Erro no upload');
+        }
+        
+    } catch (error) {
+        console.error('Erro no upload:', error);
+        alert('❌ Erro ao enviar imagem: ' + error.message);
+    } finally {
+        uploadProgress.classList.add('hidden');
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = '📁 Escolher Arquivo';
+        imageUpload.value = '';
     }
 });
 
@@ -321,6 +450,7 @@ async function createProduct() {
         checkoutUrl: document.getElementById('checkout-url').value,
         utmifyAccount: document.getElementById('utmify-account').value,
         redirectUrl: document.getElementById('redirect-url').value,
+        reference: document.getElementById('product-name').value.toLowerCase().replace(/\s+/g, '-'),
         timer: {
             enabled: document.getElementById('timer-enabled').checked,
             minutes: parseInt(document.getElementById('timer-minutes').value) || 10,
@@ -340,39 +470,28 @@ async function createProduct() {
     showLoading();
     
     try {
-        // 1. Save product to Firebase
-        const docRef = await db.collection('products').add(formData);
-        console.log('Produto salvo no Firebase:', docRef.id);
-        
-        // 2. Generate checkout via API
-        const response = await fetch(`${API_BASE_URL}/api/generate-checkout`, {
+        // 1. Criar produto via API (que salva no Firebase e gera checkout)
+        const response = await fetch(`${API_BASE_URL}/api/create-product`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                productId: docRef.id
-            })
+            body: JSON.stringify(formData)
         });
         
         const result = await response.json();
         
         if (result.status === 'ok') {
-            // Update product with checkout URL
-            await docRef.update({
-                generatedCheckoutUrl: result.checkoutUrl,
-                generatedAt: new Date()
-            });
-            
             hideLoading();
             
             // Show success modal
-            document.getElementById('checkout-url-display').textContent = result.checkoutUrl;
+            const checkoutUrl = `https://checkout-backend-production-b9c7.up.railway.app/checkout/${formData.checkoutUrl}/`;
+            document.getElementById('checkout-url-display').textContent = checkoutUrl;
             successModal.classList.remove('hidden');
             successModal.classList.add('flex');
             
         } else {
-            throw new Error(result.message || 'Erro ao gerar checkout');
+            throw new Error(result.message || 'Erro ao criar produto');
         }
         
     } catch (error) {
@@ -407,5 +526,3 @@ async function deleteProduct(productId) {
 console.log('🎛️ Dashboard carregado!');
 console.log('🔥 Firebase inicializado');
 console.log('🚀 Conectando com:', API_BASE_URL);
-
-
