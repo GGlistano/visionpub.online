@@ -9,7 +9,7 @@ if (typeof firebaseConfig === 'undefined') {
 }
 
 // Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(Config);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
@@ -734,3 +734,4 @@ if ('caches' in window) {
 }
 
 console.log('🎉 Dashboard v2.0 totalmente carregado!');
+
