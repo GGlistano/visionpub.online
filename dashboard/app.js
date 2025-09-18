@@ -9,6 +9,7 @@ const firebaseConfig = {
     appId: "1:471761058858:web:d37ed5a580614a59c9d753"
 };
 
+
 // Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -527,3 +528,4 @@ resetWizard(); // Initialize wizard state
 console.log('🎛️ Dashboard carregado!');
 console.log('🔥 Firebase inicializado');
 console.log('🚀 Conectando com:', API_BASE_URL);
+
