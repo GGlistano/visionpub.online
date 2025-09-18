@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 // URL do seu backend Railway
-const API_BASE_URL = 'https://backenv2-production.up.railway.app';
+const API_BASE_URL = 'https://checkout-backenv2-production.up.railway.app';
 
 // Configurações do sistema
 const SYSTEM_CONFIG = {
@@ -47,4 +47,5 @@ const SYSTEM_CONFIG = {
 // Export para uso no app.js
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { firebaseConfig, API_BASE_URL, SYSTEM_CONFIG };
+
 }
