@@ -130,171 +130,226 @@
         </div>
     </div>
 
-    <!-- Modal Novo Produto -->
+    <!-- Modal Wizard Multi-Etapas -->
     <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-screen overflow-y-auto">
-            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="text-lg font-semibold text-gray-900">➕ Criar Novo Produto</h3>
-                <button id="close-modal" class="text-gray-400 hover:text-gray-600">
-                    <span class="text-2xl">&times;</span>
-                </button>
+            <!-- Header com Progress Bar -->
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modal-title" class="text-lg font-semibold text-gray-900">➕ Criar Novo Produto</h3>
+                    <button id="close-modal" class="text-gray-400 hover:text-gray-600">
+                        <span class="text-2xl">&times;</span>
+                    </button>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex-1">
+                        <div class="flex items-center">
+                            <div id="step-1-circle" class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-medium">1</div>
+                            <div class="flex-1 h-1 bg-gray-200 mx-2">
+                                <div id="progress-1-2" class="h-1 bg-gray-200 transition-all duration-300"></div>
+                            </div>
+                            <div id="step-2-circle" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-sm font-medium">2</div>
+                            <div class="flex-1 h-1 bg-gray-200 mx-2">
+                                <div id="progress-2-3" class="h-1 bg-gray-200 transition-all duration-300"></div>
+                            </div>
+                            <div id="step-3-circle" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-sm font-medium">3</div>
+                        </div>
+                        <div class="flex justify-between mt-2 text-xs text-gray-500">
+                            <span>Básico</span>
+                            <span>Técnico</span>
+                            <span>Finalizar</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <form id="product-form" class="p-6 space-y-6">
-                <!-- Informações Básicas -->
-                <div>
-                    <h4 class="text-md font-semibold text-gray-900 mb-4">📝 Informações Básicas</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form id="product-form" class="p-6">
+                <!-- ETAPA 1: Informações Básicas -->
+                <div id="step-1" class="step-content">
+                    <div class="space-y-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Nome do Produto</label>
-                            <input id="product-name" type="text" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                   placeholder="Ex: LifeBoost Secrets">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Preço (MZN)</label>
-                            <input id="product-price" type="number" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                   placeholder="197">
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Descrição (Opcional)</label>
-                        <textarea id="product-description" rows="3"
-                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                  placeholder="Descrição do produto..."></textarea>
-                    </div>
-                </div>
-
-                <!-- Imagem do Produto -->
-                <div>
-                    <h4 class="text-md font-semibold text-gray-900 mb-4">📷 Imagem do Produto</h4>
-                    <div class="space-y-4">
-                        <!-- Upload de arquivo -->
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                            <input type="file" id="image-upload" accept="image/*" class="hidden">
-                            <button type="button" id="upload-btn" 
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                📁 Escolher Arquivo
-                            </button>
-                            <p class="text-sm text-gray-500 mt-2">Ou cole uma URL abaixo</p>
-                            <div id="upload-progress" class="hidden mt-2">
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-blue-600 h-2 rounded-full animate-pulse"></div>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-4">📝 Informações Básicas</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Nome do Produto *</label>
+                                    <input id="product-name" type="text" required
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="Ex: Rewards System">
                                 </div>
-                                <p class="text-sm text-gray-600 mt-1">Enviando imagem...</p>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Preço (MZN) *</label>
+                                    <input id="product-price" type="number" required
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="197">
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
+                                <textarea id="product-description" rows="3"
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                          placeholder="Descrição do produto..."></textarea>
                             </div>
                         </div>
-                        
-                        <!-- URL manual -->
-                        <input id="product-image" type="url" 
-                            <input type="file" id="image-upload" accept="image/*" class="hidden">
-                            <button type="button" id="upload-btn" 
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                📁 Escolher Arquivo
-                            </button>
-                            <p class="text-sm text-gray-500 mt-2">Ou cole uma URL abaixo</p>
-                            <div id="upload-progress" class="hidden mt-2">
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-blue-600 h-2 rounded-full animate-pulse"></div>
+
+                        <!-- Imagem do Produto -->
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-4">📷 Imagem do Produto</h4>
+                            <div class="space-y-4">
+                                <!-- Upload de arquivo -->
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                                    <input type="file" id="image-upload" accept="image/*" class="hidden">
+                                    <div class="text-4xl mb-2">📁</div>
+                                    <button type="button" id="upload-btn" 
+                                            class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        📁 Escolher Arquivo
+                                    </button>
+                                    <p class="text-sm text-gray-500 mt-2">Ou cole uma URL abaixo</p>
+                                    <div id="upload-progress" class="hidden mt-2">
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-blue-600 h-2 rounded-full animate-pulse"></div>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mt-1">Enviando imagem...</p>
+                                    </div>
                                 </div>
-                                <p class="text-sm text-gray-600 mt-1">Enviando imagem...</p>
+                                
+                                <!-- URL manual -->
+                                <input id="product-image" type="url" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       placeholder="URL da imagem (ex: https://exemplo.com/imagem.jpg)">
+                                
+                                <!-- Preview -->
+                                <div id="image-preview" class="mt-4 hidden text-center">
+                                    <img class="mx-auto h-32 w-32 object-cover rounded-lg border shadow-sm">
+                                    <p class="text-sm text-green-600 mt-2">✅ Imagem carregada</p>
+                                </div>
                             </div>
                         </div>
-                        
-                        <!-- URL manual -->
-                        <input id="product-image" type="url" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                               placeholder="URL da imagem (ex: https://exemplo.com/imagem.jpg)">
-                        
-                        <!-- Preview -->
-                        <div id="image-preview" class="mt-4 hidden">
-                            <img class="mx-auto h-32 w-32 object-cover rounded-lg border">
-                        </div>
-                        <!-- Preview -->
-                        <div id="image-preview" class="mt-4 hidden">
-                            <img class="mx-auto h-32 w-32 object-cover rounded-lg border">
-                        </div>
-                    </div>
                     </div>
                 </div>
 
-                <!-- Configurações Técnicas -->
-                <div>
-                    <h4 class="text-md font-semibold text-gray-900 mb-4">⚙️ Configurações Técnicas</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- ETAPA 2: Configurações Técnicas -->
+                <div id="step-2" class="step-content hidden">
+                    <div class="space-y-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Prefixo OrderID</label>
-                            <input id="order-prefix" type="text" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                   placeholder="VP-" maxlength="10">
-                            <p class="text-xs text-gray-500 mt-1">Ex: VP-, UP1-, P3-</p>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-4">⚙️ Configurações Técnicas</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Prefixo OrderID *</label>
+                                    <input id="order-prefix" type="text" required
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="RW-" maxlength="10">
+                                    <p class="text-xs text-gray-500 mt-1">Ex: RW-, UP1-, P3-</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">URL do Checkout *</label>
+                                    <input id="checkout-url" type="text" required
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="rewards">
+                                    <p class="text-xs text-gray-500 mt-1">visionpub.online/checkout/<strong>rewards</strong></p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Conta Utmify</label>
+                                <select id="utmify-account" 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="conta1">Conta 1 - Padrão</option>
+                                    <option value="conta2">Conta 2 - Secundária</option>
+                                </select>
+                            </div>
                         </div>
+
+                        <!-- Timer da Oferta -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">URL do Checkout</label>
-                            <input id="checkout-url" type="text" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                   placeholder="lifeboost">
-                            <p class="text-xs text-gray-500 mt-1">visionpub.online/checkout/<strong>lifeboost</strong></p>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-4">⏰ Timer da Oferta</h4>
+                            <div class="flex items-center space-x-4 mb-4">
+                                <label class="flex items-center">
+                                    <input id="timer-enabled" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                    <span class="ml-2 text-sm text-gray-700">Ativar timer de urgência</span>
+                                </label>
+                            </div>
+                            <div id="timer-config" class="hidden space-y-4 bg-gray-50 p-4 rounded-lg">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Tempo (minutos)</label>
+                                        <input id="timer-minutes" type="number" value="10" min="1" max="60"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Texto do Timer</label>
+                                    <input id="timer-text" type="text" value="⚠ Esta oferta expira em"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Conta Utmify</label>
-                        <select id="utmify-account" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="conta1">Conta 1 - Padrão</option>
-                            <option value="conta2">Conta 2 - Secundária</option>
-                        </select>
                     </div>
                 </div>
 
-                <!-- Timer da Oferta -->
-                <div>
-                    <h4 class="text-md font-semibold text-gray-900 mb-4">⏰ Timer da Oferta</h4>
-                    <div class="flex items-center space-x-4 mb-4">
-                        <label class="flex items-center">
-                            <input id="timer-enabled" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                            <span class="ml-2 text-sm text-gray-700">Ativar timer</span>
-                        </label>
-                    </div>
-                    <div id="timer-config" class="hidden space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- ETAPA 3: Finalização -->
+                <div id="step-3" class="step-content hidden">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-4">🔗 Configurações Finais</h4>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Tempo (minutos)</label>
-                                <input id="timer-minutes" type="number" value="10" min="1" max="60"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">URL de Redirecionamento</label>
+                                <input id="redirect-url" type="url"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       placeholder="https://visionpub.online/upsell">
+                                <p class="text-xs text-gray-500 mt-1">Para onde redirecionar após a compra (opcional)</p>
                             </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Texto do Timer</label>
-                            <input id="timer-text" type="text" value="⚠ Esta oferta expira em"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        <!-- Resumo do Produto -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h5 class="font-semibold text-gray-900 mb-3">📋 Resumo do Produto</h5>
+                            <div id="product-summary" class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Nome:</span>
+                                    <span id="summary-name" class="font-medium">-</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Preço:</span>
+                                    <span id="summary-price" class="font-medium">-</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">OrderID:</span>
+                                    <span id="summary-prefix" class="font-medium">-</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Checkout URL:</span>
+                                    <span id="summary-url" class="font-medium text-blue-600">-</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Timer:</span>
+                                    <span id="summary-timer" class="font-medium">-</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- URL de Redirecionamento -->
-                <div>
-                    <h4 class="text-md font-semibold text-gray-900 mb-4">🔗 Redirecionamento (Opcional)</h4>
+                <!-- Botões de Navegação -->
+                <div class="flex justify-between pt-6 border-t border-gray-200 mt-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">URL após compra</label>
-                        <input id="redirect-url" type="url"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                               placeholder="https://visionpub.online/upsell">
-                        <p class="text-xs text-gray-500 mt-1">Deixe vazio se não quiser redirecionamento</p>
+                        <button type="button" id="prev-btn" class="hidden px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                            ← Anterior
+                        </button>
                     </div>
-                </div>
-
-                <!-- Botões -->
-                <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                    <button type="button" id="cancel-btn"
-                            class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
-                        Cancelar
-                    </button>
-                    <button type="submit" id="save-btn"
-                            class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        💾 Salvar e Gerar Checkout
-                    </button>
+                    <div class="flex space-x-4">
+                        <button type="button" id="cancel-btn"
+                                class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                            Cancelar
+                        </button>
+                        <button type="button" id="next-btn"
+                                class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Próximo →
+                        </button>
+                        <button type="submit" id="save-btn" class="hidden px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            💾 Salvar e Gerar Checkout
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
