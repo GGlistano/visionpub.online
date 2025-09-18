@@ -3,25 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Gerador de Checkouts</title>
+    <title>Dashboard - Gerador de Checkouts v2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="config.js?v=2.0"></script>
     <style>
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .loading { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .step-content { display: none; }
+        .step-content.active { display: block; }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
+    <!-- VERSÃO 2.0 - SISTEMA COMPLETO -->
+    <div id="version-info" class="hidden">v2.0</div>
+    
     <!-- Header -->
     <header class="bg-white shadow-sm border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center">
-                    <h1 class="text-2xl font-bold text-gray-900">🎛️ Dashboard</h1>
+                    <h1 class="text-2xl font-bold text-gray-900">🎛️ Dashboard v2.0</h1>
                     <span class="ml-3 text-sm text-gray-500">Gerador de Checkouts</span>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -37,7 +43,7 @@
         <div class="max-w-md w-full space-y-8 p-8">
             <div class="text-center">
                 <h2 class="text-3xl font-bold text-gray-900">🔐 Login Admin</h2>
-                <p class="mt-2 text-gray-600">Acesse o dashboard de checkouts</p>
+                <p class="mt-2 text-gray-600">Dashboard v2.0 - Sistema Completo</p>
             </div>
             <form id="login-form" class="space-y-6">
                 <div>
@@ -167,7 +173,7 @@
             
             <form id="product-form" class="p-6">
                 <!-- ETAPA 1: Informações Básicas -->
-                <div id="step-1" class="step-content">
+                <div id="step-1" class="step-content active">
                     <div class="space-y-6">
                         <div>
                             <h4 class="text-lg font-semibold text-gray-900 mb-4">📝 Informações Básicas</h4>
@@ -176,7 +182,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Nome do Produto *</label>
                                     <input id="product-name" type="text" required
                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                           placeholder="Ex: Rewards System">
+                                           placeholder="Ex: LifeBoost Secrets">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Preço (MZN) *</label>
@@ -186,7 +192,7 @@
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Descrição (Opcional)</label>
                                 <textarea id="product-description" rows="3"
                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                           placeholder="Descrição do produto..."></textarea>
@@ -221,7 +227,7 @@
                                 
                                 <!-- Preview -->
                                 <div id="image-preview" class="mt-4 hidden text-center">
-                                    <img class="mx-auto h-32 w-32 object-cover rounded-lg border shadow-sm">
+                                    <img id="preview-img" class="mx-auto h-32 w-32 object-cover rounded-lg border shadow-sm">
                                     <p class="text-sm text-green-600 mt-2">✅ Imagem carregada</p>
                                 </div>
                             </div>
@@ -230,7 +236,7 @@
                 </div>
 
                 <!-- ETAPA 2: Configurações Técnicas -->
-                <div id="step-2" class="step-content hidden">
+                <div id="step-2" class="step-content">
                     <div class="space-y-6">
                         <div>
                             <h4 class="text-lg font-semibold text-gray-900 mb-4">⚙️ Configurações Técnicas</h4>
@@ -239,15 +245,15 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Prefixo OrderID *</label>
                                     <input id="order-prefix" type="text" required
                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                           placeholder="RW-" maxlength="10">
-                                    <p class="text-xs text-gray-500 mt-1">Ex: RW-, UP1-, P3-</p>
+                                           placeholder="VP-" maxlength="10">
+                                    <p class="text-xs text-gray-500 mt-1">Ex: VP-, UP1-, P3-</p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">URL do Checkout *</label>
                                     <input id="checkout-url" type="text" required
                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                           placeholder="rewards">
-                                    <p class="text-xs text-gray-500 mt-1">visionpub.online/checkout/<strong>rewards</strong></p>
+                                           placeholder="lifeboost">
+                                    <p class="text-xs text-gray-500 mt-1">visionpub.online/checkout/<strong>lifeboost</strong></p>
                                 </div>
                             </div>
                             <div class="mt-4">
@@ -288,16 +294,16 @@
                 </div>
 
                 <!-- ETAPA 3: Finalização -->
-                <div id="step-3" class="step-content hidden">
+                <div id="step-3" class="step-content">
                     <div class="space-y-6">
                         <div>
                             <h4 class="text-lg font-semibold text-gray-900 mb-4">🔗 Configurações Finais</h4>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">URL de Redirecionamento</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">URL de Redirecionamento (Opcional)</label>
                                 <input id="redirect-url" type="url"
                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                        placeholder="https://visionpub.online/upsell">
-                                <p class="text-xs text-gray-500 mt-1">Para onde redirecionar após a compra (opcional)</p>
+                                <p class="text-xs text-gray-500 mt-1">Para onde redirecionar após a compra</p>
                             </div>
                         </div>
 
@@ -384,6 +390,14 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- CARREGAMENTO DO APP.JS v2.0 -->
+    <script src="app.js?v=2.0&t=<?php echo time(); ?>"></script>
+    
+    <!-- DEBUG INFO -->
+    <script>
+        console.log('🚀 Dashboard v2.0 carregado!');
+        console.log('📅 Timestamp:', new Date().toISOString());
+        console.log('🔧 Forçando reload de cache...');
+    </script>
 </body>
 </html>
