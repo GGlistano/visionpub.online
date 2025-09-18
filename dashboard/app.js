@@ -17,18 +17,11 @@ console.log('🔥 Firebase inicializado');
 console.log('🌐 Backend URL:', API_BASE_URL);
 
 // Estado da aplicação
-let currentUser = null;
 let products = [];
 let currentStep = 1;
 let editingProductId = null;
 
-// Elementos DOM - Login
-const loginScreen = document.getElementById('login-screen');
 const dashboard = document.getElementById('dashboard');
-const loginForm = document.getElementById('login-form');
-const loginError = document.getElementById('login-error');
-const logoutBtn = document.getElementById('logout-btn');
-const userInfo = document.getElementById('user-info');
 
 // Modal elements
 const productModal = document.getElementById('product-modal');
@@ -91,43 +84,10 @@ console.log('📋 Elementos DOM carregados');
 
 // ===== EVENT LISTENERS =====
 
-// Auth state observer
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        currentUser = user;
-        console.log('✅ Usuário logado:', user.email);
-        showDashboard();
-        loadDashboardData();
-    } else {
-        currentUser = null;
-        console.log('❌ Usuário não logado');
-        showLogin();
-    }
-});
-
-// Login form
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    
-    console.log('🔐 Tentando login...');
-    
-    try {
-        await auth.signInWithEmailAndPassword(email, password);
-        loginError.classList.add('hidden');
-        console.log('✅ Login realizado com sucesso');
-    } catch (error) {
-        console.error('❌ Erro de login:', error);
-        loginError.textContent = 'Email ou senha incorretos';
-        loginError.classList.remove('hidden');
-    }
-});
-
-// Logout
-logoutBtn.addEventListener('click', () => {
-    console.log('🚪 Fazendo logout...');
-    auth.signOut();
+// Carregar dados automaticamente
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🎛️ Dashboard v2.0 carregado!');
+    loadDashboardData();
 });
 
 // Modal controls
@@ -434,19 +394,6 @@ function updateSummary() {
 }
 
 // ===== UTILITY FUNCTIONS =====
-
-function showLogin() {
-    console.log('🔐 Mostrando tela de login');
-    loginScreen.classList.remove('hidden');
-    dashboard.classList.add('hidden');
-}
-
-function showDashboard() {
-    console.log('🎛️ Mostrando dashboard');
-    loginScreen.classList.add('hidden');
-    dashboard.classList.remove('hidden');
-    userInfo.textContent = currentUser.email;
-}
 
 function closeProductModal() {
     console.log('❌ Fechando modal');
@@ -775,14 +722,6 @@ function viewAnalytics(productId) {
     console.log('📊 Analytics solicitado para:', productId);
     alert('📊 Analytics em desenvolvimento');
 }
-
-// Initialize app
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎛️ Dashboard v2.0 carregado!');
-    console.log('🔥 Firebase inicializado');
-    console.log('🚀 Conectando com:', API_BASE_URL);
-    console.log('✅ Sistema pronto para uso!');
-});
 
 // Forçar limpeza do cache
 console.log('🔄 Limpando cache...');
