@@ -1,14 +1,13 @@
 // Configuração Firebase
 const firebaseConfig = {
     // 🔥 SUBSTITUA PELAS SUAS CONFIGURAÇÕES DO FIREBASE
-     apiKey: "AIzaSyDJ7lrPXNJdOD_IG0G3JOc_Z8iWehOy48A",
+    apiKey: "AIzaSyDJ7lrPXNJdOD_IG0G3JOc_Z8iWehOy48A",
     authDomain: "meu-sistema-cbae7.firebaseapp.com", 
     projectId: "meu-sistema-cbae7",
     storageBucket: "meu-sistema-cbae7.firebasestorage.app",
     messagingSenderId: "471761058858",
     appId: "1:471761058858:web:d37ed5a580614a59c9d753"
 };
-
 
 // Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
@@ -55,6 +54,25 @@ const timerConfig = document.getElementById('timer-config');
 // Image preview
 const productImage = document.getElementById('product-image');
 const imagePreview = document.getElementById('image-preview');
+
+// Wizard navigation
+let currentStep = 1;
+const totalSteps = 3;
+
+// Wizard elements
+const step1 = document.getElementById('step-1');
+const step2 = document.getElementById('step-2');
+const step3 = document.getElementById('step-3');
+const nextBtn = document.getElementById('next-btn');
+const prevBtn = document.getElementById('prev-btn');
+const saveBtn = document.getElementById('save-btn');
+
+// Step circles
+const step1Circle = document.getElementById('step-1-circle');
+const step2Circle = document.getElementById('step-2-circle');
+const step3Circle = document.getElementById('step-3-circle');
+const progress12 = document.getElementById('progress-1-2');
+const progress23 = document.getElementById('progress-2-3');
 
 // Auto-generate checkout URL from product name
 const productName = document.getElementById('product-name');
@@ -132,10 +150,17 @@ productName.addEventListener('input', (e) => {
 // Image preview
 productImage.addEventListener('input', (e) => {
     const url = e.target.value;
-    const preview = imagePreview.querySelector('img');
+    const preview = document.querySelector('#image-preview img');
     
     if (url && isValidUrl(url)) {
         preview.src = url;
+        preview.onload = () => {
+            imagePreview.classList.remove('hidden');
+        };
+        preview.onerror = () => {
+            imagePreview.classList.add('hidden');
+            console.log('Erro ao carregar imagem da URL');
+        };
         imagePreview.classList.remove('hidden');
     } else {
         imagePreview.classList.add('hidden');
@@ -524,8 +549,9 @@ async function deleteProduct(productId) {
 }
 
 // Initialize app
-resetWizard(); // Initialize wizard state
+document.addEventListener('DOMContentLoaded', () => {
+    resetWizard(); // Initialize wizard state
+});
 console.log('🎛️ Dashboard carregado!');
 console.log('🔥 Firebase inicializado');
 console.log('🚀 Conectando com:', API_BASE_URL);
-
