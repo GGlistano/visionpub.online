@@ -1,21 +1,20 @@
-// Configuração Firebase
-const firebaseConfig = {
-    // 🔥 SUBSTITUA PELAS SUAS CONFIGURAÇÕES DO FIREBASE
-    apiKey: "AIzaSyDJ7lrPXNJdOD_IG0G3JOc_Z8iWehOy48A",
-    authDomain: "meu-sistema-cbae7.firebaseapp.com", 
-    projectId: "meu-sistema-cbae7",
-    storageBucket: "meu-sistema-cbae7.firebasestorage.app",
-    messagingSenderId: "471761058858",
-    appId: "1:471761058858:web:d37ed5a580614a59c9d753"
-};
+// 🎛️ DASHBOARD - GERADOR DE CHECKOUTS - VERSÃO 2.0
+console.log('🚀 Carregando Dashboard v2.0...');
+console.log('📅 Timestamp:', new Date().toISOString());
+
+// Verificar se config foi carregado
+if (typeof firebaseConfig === 'undefined') {
+    console.error('❌ Config não carregado! Verifique config.js');
+    alert('❌ Erro: Configurações não carregadas!');
+}
 
 // Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// URL do seu backend - CORRIGIDA
-const API_BASE_URL = 'https://checkout-backenv2-production.up.railway.app';
+console.log('🔥 Firebase inicializado');
+console.log('🌐 Backend URL:', API_BASE_URL);
 
 // Estado da aplicação
 let currentUser = null;
@@ -23,7 +22,7 @@ let products = [];
 let currentStep = 1;
 let editingProductId = null;
 
-// Elementos DOM
+// Elementos DOM - Login
 const loginScreen = document.getElementById('login-screen');
 const dashboard = document.getElementById('dashboard');
 const loginForm = document.getElementById('login-form');
@@ -56,6 +55,7 @@ const timerConfig = document.getElementById('timer-config');
 // Image elements
 const productImage = document.getElementById('product-image');
 const imagePreview = document.getElementById('image-preview');
+const previewImg = document.getElementById('preview-img');
 const uploadBtn = document.getElementById('upload-btn');
 const imageUpload = document.getElementById('image-upload');
 const uploadProgress = document.getElementById('upload-progress');
@@ -87,16 +87,20 @@ const summaryPrefix = document.getElementById('summary-prefix');
 const summaryUrl = document.getElementById('summary-url');
 const summaryTimer = document.getElementById('summary-timer');
 
+console.log('📋 Elementos DOM carregados');
+
 // ===== EVENT LISTENERS =====
 
 // Auth state observer
 auth.onAuthStateChanged((user) => {
     if (user) {
         currentUser = user;
+        console.log('✅ Usuário logado:', user.email);
         showDashboard();
         loadDashboardData();
     } else {
         currentUser = null;
+        console.log('❌ Usuário não logado');
         showLogin();
     }
 });
@@ -107,9 +111,12 @@ loginForm.addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     
+    console.log('🔐 Tentando login...');
+    
     try {
         await auth.signInWithEmailAndPassword(email, password);
         loginError.classList.add('hidden');
+        console.log('✅ Login realizado com sucesso');
     } catch (error) {
         console.error('❌ Erro de login:', error);
         loginError.textContent = 'Email ou senha incorretos';
@@ -119,11 +126,13 @@ loginForm.addEventListener('submit', async (e) => {
 
 // Logout
 logoutBtn.addEventListener('click', () => {
+    console.log('🚪 Fazendo logout...');
     auth.signOut();
 });
 
 // Modal controls
 newProductBtn.addEventListener('click', () => {
+    console.log('➕ Abrindo modal para novo produto');
     editingProductId = null;
     modalTitle.textContent = '➕ Criar Novo Produto';
     resetWizard();
@@ -136,6 +145,7 @@ cancelBtn.addEventListener('click', closeProductModal);
 
 // Timer toggle
 timerEnabled.addEventListener('change', (e) => {
+    console.log('⏰ Timer toggled:', e.target.checked);
     if (e.target.checked) {
         timerConfig.classList.remove('hidden');
     } else {
@@ -150,11 +160,13 @@ productName.addEventListener('input', (e) => {
         .replace(/\s+/g, '-')
         .replace(/^-+|-+$/g, '');
     checkoutUrl.value = name;
+    console.log('🔗 URL gerada:', name);
 });
 
-// Image preview - CORRIGIDO
+// Image preview
 productImage.addEventListener('input', (e) => {
     const url = e.target.value.trim();
+    console.log('🖼️ URL da imagem inserida:', url);
     if (url && isValidUrl(url)) {
         showImagePreview(url);
     } else {
@@ -162,14 +174,17 @@ productImage.addEventListener('input', (e) => {
     }
 });
 
-// Upload de imagem - CORRIGIDO
+// Upload de imagem
 uploadBtn.addEventListener('click', () => {
+    console.log('📁 Abrindo seletor de arquivo');
     imageUpload.click();
 });
 
 imageUpload.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    
+    console.log('📤 Arquivo selecionado:', file.name, file.size, 'bytes');
     
     // Validações
     if (!file.type.startsWith('image/')) {
@@ -201,6 +216,8 @@ imageUpload.addEventListener('change', async (e) => {
         console.log('📥 Status da resposta:', response.status);
         
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error('❌ Erro HTTP:', response.status, errorText);
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
         
@@ -227,20 +244,23 @@ imageUpload.addEventListener('change', async (e) => {
     }
 });
 
-// Wizard navigation - IMPLEMENTADO
+// Wizard navigation
 nextBtn.addEventListener('click', () => {
+    console.log('➡️ Próxima etapa solicitada');
     if (validateCurrentStep()) {
         goToNextStep();
     }
 });
 
 prevBtn.addEventListener('click', () => {
+    console.log('⬅️ Etapa anterior solicitada');
     goToPreviousStep();
 });
 
 // Product form submit
 productForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    console.log('💾 Salvando produto...');
     if (editingProductId) {
         await updateProduct();
     } else {
@@ -273,9 +293,12 @@ document.getElementById('open-checkout-btn').addEventListener('click', () => {
     window.open(url, '_blank');
 });
 
+console.log('🎯 Event listeners configurados');
+
 // ===== WIZARD FUNCTIONS =====
 
 function resetWizard() {
+    console.log('🔄 Resetando wizard');
     currentStep = 1;
     updateWizardUI();
     productForm.reset();
@@ -285,13 +308,15 @@ function resetWizard() {
 }
 
 function updateWizardUI() {
+    console.log('🎨 Atualizando UI do wizard - Etapa:', currentStep);
+    
     // Hide all steps
-    step1.classList.add('hidden');
-    step2.classList.add('hidden');
-    step3.classList.add('hidden');
+    step1.classList.remove('active');
+    step2.classList.remove('active');
+    step3.classList.remove('active');
     
     // Show current step
-    document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+    document.getElementById(`step-${currentStep}`).classList.add('active');
     
     // Update circles and progress
     updateProgressBar();
@@ -308,6 +333,8 @@ function updateWizardUI() {
 }
 
 function updateProgressBar() {
+    console.log('📊 Atualizando barra de progresso');
+    
     // Reset all circles
     [step1Circle, step2Circle, step3Circle].forEach(circle => {
         circle.classList.remove('bg-blue-600', 'text-white');
@@ -339,6 +366,8 @@ function updateProgressBar() {
 }
 
 function validateCurrentStep() {
+    console.log('✅ Validando etapa:', currentStep);
+    
     if (currentStep === 1) {
         const name = document.getElementById('product-name').value.trim();
         const price = document.getElementById('product-price').value.trim();
@@ -351,6 +380,7 @@ function validateCurrentStep() {
             alert('Por favor, preencha um preço válido');
             return false;
         }
+        console.log('✅ Etapa 1 válida');
         return true;
     }
     
@@ -366,6 +396,7 @@ function validateCurrentStep() {
             alert('Por favor, preencha a URL do checkout');
             return false;
         }
+        console.log('✅ Etapa 2 válida');
         return true;
     }
     
@@ -375,6 +406,7 @@ function validateCurrentStep() {
 function goToNextStep() {
     if (currentStep < 3) {
         currentStep++;
+        console.log('➡️ Avançando para etapa:', currentStep);
         updateWizardUI();
     }
 }
@@ -382,11 +414,13 @@ function goToNextStep() {
 function goToPreviousStep() {
     if (currentStep > 1) {
         currentStep--;
+        console.log('⬅️ Voltando para etapa:', currentStep);
         updateWizardUI();
     }
 }
 
 function updateSummary() {
+    console.log('📋 Atualizando resumo');
     summaryName.textContent = document.getElementById('product-name').value || '-';
     summaryPrice.textContent = document.getElementById('product-price').value ? 
         `${document.getElementById('product-price').value} MZN` : '-';
@@ -402,17 +436,20 @@ function updateSummary() {
 // ===== UTILITY FUNCTIONS =====
 
 function showLogin() {
+    console.log('🔐 Mostrando tela de login');
     loginScreen.classList.remove('hidden');
     dashboard.classList.add('hidden');
 }
 
 function showDashboard() {
+    console.log('🎛️ Mostrando dashboard');
     loginScreen.classList.add('hidden');
     dashboard.classList.remove('hidden');
     userInfo.textContent = currentUser.email;
 }
 
 function closeProductModal() {
+    console.log('❌ Fechando modal');
     productModal.classList.add('hidden');
     productModal.classList.remove('flex');
     resetWizard();
@@ -420,11 +457,13 @@ function closeProductModal() {
 }
 
 function showLoading() {
+    console.log('⏳ Mostrando loading');
     loadingOverlay.classList.remove('hidden');
     loadingOverlay.classList.add('flex');
 }
 
 function hideLoading() {
+    console.log('✅ Escondendo loading');
     loadingOverlay.classList.add('hidden');
     loadingOverlay.classList.remove('flex');
 }
@@ -439,24 +478,27 @@ function isValidUrl(string) {
 }
 
 function showImagePreview(url) {
-    const preview = imagePreview.querySelector('img');
-    preview.src = url;
-    preview.onload = () => {
+    console.log('🖼️ Mostrando preview da imagem:', url);
+    previewImg.src = url;
+    previewImg.onload = () => {
         imagePreview.classList.remove('hidden');
+        console.log('✅ Preview carregado');
     };
-    preview.onerror = () => {
+    previewImg.onerror = () => {
         hideImagePreview();
-        console.log('❌ Erro ao carregar imagem da URL');
+        console.log('❌ Erro ao carregar preview');
     };
 }
 
 function hideImagePreview() {
+    console.log('❌ Escondendo preview');
     imagePreview.classList.add('hidden');
 }
 
 // ===== DATA FUNCTIONS =====
 
 async function loadDashboardData() {
+    console.log('📊 Carregando dados do dashboard');
     try {
         const productsSnapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
         products = [];
@@ -464,6 +506,7 @@ async function loadDashboardData() {
             products.push({ id: doc.id, ...doc.data() });
         });
         
+        console.log('📦 Produtos carregados:', products.length);
         updateStats();
         renderProducts();
         
@@ -473,6 +516,7 @@ async function loadDashboardData() {
 }
 
 async function updateStats() {
+    console.log('📈 Atualizando estatísticas');
     try {
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -498,12 +542,15 @@ async function updateStats() {
             ((monthSales / (products.length * 100)) * 100).toFixed(1) : 0;
         conversionRate.textContent = `${conversionRateValue}%`;
         
+        console.log('📊 Stats:', { products: products.length, sales: monthSales, revenue: monthRevenue });
+        
     } catch (error) {
         console.error('❌ Erro ao calcular estatísticas:', error);
     }
 }
 
 function renderProducts() {
+    console.log('🎨 Renderizando produtos');
     if (products.length === 0) {
         productsList.innerHTML = `
             <div class="p-6 text-center text-gray-500">
@@ -560,6 +607,7 @@ function renderProducts() {
 // ===== PRODUCT FUNCTIONS =====
 
 async function createProduct() {
+    console.log('💾 Criando produto...');
     const formData = {
         name: document.getElementById('product-name').value.trim(),
         price: parseInt(document.getElementById('product-price').value),
@@ -579,6 +627,8 @@ async function createProduct() {
         active: true
     };
     
+    console.log('📋 Dados do produto:', formData);
+    
     if (!formData.name || !formData.price || !formData.orderPrefix || !formData.checkoutUrl) {
         alert('Por favor, preencha todos os campos obrigatórios');
         return;
@@ -587,6 +637,8 @@ async function createProduct() {
     showLoading();
     
     try {
+        console.log('📤 Enviando para:', `${API_BASE_URL}/api/create-product`);
+        
         const response = await fetch(`${API_BASE_URL}/api/create-product`, {
             method: 'POST',
             headers: {
@@ -595,15 +647,20 @@ async function createProduct() {
             body: JSON.stringify(formData)
         });
         
+        console.log('📥 Status:', response.status);
+        
         const result = await response.json();
+        console.log('📥 Resultado:', result);
         
         if (result.status === 'ok') {
             hideLoading();
             
-            const checkoutUrl = `${API_BASE_URL}/checkout/${formData.checkoutUrl}/`;
+            const checkoutUrl = `https://visionpub.online/checkout/${formData.checkoutUrl}/`;
             document.getElementById('checkout-url-display').textContent = checkoutUrl;
             successModal.classList.remove('hidden');
             successModal.classList.add('flex');
+            
+            console.log('✅ Produto criado com sucesso!');
             
         } else {
             throw new Error(result.message || 'Erro ao criar produto');
@@ -617,6 +674,7 @@ async function createProduct() {
 }
 
 async function editProduct(productId) {
+    console.log('✏️ Editando produto:', productId);
     try {
         const product = products.find(p => p.id === productId);
         if (!product) return;
@@ -651,6 +709,8 @@ async function editProduct(productId) {
         productModal.classList.remove('hidden');
         productModal.classList.add('flex');
         
+        console.log('✅ Produto carregado para edição');
+        
     } catch (error) {
         console.error('❌ Erro ao carregar produto para edição:', error);
         alert('❌ Erro ao carregar produto');
@@ -658,6 +718,7 @@ async function editProduct(productId) {
 }
 
 async function updateProduct() {
+    console.log('🔄 Atualizando produto:', editingProductId);
     const formData = {
         name: document.getElementById('product-name').value.trim(),
         price: parseInt(document.getElementById('product-price').value),
@@ -686,6 +747,8 @@ async function updateProduct() {
         closeProductModal();
         loadDashboardData();
         
+        console.log('✅ Produto atualizado');
+        
     } catch (error) {
         hideLoading();
         console.error('❌ Erro ao atualizar produto:', error);
@@ -694,11 +757,13 @@ async function updateProduct() {
 }
 
 async function deleteProduct(productId) {
+    console.log('🗑️ Solicitação para excluir produto:', productId);
     if (confirm('❌ Tem certeza que deseja excluir este produto?')) {
         try {
             await db.collection('products').doc(productId).delete();
             alert('✅ Produto excluído com sucesso!');
             loadDashboardData();
+            console.log('✅ Produto excluído');
         } catch (error) {
             console.error('❌ Erro ao excluir produto:', error);
             alert('❌ Erro ao excluir produto');
@@ -707,16 +772,26 @@ async function deleteProduct(productId) {
 }
 
 function viewAnalytics(productId) {
+    console.log('📊 Analytics solicitado para:', productId);
     alert('📊 Analytics em desenvolvimento');
 }
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎛️ Dashboard carregado!');
+    console.log('🎛️ Dashboard v2.0 carregado!');
     console.log('🔥 Firebase inicializado');
     console.log('🚀 Conectando com:', API_BASE_URL);
+    console.log('✅ Sistema pronto para uso!');
 });
 
+// Forçar limpeza do cache
+console.log('🔄 Limpando cache...');
+if ('caches' in window) {
+    caches.keys().then(names => {
+        names.forEach(name => {
+            caches.delete(name);
+        });
+    });
+}
 
-
-
+console.log('🎉 Dashboard v2.0 totalmente carregado!');
