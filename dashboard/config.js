@@ -7,12 +7,12 @@
 
 const firebaseConfig = {
     // ⚠️ SUBSTITUA PELOS SEUS DADOS DO FIREBASE
-    apiKey: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    authDomain: "seu-projeto.firebaseapp.com", 
-    projectId: "seu-projeto-id",
-    storageBucket: "seu-projeto.appspot.com",
-    messagingSenderId: "123456789012",
-    appId: "1:123456789012:web:abcdef123456789"
+    apiKey: "AIzaSyDJ7lrPXNJdOD_IG0G3JOc_Z8iWehOy48A",
+    authDomain: "meu-sistema-cbae7.firebaseapp.com", 
+    projectId: "meu-sistema-cbae7",
+    storageBucket: "meu-sistema-cbae7.firebasestorage.app",
+    messagingSenderId: "471761058858",
+    appId: "1:471761058858:web:d37ed5a580614a59c9d753"
 };
 
 // URL do seu backend Railway
@@ -49,3 +49,4 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = { firebaseConfig, API_BASE_URL, SYSTEM_CONFIG };
 
 }
+
