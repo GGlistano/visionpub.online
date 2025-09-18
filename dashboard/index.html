@@ -169,14 +169,53 @@
                 <!-- Imagem do Produto -->
                 <div>
                     <h4 class="text-md font-semibold text-gray-900 mb-4">📷 Imagem do Produto</h4>
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <div class="space-y-4">
+                        <!-- Upload de arquivo -->
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <input type="file" id="image-upload" accept="image/*" class="hidden">
+                            <button type="button" id="upload-btn" 
+                                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                📁 Escolher Arquivo
+                            </button>
+                            <p class="text-sm text-gray-500 mt-2">Ou cole uma URL abaixo</p>
+                            <div id="upload-progress" class="hidden mt-2">
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full animate-pulse"></div>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">Enviando imagem...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- URL manual -->
+                        <input id="product-image" type="url" 
+                            <input type="file" id="image-upload" accept="image/*" class="hidden">
+                            <button type="button" id="upload-btn" 
+                                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                📁 Escolher Arquivo
+                            </button>
+                            <p class="text-sm text-gray-500 mt-2">Ou cole uma URL abaixo</p>
+                            <div id="upload-progress" class="hidden mt-2">
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full animate-pulse"></div>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">Enviando imagem...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- URL manual -->
                         <input id="product-image" type="url" 
                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                placeholder="URL da imagem (ex: https://exemplo.com/imagem.jpg)">
-                        <p class="text-sm text-gray-500 mt-2">Cole a URL de uma imagem (recomendado: 500x500px)</p>
+                        
+                        <!-- Preview -->
                         <div id="image-preview" class="mt-4 hidden">
                             <img class="mx-auto h-32 w-32 object-cover rounded-lg border">
                         </div>
+                        <!-- Preview -->
+                        <div id="image-preview" class="mt-4 hidden">
+                            <img class="mx-auto h-32 w-32 object-cover rounded-lg border">
+                        </div>
+                    </div>
                     </div>
                 </div>
 
