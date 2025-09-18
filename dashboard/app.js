@@ -15,7 +15,7 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 
 // URL do seu backend
-const API_BASE_URL = 'https://back2-production.up.railway.app';
+const API_BASE_URL = 'https://checkout-backenv2-production.up.railway.app';
 
 // Estado da aplicação
 let currentUser = null;
@@ -407,4 +407,5 @@ async function deleteProduct(productId) {
 console.log('🎛️ Dashboard carregado!');
 console.log('🔥 Firebase inicializado');
 console.log('🚀 Conectando com:', API_BASE_URL);
+
 
