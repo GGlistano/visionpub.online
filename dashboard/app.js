@@ -1,12 +1,12 @@
 // Configuração Firebase
 const firebaseConfig = {
-    // VOCÊ PRECISA ADICIONAR SUAS CONFIGURAÇÕES AQUI
-    apiKey: "sua-api-key",
-    authDomain: "seu-projeto.firebaseapp.com",
+    // 🔥 SUBSTITUA PELAS SUAS CONFIGURAÇÕES DO FIREBASE
+    apiKey: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    authDomain: "seu-projeto.firebaseapp.com", 
     projectId: "seu-projeto-id",
     storageBucket: "seu-projeto.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "sua-app-id"
+    messagingSenderId: "123456789012",
+    appId: "1:123456789012:web:abcdef123456789"
 };
 
 // Inicializar Firebase
@@ -15,7 +15,7 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 
 // URL do seu backend
-const API_BASE_URL = 'https://backenv2-production.up.railway.app';
+const API_BASE_URL = 'https://back2-production.up.railway.app';
 
 // Estado da aplicação
 let currentUser = null;
