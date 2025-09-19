@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout - rewards</title>
+  <title>Checkout</title>
   <style>
     body {
       margin: 0;
@@ -61,6 +61,20 @@
       background: #fff;
       box-shadow: 0 1px 2px rgba(0,0,0,0.03);
       box-sizing: border-box;
+      position: relative;
+    }
+    .flag.mz {
+      background-image: url('https://flagcdn.com/w40/mz.png');
+      background-size: cover;
+      width: 24px;
+      height: 16px;
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .input-wrapper {
       position: relative;
     }
     .error-message {
@@ -154,7 +168,6 @@
       margin-top: 18px;
       text-align: center;
     }
-    
     .top-bar {
       position: fixed;
       top: 0;
@@ -174,7 +187,7 @@
     body {
       padding-top: 50px;
     }
-    
+
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -203,6 +216,10 @@
       border: 2px solid #f44336;
       color: #c62828;
     }
+    .modal-box.timeout {
+      border: 2px solid #ff9800;
+      color: #e65100;
+    }
     #overlay-processando {
       position: fixed;
       top: 0;
@@ -215,11 +232,13 @@
       align-items: center;
       z-index: 9999;
     }
+
     .loader-container {
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .loader-circle {
       width: 140px;
       height: 140px;
@@ -234,6 +253,7 @@
       font-weight: bold;
       color: white;
     }
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -241,17 +261,15 @@
   </style>
 </head>
 <body>
-  
   <div class="top-bar">
     ⚠ Esta oferta expira em <span id="timer">10:00</span>
   </div>
-  
 
   <div class="container">
     <div class="product-header">
-      <img src="" alt="rewards" />
+      <img src="images/job img.jpg" alt="Produto" />
       <div class="info">
-        <div class="name">rewards</div>
+        <div class="name">Job em dolar</div>
         <div class="price">197,00 MZN</div>
       </div>
     </div>
@@ -281,15 +299,15 @@
     <div class="section-title">Método de pagamento</div>
     <div class="payment-options">
       <div class="payment-option" onclick="selectPayment(this, 'mpesa')">
-        <img src="checkout/images/mpesa-logo.png" alt="M-Pesa" />
+        <img src="images/mpesa.png" alt="M-Pesa" />
         <div>M-Pesa</div>
       </div>
       <div class="payment-option" onclick="selectPayment(this, 'emola')">
-        <img src="checkout/images/emola-logo.png" alt="e-Mola" />
+        <img src="images/emola.png" alt="e-Mola" />
         <div>e-Mola</div>
       </div>
       <div class="payment-option" onclick="selectPayment(this, 'visa')">
-        <img src="../images/visa (2) (1).png" alt="Visa/Mastercard" />
+        <img src="images/visa (2) (1).png" alt="Visa/Mastercard" />
         <div>Visa/Mastercard</div>
       </div>
     </div>
@@ -325,13 +343,14 @@
   </div>
 
   <script>
-    // Gerar Order ID único baseado no prefixo do produto
+    // 🎯 GERAR ORDER ID ÚNICO PARA CADA VISITANTE
     function gerarOrderId() {
       const timestamp = Date.now();
       const random = Math.random().toString(36).substring(2, 8);
-      return 'gr' + timestamp + '-' + random;
+      return `VP-${timestamp}-${random}`;
     }
 
+    // Gerar orderId único quando a página carrega
     let orderIdUnico = gerarOrderId();
     console.log('🆔 Order ID gerado:', orderIdUnico);
 
@@ -352,9 +371,12 @@
     function mostrarPopup(tipo, mensagem) {
       const modal = document.getElementById('modal');
       const modalBox = document.getElementById('modal-box');
+
       modalBox.className = 'modal-box ' + tipo;
       modalBox.innerText = mensagem;
+
       modal.style.display = 'flex';
+
       setTimeout(() => {
         modal.style.display = 'none';
       }, 5000);
@@ -367,6 +389,7 @@
       const whatsapp = document.getElementById('whatsapp-input');
       const metodo = phone.dataset.metodo;
       const pagarBtn = document.getElementById('pagar-btn');
+      const statusDiv = document.getElementById('pagamento-status');
       let erro = false;
 
       [nome, email, phone].forEach(input => input.classList.remove('error'));
@@ -375,6 +398,7 @@
       document.getElementById('phone-erro').style.display = 'none';
       document.getElementById('whatsapp-erro').style.display = 'none';
 
+      // Validação básica
       if (!nome.value.trim()) {
         nome.classList.add('error');
         document.getElementById('nome-erro').style.display = 'block';
@@ -385,6 +409,7 @@
         document.getElementById('email-erro').style.display = 'block';
         erro = true;
       }
+      
       if (!whatsapp.value.trim()) {
         whatsapp.classList.add('error');
         document.getElementById('whatsapp-erro').style.display = 'block';
@@ -405,15 +430,17 @@
       const overlayIntervalo = mostrarOverlayProcessando(45);
 
       try {
-        const resposta = await fetch('https://backenv2-production.up.railway.app/api/pagar', {
+        const whatsapp = document.getElementById('whatsapp-input');
+        
+        const resposta = await fetch('https://checkout-backenv2-production.up.railway.app/api/pagar', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             phone: numero,
             whatsapp: whatsapp.value.trim(),
-            amount: "5",
-            reference: "produto",
-            orderId: orderIdUnico,
+            amount: "197",
+            reference: "pesquisas",
+            orderId: orderIdUnico, // 🆔 ADICIONAR ORDERID
             metodo: metodo,
             email: email.value.trim(),
             nome: nome.value.trim(),
@@ -432,13 +459,14 @@
         esconderOverlayProcessando();
 
         if (resultado.status === 'ok') {
+          // Salva dados pro 1-click dos upsells
           const _nome = nome.value.trim();
           const _email = email.value.trim();
           const _phoneRaw = numero;
           const _metodo = metodo;
           const _zap = whatsapp.value.trim() || _phoneRaw;
+
           const _phone258 = _phoneRaw.replace(/\D/g,'').replace(/^0/,'');
-          
           localStorage.setItem('phone', _phoneRaw);
           localStorage.setItem('phone258', _phone258.startsWith('258') ? _phone258 : '258' + _phone258);
           localStorage.setItem('metodo', _metodo.toLowerCase());
@@ -448,7 +476,7 @@
           
           mostrarPopup('success', resultado.message || 'Compra aprovada com sucesso!');
           
-          
+          // 🎯 CRIAR TOKEN DE RASTREAMENTO E REDIRECIONAR
           try {
             const tokenResponse = await fetch('https://backenv2-production.up.railway.app/api/create-token', {
               method: 'POST',
@@ -469,31 +497,38 @@
             const tokenResult = await tokenResponse.json();
             
             if (tokenResult.status === 'ok') {
+              // Redirecionar com token
               setTimeout(() => {
-                window.location.href = 'https://visionpub.online/up1/?t=' + tokenResult.token;
+                window.location.href = `https://visionpub.online/up1/?t=${tokenResult.token}`;
               }, 3000);
             } else {
+              // Fallback sem token
               setTimeout(() => {
                 window.location.href = "https://visionpub.online/up1/";
               }, 3000);
             }
           } catch (tokenErr) {
             console.error('❌ Erro ao criar token:', tokenErr);
+            // Fallback sem token
             setTimeout(() => {
               window.location.href = "https://visionpub.online/up1/";
             }, 3000);
           }
-          
         } else {
           mostrarPopup('error', resultado.message || 'Ocorreu um erro ao processar o pagamento.');
         }
       } catch (erro) {
         clearInterval(overlayIntervalo);
         esconderOverlayProcessando();
+
         let mensagemErro = 'Falha no pagamento. Tente novamente.';
+
         if (erro instanceof TypeError || erro.message.includes('timeout')) {
           mensagemErro = 'Tempo expirado, tente efectuar o pagamento novamente.';
+        } else if (erro?.message?.includes('<html>') || erro?.message?.includes('504')) {
+          mensagemErro = 'Tempo expirado, tente efectuar o pagamento novamente.';
         }
+
         mostrarPopup('error', mensagemErro);
       } finally {
         pagarBtn.disabled = false;
@@ -511,38 +546,46 @@
       return false;
     }
 
-    
+    // Timer
     let tempoRestante = 600;
+
     function atualizarTimer() {
       const timerEl = document.getElementById('timer');
       if (!timerEl) return;
+
       const minutos = Math.floor(tempoRestante / 60);
       const segundos = tempoRestante % 60;
+
       if (tempoRestante <= 0) {
         document.querySelector('.top-bar').innerHTML = "⛔ A contagem chegou ao 00:00! Oferta encerrada.";
         return;
       }
-      timerEl.textContent = String(minutos).padStart(2, '0') + ':' + String(segundos).padStart(2, '0');
+
+      timerEl.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
       tempoRestante--;
     }
+
     setInterval(atualizarTimer, 1000);
     atualizarTimer();
-    
 
     function mostrarOverlayProcessando(segundos) {
       const overlay = document.getElementById('overlay-processando');
       const contador = document.getElementById('contador');
       overlay.style.display = 'flex';
+
       let tempo = segundos;
       contador.innerText = tempo;
+
       const intervalo = setInterval(() => {
         tempo--;
         contador.innerText = tempo;
+
         if (tempo <= 0) {
           esconderOverlayProcessando();
           clearInterval(intervalo);
         }
       }, 1000);
+
       return intervalo;
     }
 
@@ -552,3 +595,5 @@
   </script>
 </body>
 </html>
+
+
