@@ -1,7 +1,7 @@
 // Configuração Firebase
 const firebaseConfig = {
     // VOCÊ PRECISA ADICIONAR SUAS CONFIGURAÇÕES AQUI
-    apiKey: "AIzaSyDJ7lrPXNJdOD_IG0G3JOc_Z8iWehOy48A",
+   apiKey: "AIzaSyDJ7lrPXNJdOD_IG0G3JOc_Z8iWehOy48A",
     authDomain: "meu-sistema-cbae7.firebaseapp.com", 
     projectId: "meu-sistema-cbae7",
     storageBucket: "meu-sistema-cbae7.firebasestorage.app",
