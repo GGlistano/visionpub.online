@@ -405,13 +405,13 @@
       const overlayIntervalo = mostrarOverlayProcessando(45);
 
       try {
-        const resposta = await fetch('https://backenv2-production.up.railway.app/api/pagar', {
+        const resposta = await fetch('https://chackout-backendv3.railway.internal/api/pagar', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             phone: numero,
             whatsapp: whatsapp.value.trim(),
-            amount: "200",
+            amount: "5",
             reference: "produto",
             orderId: orderIdUnico,
             metodo: metodo,
