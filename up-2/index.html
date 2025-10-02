@@ -203,7 +203,7 @@
     if(!validarNumero(numero, metodo)){ err.textContent='Número inválido para o método escolhido.'; err.style.display='block'; return; }
 
     // Defaults podem ser sobrescritos via querystring
-    const amount = getQuery('amount','250');
+    const amount = getQuery('amount','5');
     const reference = getQuery('ref','upsell1');
 
     // 🎯 USAR DADOS DE RASTREAMENTO CARREGADOS
