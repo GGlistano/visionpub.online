@@ -109,18 +109,57 @@
   <div class="toast" id="toast"></div>
 
 <script>
-  // ===== Utils =====
+   // ===== Util =====
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const toast = $('#toast');
   const overlay = $('#overlay');
   function setToast(msg, ok=false){ toast.textContent = msg; toast.className = 'toast ' + (ok? 'ok':'err'); toast.style.display = 'block'; setTimeout(()=> toast.style.display='none', 3800); }
-  function getQuery(name, def=''){ const u = new URL(window.location.href); return u.searchParams.get(name) || def; }
 
-  // ===== Preço dinâmico via query (?amount=...) =====
-  const defaultAmount = getQuery('amount','149');
-  $('#btnPrice').textContent = `${defaultAmount} MZN`;
-  $('#payPrice').textContent = defaultAmount;
+  // 🎯 DADOS DE RASTREAMENTO GLOBAIS
+  let trackingData = {
+    nome: '',
+    email: '',
+    utm_source: '',
+    utm_medium: '',
+    utm_campaign: '',
+    utm_term: '',
+    utm_content: '',
+    orderId: ''
+  };
+
+  // 🎯 CARREGAR DADOS DE RASTREAMENTO NA INICIALIZAÇÃO
+  async function carregarDadosRastreamento() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('t'); // Token vem como ?t=xxx
+
+    if (!token) {
+      console.log('⚠️ Nenhum token de rastreamento encontrado');
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://backenv2-production.up.railway.app/api/get-tracking/${token}`);
+      const result = await response.json();
+
+      if (result.status === 'ok') {
+        trackingData = result.data;
+        console.log('✅ Dados de rastreamento carregados:', trackingData);
+        
+        // Preencher automaticamente o telefone se disponível
+        if (trackingData.phone) {
+          $('#phone').value = trackingData.phone;
+        }
+      } else {
+        console.log('❌ Erro ao carregar dados:', result.message);
+      }
+    } catch (err) {
+      console.log('❌ Erro de conexão ao carregar dados:', err);
+    }
+  }
+
+  // Carregar dados quando a página carrega
+  document.addEventListener('DOMContentLoaded', carregarDadosRastreamento);
 
   // ===== Expandir pagamento ao aceitar =====
   $('#accept').addEventListener('click', () => {
@@ -130,7 +169,7 @@
     box.scrollIntoView({ behavior:'smooth', block:'start' });
   });
 
-  // Redirecionar ao recusar (pós-funnel)
+  // Redirecionar ao recusar
   $('#decline').addEventListener('click', () => {
     window.location.href = 'https://lifeboostsecrets.online/obg/';
   });
@@ -156,6 +195,15 @@
     return false;
   }
 
+  function getQuery(name, def=''){ const u = new URL(window.location.href); return u.searchParams.get(name) || def; }
+
+  // 🎯 GERAR ORDER ID ÚNICO PARA UPSELL
+  function gerarOrderIdUpsell() {
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(2, 8);
+    return `UP3-${timestamp}-${random}`;
+  }
+
   // ===== Pagar =====
   $('#pay').addEventListener('click', async () => {
     const err = $('#err'); err.style.display='none';
@@ -163,23 +211,30 @@
     if(!metodo){ err.textContent='Selecione um método.'; err.style.display='block'; return; }
     if(!validarNumero(numero, metodo)){ err.textContent='Número inválido para o método escolhido.'; err.style.display='block'; return; }
 
-    const amount = getQuery('amount', defaultAmount);
+    // Defaults podem ser sobrescritos via querystring
+    const amount = getQuery('amount','5');
     const reference = getQuery('ref','upsell3');
 
+    // 🎯 USAR DADOS DE RASTREAMENTO CARREGADOS
     const payload = {
       phone: numero,
       metodo,
       amount: String(amount),
       reference,
-      email:'', nome:'', whatsapp:'',
-      utm_source: localStorage.getItem('utm_source')||'',
-      utm_medium: localStorage.getItem('utm_medium')||'',
-      utm_campaign: localStorage.getItem('utm_campaign')||'',
-      utm_term: localStorage.getItem('utm_term')||'',
-      utm_content: localStorage.getItem('utm_content')||'',
+      orderId: gerarOrderIdUpsell(), // OrderID único para o upsell
+      email: trackingData.email || '',
+      nome: trackingData.nome || '',
+      whatsapp: numero, // Usar o telefone do upsell como WhatsApp
+      utm_source: trackingData.utm_source || '',
+      utm_medium: trackingData.utm_medium || '',
+      utm_campaign: trackingData.utm_campaign || '',
+      utm_term: trackingData.utm_term || '',
+      utm_content: trackingData.utm_content || '',
       fbc: localStorage.getItem('fbc')||'',
       fbp: localStorage.getItem('fbp')||''
     };
+
+    console.log('🎯 Enviando upsell 3 com dados de rastreamento:', payload);
 
     $('#pay').disabled=true; overlay.style.display='flex';
     try{
@@ -189,7 +244,10 @@
       const data = await resp.json().catch(()=>({}));
       if(resp.ok && (data.status==='ok' || data.success)){
         setToast(data.message||'Pagamento iniciado/confirmado.', true);
-        const next = getQuery('next'); if(next) window.location.href = next; else window.location.href = 'https://visionpay.site/obg/';
+        const next = getQuery('next'); 
+        if(next) {
+          setTimeout(() => window.location.href = next, 2000);
+        }
       } else {
         setToast(data.message||'Falha ao processar o pagamento.');
       }
