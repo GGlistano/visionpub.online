@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upsell 3 – Clube Cash Prime</title>
+<style>
+  :root{ --green:#049D43; --red:#d00; --ink:#0f172a; --line:#e5e7eb }
+  *{ box-sizing:border-box }
+  body{ margin:0; background:#fff; color:var(--ink); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; -webkit-font-smoothing:antialiased; text-align:center }
+  .wrap{ max-width:780px; margin:0 auto; padding:18px 14px 60px }
+
+  .top-alert{ display:inline-block; background:var(--red); color:#fff; font-weight:800; padding:8px 12px; border-radius:6px; letter-spacing:.2px; margin-bottom:10px }
+  .processing{ margin:12px 0 6px; font-weight:700 }
+  .progress{ width:86%; max-width:420px; height:20px; background:#ddd; margin:6px auto 6px; border-radius:8px; overflow:hidden }
+  .bar{ width:92%; height:100%; background:#4CAF50; color:#fff; font-size:12px; font-weight:700; line-height:20px }
+  h2{ margin:8px 0 10px; font-size:24px }
+  p{ margin:8px 0 }
+  .hero{ max-width:520px; margin:10px auto 12px }
+  .hero img{ width:100%; height:auto; display:block; border-radius:10px }
+  .ribbon{ display:inline-block; background:var(--red); color:#fff; font-weight:800; padding:8px 10px; border-radius:6px; margin:12px 0 }
+  .price{ margin:10px 0 12px; font-size:18px }
+  .text-green{ color:var(--green); font-weight:700 }
+
+  .actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:12px }
+  .btn{ border:none; border-radius:10px; padding:14px 22px; font-size:16px; font-weight:800; color:#fff; cursor:pointer; min-width:220px; transition:transform .06s }
+  .btn:active{ transform:scale(.98) }
+  .btn-green{ background:var(--green) }
+  .btn-red{ background:var(--red) }
+
+  /* Caixa de pagamento colapsável */
+  .paybox{ width:100%; max-width:520px; margin:18px auto 0; border:1px solid var(--line); border-radius:14px; padding:16px; text-align:left; display:none }
+  .paybox h4{ margin:0 0 10px 0; font-size:18px }
+  .methods{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px }
+  .method{ border:1px solid var(--line); border-radius:10px; padding:12px; text-align:center; cursor:pointer; user-select:none; transition:.15s; font-weight:700 }
+  .method[aria-checked="true"]{ outline:2px solid var(--green); border-color:var(--green) }
+  .field{ margin-top:12px }
+  label{ display:block; font-size:13px; color:#374151; margin-bottom:6px }
+  input[type="tel"]{ width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:10px; font-size:16px }
+  .hint{ font-size:12px; color:#6b7280; margin-top:6px }
+  .err{ color:#b91c1c; font-size:13px; margin-top:8px; display:none }
+  .pay{ width:100%; margin-top:14px; padding:14px 16px; border:0; border-radius:12px; background:var(--green); color:#fff; font-weight:900; font-size:16px; cursor:pointer }
+  .pay:disabled{ opacity:.6; cursor:not-allowed }
+
+  /* Overlay/Toast */
+  .overlay{ position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; z-index:50 }
+  .spinner{ width:84px; height:84px; border-radius:50%; border:10px solid #86efac; border-top-color:transparent; animation:spin 1s linear infinite }
+  @keyframes spin{ to{ transform:rotate(360deg) } }
+  .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:#111827; color:#fff; padding:10px 14px; border-radius:10px; font-size:14px; display:none; z-index:60 }
+  .toast.ok{ background:#065f46 }
+  .toast.err{ background:#991b1b }
+
+  @media (max-width:480px){ h2{ font-size:22px } .btn{ width:100%; min-width:auto } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top-alert">⚠️ ÚLTIMO PASSO: NÃO FECHE ESTA PÁGINA — SUA ATIVAÇÃO ESTÁ QUASE CONCLUÍDA!</div>
+
+    <p class="processing">Processando...</p>
+    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="92" aria-label="Progresso do pedido">
+      <div class="bar">92%</div>
+    </div>
+
+    <h2>CLUBE CASH PRIME</h2>
+    <div class="hero">
+      <img src="images/Imagem%20WhatsApp%202025-08-10%20%C3%A0s%2020.32.26_8b097997.jpg" alt="Clube Cash Prime">
+    </div>
+
+    <p>👑 Torne-se membro do Clube Cash Prime e jogue no nível dos gigantes.</p>
+    <p><strong>Exclusivo</strong> para quem realmente quer viver de renda digital respondendo perguntas. O acesso ao Clube é limitado  esta é sua única chance.</p>
+<!-- Benefícios -->
+    <ul class="benefits">
+      <li>🎁 Tarefas secretas com valores acima da média</li>
+      <li>🎁 Mentorias mensais ao vivo com especialistas</li>
+      <li>🎁 Comunidade fechada para networking e insights</li>
+      <li class="group">🎁 Alertas antecipados com os conteúdos mais pagos</li>
+      <li>🎁 Novidades da plataforma em primeira mão</li>
+    </ul>
+
+    <div class="ribbon">VAGAS LIMITADAS — Se sair desta página, a chance desaparece.</div>
+
+    <div class="price">Entre agora no Clube por <strong><span id="btnPrice">149 MZN</span></strong>.</div>
+
+    <div class="actions">
+      <button class="btn btn-green" id="accept">✅ SIM! ACEITO A OFERTA</button>
+      <button class="btn btn-red" id="decline">❌ PULAR</button>
+    </div>
+
+    <!-- Caixa de pagamento que expande ao aceitar -->
+    <div id="paybox" class="paybox" aria-hidden="true">
+      <h4>Concluir pagamento do Upsell 3</h4>
+      <div class="methods" id="methods">
+        <div class="method" data-metodo="mpesa" aria-checked="false" role="radio">M‑Pesa</div>
+        <div class="method" data-metodo="emola" aria-checked="false" role="radio">e‑Mola</div>
+      </div>
+
+      <div class="field">
+        <label for="phone">Número (9 dígitos)</label>
+        <input id="phone" type="tel" inputmode="numeric" placeholder="84/85/86/87 xxxxxx" maxlength="9">
+        <div class="hint" id="hint">Selecione M‑Pesa (84/85) ou e‑Mola (86/87).</div>
+        <div class="err" id="err"></div>
+      </div>
+
+      <button class="pay" id="pay">Pagar <span id="payPrice">149</span> MZN</button>
+      <p class="hint">Ao clicar em pagar, processaremos o upsell imediatamente.</p>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"><div class="spinner"></div></div>
+  <div class="toast" id="toast"></div>
+
+<script>
+  // ===== Utils =====
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const toast = $('#toast');
+  const overlay = $('#overlay');
+  function setToast(msg, ok=false){ toast.textContent = msg; toast.className = 'toast ' + (ok? 'ok':'err'); toast.style.display = 'block'; setTimeout(()=> toast.style.display='none', 3800); }
+  function getQuery(name, def=''){ const u = new URL(window.location.href); return u.searchParams.get(name) || def; }
+
+  // ===== Preço dinâmico via query (?amount=...) =====
+  const defaultAmount = getQuery('amount','149');
+  $('#btnPrice').textContent = `${defaultAmount} MZN`;
+  $('#payPrice').textContent = defaultAmount;
+
+  // ===== Expandir pagamento ao aceitar =====
+  $('#accept').addEventListener('click', () => {
+    const box = $('#paybox');
+    box.style.display = 'block';
+    box.setAttribute('aria-hidden','false');
+    box.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  // Redirecionar ao recusar (pós-funnel)
+  $('#decline').addEventListener('click', () => {
+    window.location.href = 'https://lifeboostsecrets.online/obg/';
+  });
+
+  // ===== Métodos e validação =====
+  let metodo = null;
+  function selectMethod(el){
+    $$('#methods .method').forEach(m=> m.setAttribute('aria-checked','false'));
+    el.setAttribute('aria-checked','true');
+    metodo = el.dataset.metodo;
+    const phone = $('#phone');
+    if(metodo === 'mpesa'){ $('#hint').textContent = 'Para M‑Pesa use prefixo 84 ou 85'; phone.placeholder='84/85 xxxxxx'; }
+    else { $('#hint').textContent = 'Para e‑Mola use prefixo 86 ou 87'; phone.placeholder='86/87 xxxxxx'; }
+    $('#err').style.display='none';
+  }
+  $$('#methods .method').forEach(m => m.addEventListener('click', ()=> selectMethod(m)) );
+
+  function validarNumero(numero, metodo){
+    if(!numero || numero.length!==9) return false;
+    const p = numero.substring(0,2);
+    if(metodo==='mpesa') return p==='84'||p==='85';
+    if(metodo==='emola') return p==='86'||p==='87';
+    return false;
+  }
+
+  // ===== Pagar =====
+  $('#pay').addEventListener('click', async () => {
+    const err = $('#err'); err.style.display='none';
+    const numero = $('#phone').value.trim().replace(/\D/g,'');
+    if(!metodo){ err.textContent='Selecione um método.'; err.style.display='block'; return; }
+    if(!validarNumero(numero, metodo)){ err.textContent='Número inválido para o método escolhido.'; err.style.display='block'; return; }
+
+    const amount = getQuery('amount', defaultAmount);
+    const reference = getQuery('ref','upsell3');
+
+    const payload = {
+      phone: numero,
+      metodo,
+      amount: String(amount),
+      reference,
+      email:'', nome:'', whatsapp:'',
+      utm_source: localStorage.getItem('utm_source')||'',
+      utm_medium: localStorage.getItem('utm_medium')||'',
+      utm_campaign: localStorage.getItem('utm_campaign')||'',
+      utm_term: localStorage.getItem('utm_term')||'',
+      utm_content: localStorage.getItem('utm_content')||'',
+      fbc: localStorage.getItem('fbc')||'',
+      fbp: localStorage.getItem('fbp')||''
+    };
+
+    $('#pay').disabled=true; overlay.style.display='flex';
+    try{
+      const resp = await fetch('https://backenv2-production.up.railway.app/api/pagar',{
+        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+      });
+      const data = await resp.json().catch(()=>({}));
+      if(resp.ok && (data.status==='ok' || data.success)){
+        setToast(data.message||'Pagamento iniciado/confirmado.', true);
+        const next = getQuery('next'); if(next) window.location.href = next; else window.location.href = 'https://visionpay.site/obg/';
+      } else {
+        setToast(data.message||'Falha ao processar o pagamento.');
+      }
+    }catch(e){ setToast('Erro de conexão. Tenta novamente.'); }
+    finally{ $('#pay').disabled=false; overlay.style.display='none'; }
+  });
+</script>
+
+
+
+
+</body></html>
