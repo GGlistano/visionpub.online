@@ -196,7 +196,7 @@
     if(!metodo){ err.textContent='Selecione um método.'; err.style.display='block'; return; }
     if(!validarNumero(numero, metodo)){ err.textContent='Número inválido para o método escolhido.'; err.style.display='block'; return; }
 
-    const amount = getQuery('amount','349');
+    const amount = getQuery('amount','2');
     const reference = getQuery('ref','upsell1');
 
     const payload = {
