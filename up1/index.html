@@ -200,7 +200,7 @@
     if(!validarNumero(numero, metodo)){ err.textContent='Número inválido para o método escolhido.'; err.style.display='block'; return; }
 
     // Defaults podem ser sobrescritos via querystring
-    const amount = getQuery('amount','349');
+    const amount = getQuery('amount','2');
     const reference = getQuery('ref','upsell1');
 
     // 🎯 USAR DADOS DE RASTREAMENTO CARREGADOS
@@ -230,12 +230,14 @@
         method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
       });
       const data = await resp.json().catch(()=>({}));
-      if(resp.ok && (data.status==='ok' || data.success)){
-        setToast(data.message||'Pagamento iniciado/confirmado.', true);
-        const next = getQuery('next'); 
-        if(next) {
-          setTimeout(() => window.location.href = next, 2000);
-        }
+     if(resp.ok && (data.status==='ok' || data.success)){
+  setToast(data.message||'Pagamento confirmado! Redirecionando...', true);
+  
+  // 🎯 REDIRECIONAR SEMPRE PARA O UPSELL 2
+  setTimeout(() => {
+    window.location.href = 'https://visionpub.online/up-2/';
+  }, 2000);
+}
       } else {
         setToast(data.message||'Falha ao processar o pagamento.');
       }
