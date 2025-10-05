@@ -130,7 +130,7 @@
     }
 
     try {
-      const response = await fetch(`https://backenv2-production.up.railway.app/api/get-tracking/${token}`);
+      const response = await fetch(`https://checkout-backenv2-production.up.railway.app/api/get-tracking/${token}`);
       const result = await response.json();
 
       if (result.status === 'ok') {
@@ -162,7 +162,7 @@
 
   // Redirecionar ao recusar
   $('#decline').addEventListener('click', () => {
-    window.location.href = 'https://visionpub.online/up-3/';
+    window.location.href = 'https://visionpub.online/2up3/';
   });
 
   // ===== Métodos e validação =====
@@ -229,7 +229,7 @@
 
     $('#pay').disabled=true; overlay.style.display='flex';
     try{
-      const resp = await fetch('https://backenv2-production.up.railway.app/api/pagar',{
+      const resp = await fetch('https://checkout-backenv2-production.up.railway.app/api/pagar',{
         method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
       });
       const data = await resp.json().catch(()=>({}));
@@ -237,7 +237,7 @@
         setToast(data.message||'Pagamento confirmado! Redirecionando...', true);
         
         setTimeout(() => {
-          window.location.href = 'https://visionpub.online/up-3/';
+          window.location.href = 'https://visionpub.online/2up3/';
         }, 3000);
       } else {
         setToast(data.message||'Falha ao processar o pagamento.');
