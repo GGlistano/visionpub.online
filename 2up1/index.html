@@ -160,7 +160,7 @@
 
   // Redirecionar ao recusar
   $('#decline').addEventListener('click', () => {
-    window.location.href = 'https://lifeboostsecrets.online/obg/';
+    window.location.href = 'https://visionpub.online/2up2/';
   });
 
   // ===== Métodos e validação =====
@@ -201,7 +201,7 @@
     if(!validarNumero(numero, metodo)){ err.textContent='Número inválido para o método escolhido.'; err.style.display='block'; return; }
 
     // Defaults podem ser sobrescritos via querystring
-    const amount = getQuery('amount','349');
+    const amount = getQuery('amount','2');
     const reference = getQuery('ref','upsell1');
 
     // 🎯 USAR DADOS DE RASTREAMENTO CARREGADOS
@@ -232,16 +232,21 @@
       });
       const data = await resp.json().catch(()=>({}));
       if(resp.ok && (data.status==='ok' || data.success)){
-        setToast(data.message||'Pagamento iniciado/confirmado.', true);
-        const next = getQuery('next'); 
-        if(next) {
-          setTimeout(() => window.location.href = next, 2000);
-        }
+        setToast(data.message||'Pagamento confirmado! Redirecionando...', true);
+        
+        setTimeout(() => {
+          window.location.href = 'https://visionpub.online/2up2/';
+        }, 3000);
       } else {
         setToast(data.message||'Falha ao processar o pagamento.');
       }
-    }catch(e){ setToast('Erro de conexão. Tenta novamente.'); }
-    finally{ $('#pay').disabled=false; overlay.style.display='none'; }
+    }catch(e){ 
+      setToast('Erro de conexão. Tenta novamente.'); 
+    }
+    finally{ 
+      $('#pay').disabled=false; 
+      overlay.style.display='none'; 
+    }
   });
 </script>
 
