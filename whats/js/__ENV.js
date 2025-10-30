@@ -1,0 +1,1 @@
+window.__ENV = {"NEXT_PUBLIC_SMTP_FROM":"'Suporte' <cliente@desafioas.club>","NEXT_PUBLIC_VIEWER_URL":"https://google.aicaptchas.pro","NEXT_PUBLIC_BOT_FILE_UPLOAD_MAX_SIZE":"250"};
