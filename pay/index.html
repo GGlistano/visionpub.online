@@ -605,8 +605,29 @@
       document.getElementById('overlay-processando').style.display = 'none';
     }
   </script>
+  <script>
+// ===== BACK REDIRECT =====
+// impede que o botão "voltar" saia do checkout e leva para tua oferta especial
+(function() {
+  const backUrl = "https://visionpub.online/back/";
+
+  // empurra um novo estado para o histórico
+  history.pushState(null, null, location.href);
+
+  window.onpopstate = function() {
+    // redireciona ao tentar voltar
+    location.replace(backUrl);
+  };
+
+  // segurança extra em Android/iOS (caso use gesture back)
+  window.addEventListener("pageshow", function(e) {
+    if (e.persisted) location.replace(backUrl);
+  });
+})();
+</script>
 </body>
 </html>
+
 
 
 
