@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oferta Exclusiva</title>
+  <style>
+    :root { --green:#00d26a; --red:#ff3333; --line:#2a2a2a }
+    *{ box-sizing:border-box }
+    body{
+      background:#0a0a0a; color:#fff; font-family:"Poppins",system-ui,sans-serif;
+      -webkit-font-smoothing:antialiased; margin:0; min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .wrap{ width:100%; max-width:860px; padding:28px 18px; text-align:center }
+
+    .emoji{ font-size:3.6rem; line-height:1; margin-bottom:10px; animation:pulse 1.6s infinite }
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.12);opacity:.75}100%{transform:scale(1);opacity:1}}
+
+    h1{ font-size:2.8rem; margin:4px 0 6px; color:#ff4d4d; text-transform:uppercase }
+    p{ font-size:1.18rem; line-height:1.7; margin:10px 0; color:#f3f4f6 }
+    .price{ margin-top:10px; font-size:1.2rem }
+    .preco-antigo{ position:relative; color:var(--red); font-weight:800; padding:0 4px }
+    .preco-antigo::after{ content:""; position:absolute; top:50%; left:0; width:100%; height:2px; background:#fff; transform:rotate(-8deg) }
+    .preco-novo{ color:#00ff99; font-size:1.5rem; font-weight:900; padding-left:6px }
+
+    .cta{ margin-top:22px }
+    .btn{
+      border:0; border-radius:12px; padding:16px 26px; font-size:18px; font-weight:900;
+      background:var(--green); color:#0a0a0a; cursor:pointer; transition:.12s
+    }
+    .btn:active{ transform:scale(.98) }
+
+    /* Paybox (inicialmente escondida) */
+    .paybox{
+      width:100%; max-width:520px; margin:20px auto 0; border:1px solid var(--line);
+      border-radius:16px; padding:18px; background:#111; text-align:left; display:none;
+    }
+    .paybox h4{ margin:0 0 10px; font-size:18px; color:#fff }
+    .methods{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px }
+    .method{
+      border:1px solid var(--line); border-radius:12px; padding:12px; text-align:center;
+      cursor:pointer; user-select:none; transition:.15s; font-weight:800; color:#fff;
+    }
+    .method[aria-checked="true"]{ outline:2px solid var(--green); border-color:var(--green) }
+    .field{ margin-top:14px }
+    label{ display:block; font-size:13px; color:#d1d5db; margin-bottom:6px }
+    input[type="tel"]{
+      width:100%; padding:14px; border:1px solid var(--line); border-radius:12px;
+      font-size:16px; background:#0a0a0a; color:#fff;
+    }
+    .hint{ font-size:12px; color:#9ca3af; margin-top:6px }
+    .err{ color:#f87171; font-size:13px; margin-top:8px; display:none }
+    .pay{
+      width:100%; margin-top:16px; padding:16px; border:0; border-radius:12px;
+      background:var(--green); color:#0a0a0a; font-weight:900; font-size:16px; cursor:pointer;
+    }
+    .pay:disabled{ opacity:.6; cursor:not-allowed }
+
+    /* overlay/toast */
+    .overlay{ position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; z-index:50 }
+    .spinner{ width:84px; height:84px; border-radius:50%; border:10px solid #86efac; border-top-color:transparent; animation:spin 1s linear infinite }
+    @keyframes spin{ to{ transform:rotate(360deg) } }
+    .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:#111827; color:#fff; padding:10px 14px; border-radius:10px; font-size:14px; display:none; z-index:60 }
+    .toast.ok{ background:#065f46 } .toast.err{ background:#991b1b }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- COPY MINIMALISTA -->
+    <div class="emoji">✋</div>
+    <h1>PARE!</h1>
+    <p>Você acaba de ganhar uma <strong>oportunidade exclusiva!</strong></p>
+    <p class="price">
+      Agora, em vez de pagar <span class="preco-antigo">197 MT</span>,
+      você pode entrar no sistema por apenas <span class="preco-novo">100 MT</span>.
+    </p>
+
+    <!-- CTA ÚNICO -->
+    <div class="cta">
+      <button class="btn" id="accept">Aceitar oferta</button>
+    </div>
+
+    <!-- PAYBOX: SÓ APARECE APÓS CLICAR EM ACEITAR -->
+    <div class="paybox" id="paybox" aria-hidden="true">
+      <h4>Concluir pagamento</h4>
+
+      <div class="methods" id="methods">
+        <div class="method" data-metodo="mpesa" aria-checked="false" role="radio">M-Pesa</div>
+        <div class="method" data-metodo="emola" aria-checked="false" role="radio">e-Mola</div>
+      </div>
+
+      <div class="field">
+        <label for="phone">Número (9 dígitos)</label>
+        <input id="phone" type="tel" inputmode="numeric" placeholder="84/85/86/87 xxxxxxx" maxlength="9">
+        <div class="hint" id="hint">Selecione M-Pesa (84/85) ou e-Mola (86/87).</div>
+        <div class="err" id="err"></div>
+      </div>
+
+      <button class="pay" id="pay">Pagar 100 MT</button>
+    </div>
+  </div>
+
+  <!-- overlay/toast -->
+  <div class="overlay" id="overlay"><div class="spinner"></div></div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ===== Utils / Toast / Overlay =====
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const toast = $('#toast');
+    const overlay = $('#overlay');
+    function setToast(msg, ok=false){ toast.textContent=msg; toast.className='toast '+(ok?'ok':'err'); toast.style.display='block'; setTimeout(()=>toast.style.display='none', 3600); }
+
+    // ===== Tracking (igual ao upsell) =====
+    let trackingData = { nome:'', email:'', utm_source:'', utm_medium:'', utm_campaign:'', utm_term:'', utm_content:'', orderId:'' };
+
+    async function carregarDadosRastreamento(){
+      const token = new URLSearchParams(location.search).get('t'); // ?t=xxx
+      if(!token) return;
+      try{
+        const r = await fetch(`https://backenv2-production.up.railway.app/api/get-tracking/${token}`); // mesmo endpoint do upsell
+        const j = await r.json();
+        if(j.status==='ok'){ trackingData = j.data; if(trackingData.phone) $('#phone').value = trackingData.phone; }
+      }catch(e){ console.log('tracking fail', e); }
+    }
+    document.addEventListener('DOMContentLoaded', carregarDadosRastreamento); /* mesma lógica do teu upsell :contentReference[oaicite:1]{index=1} */
+
+    // ===== Mostrar paybox ao clicar "Aceitar oferta" =====
+    $('#accept').addEventListener('click', ()=>{
+      const box = $('#paybox');
+      box.style.display = 'block';
+      box.setAttribute('aria-hidden','false');
+      box.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+
+    // ===== Seleção de método =====
+    let metodo = null;
+    function selectMethod(el){
+      $$('#methods .method').forEach(m=> m.setAttribute('aria-checked','false'));
+      el.setAttribute('aria-checked','true');
+      metodo = el.dataset.metodo;
+      $('#hint').textContent = (metodo==='mpesa') ? 'Para M-Pesa use prefixo 84 ou 85.' : 'Para e-Mola use prefixo 86 ou 87.';
+      $('#err').style.display='none';
+    }
+    $$('#methods .method').forEach(m => m.addEventListener('click', ()=> selectMethod(m)));
+
+    function validarNumero(numero, metodo){
+      if(!numero || numero.length!==9) return false;
+      const p = numero.substring(0,2);
+      if(metodo==='mpesa') return p==='84'||p==='85';
+      if(metodo==='emola') return p==='86'||p==='87';
+      return false;
+    }
+
+    function gerarOrderId(){
+      const ts = Date.now(); const rand = Math.random().toString(36).slice(2,8);
+      return `BACK-${ts}-${rand}`;
+    }
+
+    // ===== Pagar (POST na mesma rota/estrutura do upsell) =====
+    $('#pay').addEventListener('click', async ()=>{
+      const numero = $('#phone').value.trim().replace(/\D/g,'');
+      const err = $('#err'); err.style.display='none';
+
+      if(!metodo){ err.textContent='Selecione um método.'; err.style.display='block'; return; }
+      if(!validarNumero(numero, metodo)){ err.textContent='Número inválido para o método escolhido.'; err.style.display='block'; return; }
+
+      const payload = {
+        phone: numero,
+        metodo,
+        amount: '100',
+        reference: 'downsell100',
+        orderId: gerarOrderId(),
+        email: trackingData.email || '',
+        nome: trackingData.nome || '',
+        whatsapp: numero,
+        utm_source: trackingData.utm_source || '',
+        utm_medium: trackingData.utm_medium || '',
+        utm_campaign: trackingData.utm_campaign || '',
+        utm_term: trackingData.utm_term || '',
+        utm_content: trackingData.utm_content || '',
+        fbc: localStorage.getItem('fbc')||'',
+        fbp: localStorage.getItem('fbp')||''
+      };
+
+      $('#pay').disabled = true; overlay.style.display='flex';
+      try{
+        const resp = await fetch('https://backenv2-production.up.railway.app/api/pagar', { // mesma rota do upsell
+          method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+        });
+        const data = await resp.json().catch(()=> ({}));
+        if(resp.ok && (data.status==='ok' || data.success)){
+          setToast(data.message || 'Pagamento confirmado! Redirecionando...', true);
+          setTimeout(()=> { location.href = 'https://visionpub.online/up-3/'; }, 2400); // segue teu flow pós-pagamento
+        } else {
+          setToast(data.message || 'Falha ao processar o pagamento.');
+        }
+      }catch(e){
+        setToast('Erro de conexão. Tenta novamente.');
+      }finally{
+        $('#pay').disabled = false; overlay.style.display='none';
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
