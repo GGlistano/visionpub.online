@@ -693,7 +693,7 @@
           body: JSON.stringify({
             phone: numero,
             whatsapp: whatsapp.value.trim(),
-            amount: "197",
+            amount: "5",
             reference: "opina",
             orderId: orderIdUnico,
             metodo: metodo,
@@ -751,17 +751,17 @@
 
             if (tokenResult.status === 'ok') {
               setTimeout(() => {
-                window.location.href = `https://visionpub.online/up1/?t=${tokenResult.token}`;
+                window.location.href = `https://visionpub.online/obrigado/?t=${tokenResult.token}`;
               }, 3000);
             } else {
               setTimeout(() => {
-                window.location.href = "https://visionpub.online/up1/";
+                window.location.href = "https://visionpub.online/obrigado/";
               }, 3000);
             }
           } catch (tokenErr) {
             console.error('❌ Erro ao criar token:', tokenErr);
             setTimeout(() => {
-              window.location.href = "https://visionpub.online/up1/";
+              window.location.href = "https://visionpub.online/obrigado/";
             }, 3000);
           }
         } else {
@@ -837,6 +837,7 @@
   </script>
 </body>
 </html>
+
 
 
 
