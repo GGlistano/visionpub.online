@@ -57,11 +57,23 @@
     }
 
     /* rodapé */
-    footer{background:var(--dark);color:var(--text);padding:28px 14px calc(22px + env(safe-area-inset-bottom,0))}
-    .foot-inner{max-width:var(--maxw);margin:0 auto;text-align:center;opacity:.95}
+    footer{
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      background:var(--dark);
+      color:var(--text);
+      padding:14px 14px calc(14px + env(safe-area-inset-bottom,0));
+      z-index:9998;
+    }
+    .foot-inner{max-width:var(--maxw);margin:0 auto;text-align:center;opacity:.95;font-size:14px}
     .foot-inner a{color:#e6e6e6;text-decoration:none}
     .foot-inner a:hover{text-decoration:underline}
     .muted{opacity:.85}
+
+    /* compensar espaço do footer fixo */
+    body{padding-bottom:80px}
 
     /* ajustes extras em telas muito pequenas */
     @media (max-width:360px){
