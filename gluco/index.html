@@ -20,12 +20,12 @@
       min-height:var(--bar-h);
       padding:calc(env(safe-area-inset-top,0) + 10px) 14px 10px;
       background:var(--red);color:var(--text);
-      display:flex;align-items:center;justify-content:center;text-align:center;
-      font-weight:700;font-size:clamp(12px,3.2vw,15px);
-      z-index:9999; line-height:1.3;
-      white-space:nowrap;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+      font-weight:700;font-size:clamp(13px,3.5vw,16px);
+      z-index:9999; line-height:1.25;
     }
-    .topbar .city{font-weight:900;white-space:nowrap;padding:0 3px}
+    .topbar > div{width:100%}
+    .topbar .city{font-weight:900;white-space:nowrap;padding:0 3px;display:inline-block}
 
     /* layout */
     main{
@@ -72,7 +72,8 @@
 </head>
 <body>
   <div class="topbar">
-    Usted y algunas personas de <span class="city">&gt;&gt;&nbsp;Maputo&nbsp;&lt;&lt;</span> han sido seleccionados para ver esta presentación.
+    <div>Usted y algunas personas de <span class="city">&gt;&gt;&nbsp;Maputo&nbsp;&lt;&lt;</span> han sido</div>
+    <div>seleccionados para ver esta presentación.</div>
   </div>
 
   <main>
@@ -110,7 +111,7 @@
     async function setCityText(city){
       const span=document.querySelector('.topbar .city');
       if(!span) return;
-      span.textContent=">>" + (city||"sua área") + "<<";
+      span.innerHTML="&gt;&gt;&nbsp;" + (city||"sua área") + "&nbsp;&lt;&lt;";
     }
     (async function(){
       try{
