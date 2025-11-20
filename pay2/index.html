@@ -270,7 +270,7 @@
     <div class="product-header">
       <img src="images/job img.jpg" alt="Produto" />
       <div class="info">
-        <div class="name">Job em dolar</div>
+        <div class="name">Truque do sal e Gelo</div>
         <div class="price">197,00 MZN</div>
       </div>
     </div>
@@ -329,6 +329,18 @@
       Compra segura com criptografia. Ao finalizar, você aceita os termos.<br />
       Nenhum dado sensível é armazenado.
     </div>
+    <div style="font-size:13px; line-height:1.5; color:#666; margin-top:20px; text-align:center;">
+  <p>
+    Ao finalizar sua compra, você declara que leu e concorda com os 
+    <a href="https://visionpub.online/privacidade/" target="_blank" style="color:#1a73e8; text-decoration:none;">
+      Termos de Uso e Política de Privacidade
+    </a>.
+  </p>
+  <p style="margin-top:6px;">
+    © <script>document.write(new Date().getFullYear())</script> VisionPub. Todos os direitos reservados.
+  </p>
+</div>
+
   </div>
 
   <div id="modal" style="display:none;" class="modal-overlay">
@@ -348,7 +360,7 @@
     function gerarOrderId() {
       const timestamp = Date.now();
       const random = Math.random().toString(36).substring(2, 8);
-      return `VP-${timestamp}-${random}`;
+      return `ED-${timestamp}-${random}`;
     }
 
     // Gerar orderId único quando a página carrega
@@ -439,8 +451,8 @@
           body: JSON.stringify({
             phone: numero,
             whatsapp: whatsapp.value.trim(),
-            amount: "5",
-            reference: "pesquisas",
+            amount: "197",
+            reference: "opina",
             orderId: orderIdUnico, // 🆔 ADICIONAR ORDERID
             metodo: metodo,
             email: email.value.trim(),
@@ -594,9 +606,25 @@
       document.getElementById('overlay-processando').style.display = 'none';
     }
   </script>
+  <script>
+// ===== BACK REDIRECT =====
+// impede que o botão "voltar" saia do checkout e leva para tua oferta especial
+(function() {
+  const backUrl = "https://visionpub.online/back/";
+
+  // empurra um novo estado para o histórico
+  history.pushState(null, null, location.href);
+
+  window.onpopstate = function() {
+    // redireciona ao tentar voltar
+    location.replace(backUrl);
+  };
+
+  // segurança extra em Android/iOS (caso use gesture back)
+  window.addEventListener("pageshow", function(e) {
+    if (e.persisted) location.replace(backUrl);
+  });
+})();
+</script>
 </body>
 </html>
-
-
-
-
