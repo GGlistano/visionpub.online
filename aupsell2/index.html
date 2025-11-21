@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oportunidade Única</title>
+    <title>Atención - Paso Final</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
 
     <!-- HOTMART Checkout Elements - Carrega imediatamente -->
@@ -19,56 +19,59 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f7f7f7;
+            background-color: #f0f0f0; /* Cinza claro de fundo */
             color: #333;
             line-height: 1.6;
         }
 
-        /* Barra Azul do Topo */
+        /* Barra Vermelha do Topo */
         .top-banner {
-            background-color: #0e4f83;
+            background-color: #bf0000; /* Vermelho escuro */
             color: white;
             text-align: center;
             padding: 15px 10px;
-            font-weight: 700;
-            font-size: 1.2rem;
+            font-weight: 800;
+            font-size: 1.4rem;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Container Principal */
         .main-container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 20px 20px 40px 20px;
             text-align: center;
-            background-color: #f7f7f7;
+            background-color: #f0f0f0;
         }
 
-        /* Aviso Amarelo */
+        /* Aviso */
         .warning-box {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #444;
             margin-bottom: 15px;
             font-weight: 700;
         }
         .warning-icon {
-            color: #fbc02d;
-            font-size: 1.4rem;
+            color: #fbc02d; /* Ícone amarelo */
+        }
+        .warning-red {
+            color: #d50000; /* 'AVISO' em vermelho agora */
+            font-weight: 900;
         }
 
-        /* Barra de Progresso */
+        /* Barra de Progresso (Estilo Preto e Vermelho) */
         .progress-container {
-            background-color: #dcdcdc;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 0 auto 20px auto;
+            background-color: #000000; /* Fundo preto (restante da barra) */
+            border-radius: 0px; /* Sem bordas arredondadas na imagem */
+            margin: 0 auto 25px auto;
             max-width: 100%;
-            height: 35px;
+            height: 40px;
             position: relative;
         }
 
         .progress-bar {
-            background-color: #1e88e5;
+            background-color: #e60000; /* Barra Vermelha vibrante */
             width: 75%;
             height: 100%;
             display: flex;
@@ -77,20 +80,31 @@
             padding: 0 15px;
             color: white;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
-        /* Subtitulo */
-        .sub-headline {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            color: #000;
+        /* Título Principal com Destaque */
+        .headline-wrapper {
+            margin-bottom: 25px;
+        }
+
+        .main-headline {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #222;
+            line-height: 1.4;
+        }
+
+        .highlight-red {
+            background-color: #e60000;
+            color: white;
+            padding: 2px 8px;
+            display: inline-block; /* Para o fundo acompanhar o texto */
         }
 
         /* Container do Vídeo */
         .video-wrapper {
-            margin: 20px auto;
+            margin: 20px auto 30px auto;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -100,7 +114,7 @@
         .widget-container {
             margin: 30px auto;
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             opacity: 0;
             transition: opacity 0.5s ease-in;
         }
@@ -109,11 +123,11 @@
             opacity: 1;
         }
 
-        /* Texto abaixo do widget - Oculto inicialmente */
+        /* Texto abaixo do vídeo (Condição Exclusiva) - Oculto inicialmente */
         .offer-text {
-            margin-top: 30px;
-            color: #555;
-            font-size: 1rem;
+            margin-top: 20px;
+            color: #333;
+            font-size: 1.1rem;
             opacity: 0;
             transition: opacity 0.5s ease-in;
         }
@@ -122,27 +136,27 @@
             opacity: 1;
         }
 
-        .offer-highlight {
-            font-weight: bold;
-            color: #d32f2f;
+        .text-block {
+            margin-bottom: 20px;
         }
 
-        .warning-inline {
+        .warning-inline-icon {
             color: #fbc02d;
             font-weight: bold;
+            font-size: 1.2rem;
         }
 
-        .text-block {
-            margin-bottom: 15px;
+        .bold-text {
+            font-weight: 700;
         }
 
-        /* Link de Recusa */
+        /* Link de Recusa - Oculto inicialmente */
         .no-thanks {
             display: inline-block;
-            margin-top: 30px;
+            margin-top: 20px;
             margin-bottom: 40px;
-            color: #777;
-            text-decoration: underline;
+            color: #888;
+            text-decoration: none;
             font-size: 0.9rem;
             cursor: pointer;
             opacity: 0;
@@ -154,14 +168,16 @@
         }
 
         .no-thanks:hover {
-            color: #333;
+            text-decoration: underline;
+            color: #555;
         }
 
         /* Rodapé Azul */
         .footer-section {
-            background-color: #002a52;
+            background-color: #002a52; /* Azul escuro */
             color: white;
             padding: 40px 20px;
+            margin-top: auto;
         }
 
         .footer-content {
@@ -197,19 +213,20 @@
             text-decoration: none;
         }
 
-        /* Responsividade para Celular */
+        /* Responsividade */
         @media (max-width: 600px) {
             .footer-content {
                 flex-direction: column;
                 text-align: center;
             }
-
             .top-banner {
-                font-size: 1rem;
+                font-size: 1.2rem;
             }
-
             .progress-bar {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
+            }
+            .main-headline {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -217,12 +234,12 @@
 <body>
 
     <div class="top-banner">
-        ¡USA ESTO PARA POTENCIAR LA PÉRDIDA DE PESO!
+        **ATENCIÓN **
     </div>
 
     <div class="main-container">
         <div class="warning-box">
-            <span class="warning-icon">⚠️</span> <span style="color:#1e88e5; font-weight:bold;">¡AVISO!</span> Tu compra aún está 75% completada.
+            <span class="warning-icon">⚠️</span> <span class="warning-red">¡AVISO!</span> Tu compra aún está 75% completada.
         </div>
 
         <div class="progress-container">
@@ -232,12 +249,15 @@
             </div>
         </div>
 
-        <div class="sub-headline">
-            MIRA ABAJO CÓMO ACCEDER AL PROTOCOLO COMPLETO
+        <div class="headline-wrapper">
+            <h1 class="main-headline">
+                Mira el Video Para Aprender Cómo Acceder al<br>
+                Área de Miembros <span class="highlight-red">¡y Cómo no Volver a Engordar<br>Nunca Más!</span>
+            </h1>
         </div>
 
         <div class="video-wrapper">
-            <vturb-smartplayer id="vid-6920666e813dc92a81d58340" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
+            <vturb-smartplayer id="vid-6920666e813dc92a81d58340" style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer>
             <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/6920666e813dc92a81d58340/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
         </div>
 
@@ -248,20 +268,17 @@
 
         <div class="offer-text" id="offer-text">
             <p class="text-block">
-                <span class="warning-inline">⚠️ Recuerda:</span> Esta oportunidad es única, y la aplicación Walktrim se vende por<br>
-                separado por <span class="offer-highlight">$ 30 MENSUALES.</span>
+                <span class="warning-inline-icon">⚠️ Atención:</span><br>
+                <span class="bold-text">Esta es una condición exclusiva de esta página y no volverá a aparecer.</span>
             </p>
 
             <p class="text-block">
-                No tendrás esta oportunidad nuevamente.
-            </p>
-
-            <p class="text-block">
-                Hoy, Walktrim es la aplicación potenciadora de pérdida de peso más descargada<br>
-                y mejor valorada en Google Play Store y Apple Store.
+                En cuanto cierres o actualices esta pantalla, la oferta quedará<br>
+                bloqueada automáticamente.
             </p>
         </div>
 
+        <a href="#" class="no-thanks" id="no-thanks">No, gracias. Sé que no volveré a tener acceso a esta oportunidad, pero no la quiero.</a>
     </div>
 
     <div class="footer-section">
@@ -273,8 +290,8 @@
             <div class="footer-text">
                 <h2>¡Garantía de 30 Días!</h2>
                 <p>
-                    Si no te sientes satisfecho o crees que no valió la pena invertir en el app
-                    Walktrim, solo envía un correo a <a href="mailto:contacto@trucodelagelatina.com" class="email-link">contacto@trucodelagelatina.com</a>,
+                    Si no te sientes satisfecho o crees que no valió la pena invertir en el
+                    programa, solo envía un correo a <a href="mailto:contacto@trucodelagelatina.com" class="email-link">contacto@trucodelagelatina.com</a>,
                     indicando tu nombre y que deseas el reembolso, ¡y listo! Te devolveremos el
                     100% de tu dinero de inmediato.
                 </p>
