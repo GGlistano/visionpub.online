@@ -6,11 +6,10 @@
     <title>Atención - Paso Final</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
 
-    <!-- HOTMART Checkout Elements - Carrega imediatamente -->
     <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
 
     <style>
-        /* Reset e Estilos Gerais */
+        /* Reset e Base */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -19,215 +18,214 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f0f0f0; /* Cinza claro de fundo */
+            background-color: #f5f5f5;
             color: #333;
-            line-height: 1.6;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Barra Vermelha do Topo */
+        /* Topo Vermelho */
         .top-banner {
-            background-color: #bf0000; /* Vermelho escuro */
+            background-color: #b71c1c; /* Vermelho intenso */
             color: white;
             text-align: center;
-            padding: 15px 10px;
-            font-weight: 800;
-            font-size: 1.4rem;
+            padding: 12px 10px;
+            font-weight: 900;
+            font-size: 1.1rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        /* Container Principal */
+        /* Container Geral */
         .main-container {
-            max-width: 850px;
+            max-width: 600px; /* Foco em mobile */
             margin: 0 auto;
-            padding: 20px 20px 40px 20px;
+            padding: 20px 15px 40px;
             text-align: center;
-            background-color: #f0f0f0;
+            background-color: #f5f5f5;
         }
 
-        /* Aviso */
+        /* Caixa de Aviso */
         .warning-box {
-            font-size: 1.3rem;
+            background: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            font-size: 1.1rem;
             color: #444;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: 700;
+            border-left: 5px solid #d50000;
         }
-        .warning-icon {
-            color: #fbc02d; /* Ícone amarelo */
-        }
+
         .warning-red {
-            color: #d50000; /* 'AVISO' em vermelho agora */
+            color: #d50000;
             font-weight: 900;
         }
 
-        /* Barra de Progresso (Estilo Preto e Vermelho) */
+        /* Barra de Progresso Animada */
         .progress-container {
-            background-color: #000000; /* Fundo preto (restante da barra) */
-            border-radius: 0px; /* Sem bordas arredondadas na imagem */
-            margin: 0 auto 25px auto;
-            max-width: 100%;
-            height: 40px;
+            background-color: #e0e0e0;
+            border-radius: 20px;
+            margin: 0 auto 25px;
+            height: 28px;
             position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .progress-bar {
-            background-color: #e60000; /* Barra Vermelha vibrante */
-            width: 75%;
+            background: linear-gradient(90deg, #d50000, #ff5252);
+            width: 0%; /* Começa em 0 para animar */
             height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-            color: white;
-            font-weight: 500;
-            font-size: 1rem;
+            border-radius: 20px;
+            transition: width 1.5s ease-out; /* Animação suave */
+            position: relative;
         }
 
-        /* Título Principal com Destaque */
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff; /* Texto branco sempre visível */
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+        
+        /* Cor do texto na parte não preenchida (se necessário) */
+        .progress-text-dark {
+             color: #333;
+        }
+
+        /* Headline */
         .headline-wrapper {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .main-headline {
-            font-size: 1.6rem;
-            font-weight: 700;
+            font-size: 1.4rem;
+            font-weight: 800;
             color: #222;
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
         .highlight-red {
-            background-color: #e60000;
+            background-color: #d50000;
             color: white;
-            padding: 2px 8px;
-            display: inline-block; /* Para o fundo acompanhar o texto */
+            padding: 2px 6px;
+            display: inline;
+            box-decoration-break: clone; /* Garante fundo correto na quebra de linha */
+            -webkit-box-decoration-break: clone;
         }
 
-        /* Container do Vídeo */
+        /* Vídeo */
         .video-wrapper {
-            margin: 20px auto 30px auto;
+            margin: 10px auto 25px;
             width: 100%;
-            display: flex;
-            justify-content: center;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        /* Widget Container - Oculto inicialmente */
-        .widget-container {
-            margin: 30px auto;
-            width: 100%;
-            max-width: 850px;
+        /* Elementos Ocultos (Widget, Textos, Link) */
+        .hidden-element {
             opacity: 0;
-            transition: opacity 0.5s ease-in;
+            visibility: hidden;
+            height: 0;
+            overflow: hidden;
+            transition: opacity 0.8s ease;
         }
 
-        .widget-container.visible {
+        .visible {
             opacity: 1;
+            visibility: visible;
+            height: auto;
+            margin-top: 20px; /* Adiciona margem só quando aparece */
         }
 
-        /* Texto abaixo do vídeo (Condição Exclusiva) - Oculto inicialmente */
+        /* Texto da Oferta */
         .offer-text {
-            margin-top: 20px;
             color: #333;
-            font-size: 1.1rem;
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-        }
-
-        .offer-text.visible {
-            opacity: 1;
+            font-size: 1rem;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
         }
 
         .text-block {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
+        .text-block:last-child { margin-bottom: 0; }
 
         .warning-inline-icon {
             color: #fbc02d;
             font-weight: bold;
-            font-size: 1.2rem;
         }
 
-        .bold-text {
-            font-weight: 700;
-        }
-
-        /* Link de Recusa - Oculto inicialmente */
+        /* Link de Recusa */
         .no-thanks {
-            display: inline-block;
-            margin-top: 20px;
-            margin-bottom: 40px;
-            color: #888;
-            text-decoration: none;
-            font-size: 0.9rem;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-        }
-
-        .no-thanks.visible {
-            opacity: 1;
-        }
-
-        .no-thanks:hover {
+            display: block; /* Bloco para facilitar o toque */
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: #757575;
             text-decoration: underline;
-            color: #555;
+            font-size: 0.85rem;
+            padding: 10px;
         }
 
-        /* Rodapé Azul */
+        /* Rodapé */
         .footer-section {
-            background-color: #002a52; /* Azul escuro */
+            background-color: #0d1b2a; /* Azul quase preto */
             color: white;
-            padding: 40px 20px;
-            margin-top: auto;
+            padding: 30px 20px;
+            margin-top: 30px;
         }
 
         .footer-content {
-            max-width: 900px;
-            margin: 0 auto;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 30px;
-            text-align: left;
+            gap: 20px;
+            text-align: center;
         }
 
         .guarantee-seal img {
-            width: 150px;
+            width: 120px;
             height: auto;
-            display: block;
         }
 
         .footer-text h2 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #fff;
         }
 
         .footer-text p {
-            font-size: 1rem;
-            line-height: 1.5;
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.4;
         }
 
         .email-link {
-            color: white;
+            color: #fff;
             font-weight: bold;
-            text-decoration: none;
         }
 
-        /* Responsividade */
-        @media (max-width: 600px) {
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .top-banner {
-                font-size: 1.2rem;
-            }
-            .progress-bar {
-                font-size: 0.85rem;
-            }
-            .main-headline {
-                font-size: 1.3rem;
-            }
+        /* Media Queries para Ajustes Finos */
+        @media (min-width: 600px) {
+            .main-container { max-width: 800px; padding: 40px 20px; }
+            .main-headline { font-size: 1.8rem; }
+            .footer-content { flex-direction: row; text-align: left; justify-content: center; }
+            .footer-text { text-align: left; }
         }
     </style>
 </head>
@@ -239,11 +237,12 @@
 
     <div class="main-container">
         <div class="warning-box">
-            <span class="warning-icon">⚠️</span> <span class="warning-red">¡AVISO!</span> Tu compra aún está 75% completada.
+            <span style="font-size: 1.2em;">⚠️</span> <span class="warning-red">¡AVISO!</span> Tu compra aún está 75% completada.
         </div>
 
         <div class="progress-container">
-            <div class="progress-bar">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-text">
                 <span>Tu compra está al 75%...</span>
                 <span>75%</span>
             </div>
@@ -251,8 +250,8 @@
 
         <div class="headline-wrapper">
             <h1 class="main-headline">
-                Mira el Video Para Aprender Cómo Acceder al<br>
-                Área de Miembros <span class="highlight-red">¡y Cómo no Volver a Engordar<br>Nunca Más!</span>
+                Mira el Video Para Aprender Cómo Acceder al Área de Miembros <br>
+                <span class="highlight-red">¡y Cómo no Volver a Engordar Nunca Más!</span>
             </h1>
         </div>
 
@@ -261,24 +260,21 @@
             <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/6920666e813dc92a81d58340/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
         </div>
 
-        <!-- HOTMART Widget Container -->
-        <div class="widget-container" id="widget-container">
+        <div class="hidden-element" id="widget-container">
             <div id="hotmart-sales-funnel"></div>
         </div>
 
-        <div class="offer-text" id="offer-text">
+        <div class="offer-text hidden-element" id="offer-text">
             <p class="text-block">
                 <span class="warning-inline-icon">⚠️ Atención:</span><br>
-                <span class="bold-text">Esta es una condición exclusiva de esta página y no volverá a aparecer.</span>
+                <strong>Esta es una condición exclusiva de esta página y no volverá a aparecer.</strong>
             </p>
-
             <p class="text-block">
-                En cuanto cierres o actualices esta pantalla, la oferta quedará<br>
-                bloqueada automáticamente.
+                En cuanto cierres o actualices esta pantalla, la oferta quedará bloqueada automáticamente.
             </p>
         </div>
 
-        <a href="#" class="no-thanks" id="no-thanks">No, gracias. Sé que no volveré a tener acceso a esta oportunidad, pero no la quiero.</a>
+        <a href="#" class="no-thanks hidden-element" id="no-thanks">No, gracias. Sé que no volveré a tener acceso a esta oportunidad, pero no la quiero.</a>
     </div>
 
     <div class="footer-section">
@@ -286,7 +282,6 @@
             <div class="guarantee-seal">
                 <img src="imagem/garantia.png" alt="Garantia 30 Dias">
             </div>
-
             <div class="footer-text">
                 <h2>¡Garantía de 30 Días!</h2>
                 <p>
@@ -300,15 +295,25 @@
     </div>
 
     <script>
-        // Inicializa o widget Hotmart imediatamente
-        checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+        // 1. Animação da Barra de Progresso
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var bar = document.getElementById('progressBar');
+                if(bar) bar.style.width = '75%';
+            }, 300);
+        });
 
-        // Exibe o widget e os textos após 9 minutos e 20 segundos (560 segundos)
+        // 2. Inicializa Hotmart Widget (Imediatamente)
+        if (typeof checkoutElements !== 'undefined') {
+            checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+        }
+
+        // 3. Delay de Exibição (9min 20s = 560000ms)
         setTimeout(function() {
             document.getElementById('widget-container').classList.add('visible');
             document.getElementById('offer-text').classList.add('visible');
             document.getElementById('no-thanks').classList.add('visible');
-        }, 560000); // 9min 20s = 560000ms
+        }, 560000);
     </script>
 
 </body>
