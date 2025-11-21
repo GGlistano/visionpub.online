@@ -107,19 +107,16 @@ skipLink=document.createElement('a');skipLink.classList.add('skip-link','screen-
   // Initialize Hotmart widget
   checkoutElements.init("salesFunnel").mount("#hotmart-sales-funnel");
   
-  // Show widget when vTurb button appears
-  document.addEventListener("DOMContentLoaded", function() {
-    var player = document.querySelector("vturb-smartplayer");
-    if (player) {
-      player.addEventListener("smartplayer:buttonsappear", function() {
-        var hotmartWidget = document.getElementById("hotmart-sales-funnel");
-        if (hotmartWidget) {
-          hotmartWidget.style.display = "block";
-        }
-      });
+  // Show widget after 7 minutes (420 seconds)
+  setTimeout(function() {
+    var hotmartWidget = document.getElementById("hotmart-sales-funnel");
+    if (hotmartWidget) {
+      hotmartWidget.style.display = "block";
+      console.log("Hotmart widget displayed after 7 minutes");
     }
-  });
+  },60000); // 420000 milliseconds = 7 minutes
 </script>
+<!-- END HOTMART Widget -->
 <!-- END HOTMART Widget -->
 
 </body></html><!-- Page optimized by LiteSpeed Cache @2025-11-17 14:56:43 --><!-- Page cached by LiteSpeed Cache 7.6.2 on 2025-11-17 14:56:43 --><!-- Guest Mode --><!-- QUIC.cloud UCSS loaded ✅ /ucss/e75ac628781dab9d4df1c1b17a942d12.css -->
