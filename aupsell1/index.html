@@ -124,3 +124,32 @@ skipLink=document.createElement('a');skipLink.classList.add('skip-link','screen-
 <!-- END HOTMART Widget -->
 
 </body></html><!-- Page optimized by LiteSpeed Cache @2025-11-17 14:56:43 --><!-- Page cached by LiteSpeed Cache 7.6.2 on 2025-11-17 14:56:43 --><!-- Guest Mode --><!-- QUIC.cloud UCSS loaded ✅ /ucss/e75ac628781dab9d4df1c1b17a942d12.css -->
+
+<!-- LiteSpeed Cache Lazy Load Activation -->
+<script>
+  // Convert litespeed/javascript to text/javascript to activate scripts
+  document.addEventListener("DOMContentLoaded", function() {
+    var litespeedScripts = document.querySelectorAll('script[type="litespeed/javascript"]');
+    litespeedScripts.forEach(function(script) {
+      var newScript = document.createElement('script');
+      if (script.src) {
+        newScript.src = script.src;
+      } else {
+        newScript.textContent = script.textContent;
+      }
+      newScript.type = 'text/javascript';
+      script.parentNode.replaceChild(newScript, script);
+    });
+    
+    // Force load lazy images
+    var lazyImages = document.querySelectorAll('img[data-src]');
+    lazyImages.forEach(function(img) {
+      if (img.getAttribute('data-src')) {
+        img.src = img.getAttribute('data-src');
+      }
+      if (img.getAttribute('data-srcset')) {
+        img.srcset = img.getAttribute('data-srcset');
+      }
+    });
+  });
+</script>
