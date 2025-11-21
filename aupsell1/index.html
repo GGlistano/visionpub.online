@@ -317,8 +317,24 @@
         }
 
         /* Hotmart Widget */
+        .widget-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
         #hotmart-sales-funnel {
-            display: none;
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease, height 0.5s ease;
+        }
+
+        #hotmart-sales-funnel.visible {
+            opacity: 1;
+            visibility: visible;
+            height: auto;
         }
 
         /* Responsivo */
@@ -394,6 +410,11 @@
                     <strong>Esta es una condición exclusiva de esta página y no volverá a aparecer.</strong><br>
                     En cuanto cierres o actualices esta pantalla, la oferta quedará bloqueada automáticamente.
                 </p>
+            </div>
+
+            <!-- HOTMART Widget Container -->
+            <div class="widget-container">
+                <div id="hotmart-sales-funnel"></div>
             </div>
         </div>
     </section>
@@ -539,8 +560,8 @@
         </div>
     </footer>
 
-    <!-- Hotmart Widget -->
-    <div id="hotmart-sales-funnel" data-src="https://pay.hotmart.com/T96158486J?checkoutMode=10"></div>
+    <!-- HOTMART - Sales Funnel Widget -->
+    <div id="hotmart-sales-funnel"></div>
 
     <!-- Scripts -->
     <script type="text/javascript">
@@ -548,6 +569,14 @@
         s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/692065cc5c8042a2b56c82af/v4/player.js";
         s.async=true;
         document.head.appendChild(s);
+    </script>
+
+    <!-- HOTMART Widget Script -->
+    <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
+    <script>
+        // Inicializa o widget Hotmart imediatamente (mas invisível)
+        checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+        console.log("Hotmart widget carregado (invisível)");
     </script>
 
     <script>
@@ -561,7 +590,7 @@
             // Mostra widget Hotmart
             var widget = document.getElementById("hotmart-sales-funnel");
             if (widget) {
-                widget.style.display = "block";
+                widget.classList.add('visible');
                 console.log("Hotmart widget e conteúdo expandido exibidos após 7 minutos");
             }
         }, 420000); // 420000ms = 7 minutos
