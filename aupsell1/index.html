@@ -54,16 +54,41 @@
             color: #fff;
             font-size: 27px;
             font-weight: 700;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            background-color: #b0ddff;
+            border-radius: 2px;
+            height: 30px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background-color: #1f89da;
+            height: 100%;
+            width: 50%;
+            position: relative;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-weight: 600;
+            font-size: 14px;
         }
 
         /* Vídeo VSL */
         .video-container {
             margin: 30px auto;
             max-width: 800px;
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
         }
 
         .urgency-title {
@@ -349,11 +374,13 @@
         <div class="container">
             <h2>Esta página se cerrará en breve...</h2>
 
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+                <div class="progress-text">50%</div>
+            </div>
+
             <div class="video-container">
-                <div id="vid_6915e4f72a46a100099ba9b2" style="position:relative;width:100%;padding: 56.25% 0 0;">
-                    <img id="thumb_6915e4f72a46a100099ba9b2" src="https://images-vturb.ssl.fastly.net/video/6915e4f72a46a100099ba9b2/thumbs/thumb.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;" alt="Video thumbnail">
-                    <div id="backdrop_6915e4f72a46a100099ba9b2" style="position:absolute;top:0;width:100%;height:100%;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);"></div>
-                </div>
+                <vturb-smartplayer id="vid-692065cc5c8042a2b56c82af" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
             </div>
 
             <!-- Conteúdo que aparece após 7 minutos -->
@@ -516,9 +543,9 @@
     <div id="hotmart-sales-funnel" data-src="https://pay.hotmart.com/T96158486J?checkoutMode=10"></div>
 
     <!-- Scripts -->
-    <script type="text/javascript" id="scr_6915e4f72a46a100099ba9b2">
+    <script type="text/javascript">
         var s=document.createElement("script");
-        s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/6915e4f72a46a100099ba9b2/player.js";
+        s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/692065cc5c8042a2b56c82af/v4/player.js";
         s.async=true;
         document.head.appendChild(s);
     </script>
