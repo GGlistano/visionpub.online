@@ -15,12 +15,18 @@
             font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
             line-height: 1.6;
             color: #333;
+            background: #f5f5f5;
         }
 
         .container {
             max-width: 1140px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        /* Hidden content - mostra após 7 minutos */
+        .hidden-content {
+            display: none;
         }
 
         /* Header Laranja */
@@ -34,36 +40,30 @@
             color: #fff;
             font-size: 23px;
             font-weight: 600;
+            margin: 0;
         }
 
-        /* Seção Azul com Timer */
-        .timer-section {
+        /* Seção Azul com VSL */
+        .vsl-section {
             background: radial-gradient(circle at center, #00172e 0%, #003163 100%);
-            padding: 30px 20px;
+            padding: 40px 20px 60px;
             text-align: center;
         }
 
-        .timer-section h2 {
+        .vsl-section h2 {
             color: #fff;
             font-size: 27px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
-        .progress-bar {
-            background-color: #b0ddff;
-            border-radius: 2px;
-            height: 30px;
-            max-width: 600px;
-            margin: 0 auto 20px;
+        /* Vídeo VSL */
+        .video-container {
+            margin: 30px auto;
+            max-width: 800px;
+            background: #000;
+            border-radius: 8px;
             overflow: hidden;
-        }
-
-        .progress-fill {
-            background-color: #1f89da;
-            height: 100%;
-            width: 0%;
-            transition: width 0.5s ease;
         }
 
         .urgency-title {
@@ -71,19 +71,7 @@
             font-size: 24px;
             font-weight: 600;
             text-transform: uppercase;
-            margin: 20px 0;
-        }
-
-        /* Vídeo */
-        .video-container {
-            margin: 30px auto;
-            max-width: 800px;
-        }
-
-        .video-container iframe {
-            width: 100%;
-            aspect-ratio: 16/9;
-            border-radius: 8px;
+            margin: 30px 0 20px;
         }
 
         .cta-text {
@@ -93,46 +81,13 @@
             text-align: center;
         }
 
-        /* Botão CTA */
-        .cta-button {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .cta-button img {
-            max-width: 500px;
-            width: 96%;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .cta-button img:hover {
-            transform: scale(1.05);
-        }
-
-        .payment-icons {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .payment-icons img {
-            max-width: 400px;
-            width: 38%;
-        }
-
         .warning-text {
             color: #fff;
             text-align: center;
-            margin: 20px 0;
+            margin: 30px auto;
             font-size: 16px;
-        }
-
-        .decline-link {
-            color: #c4c4c4;
-            text-align: center;
-            display: block;
-            margin: 20px 0;
-            font-size: 14px;
+            max-width: 700px;
+            line-height: 1.8;
         }
 
         /* Seção Produto */
@@ -143,15 +98,17 @@
         }
 
         .product-section h2 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 600;
             margin-bottom: 10px;
+            color: #000;
         }
 
         .product-section .subtitle {
             color: #0b31a1;
             font-weight: bold;
             margin-bottom: 30px;
+            font-size: 18px;
         }
 
         .product-box {
@@ -164,7 +121,7 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 20px;
+            gap: 30px;
         }
 
         .product-image {
@@ -174,7 +131,7 @@
         }
 
         .product-image img {
-            max-width: 400px;
+            max-width: 450px;
             width: 100%;
         }
 
@@ -187,25 +144,26 @@
         .benefit-item {
             display: flex;
             align-items: center;
-            margin: 15px 0;
-            gap: 10px;
+            margin: 20px 0;
+            gap: 15px;
         }
 
         .benefit-item svg {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             fill: #015477;
             flex-shrink: 0;
         }
 
         .benefit-item span {
-            font-size: 18px;
+            font-size: 20px;
+            color: #333;
         }
 
         /* Garantia */
         .guarantee-section {
             background: #003163;
-            padding: 40px 20px;
+            padding: 50px 20px;
             color: #fff;
         }
 
@@ -215,7 +173,7 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 30px;
+            gap: 40px;
         }
 
         .guarantee-image {
@@ -225,7 +183,7 @@
         }
 
         .guarantee-image img {
-            max-width: 300px;
+            max-width: 350px;
             width: 60%;
         }
 
@@ -235,8 +193,19 @@
         }
 
         .guarantee-content h2 {
-            font-size: 28px;
+            font-size: 32px;
             margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .guarantee-content p {
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .guarantee-content a {
+            color: #fff;
+            text-decoration: underline;
         }
 
         /* Comentários */
@@ -251,21 +220,28 @@
             background: #fffcfc;
             border-radius: 12px;
             padding: 40px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .comments-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 500;
             color: #373737;
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dededef5;
         }
 
         .comment {
             display: flex;
             gap: 15px;
-            margin: 30px 0;
+            margin: 25px 0;
             padding-bottom: 20px;
-            border-bottom: 1px solid #dededef5;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .comment:last-child {
+            border-bottom: none;
         }
 
         .comment-avatar {
@@ -287,13 +263,14 @@
             font-size: 14px;
             font-weight: 600;
             color: #365899;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .comment-text {
             font-size: 14px;
             color: #1e1e1e;
             margin-bottom: 10px;
+            line-height: 1.5;
         }
 
         .comment-meta {
@@ -325,7 +302,7 @@
                 font-size: 18px;
             }
 
-            .timer-section h2 {
+            .vsl-section h2 {
                 font-size: 20px;
             }
 
@@ -339,20 +316,24 @@
             }
 
             .product-section h2 {
-                font-size: 24px;
+                font-size: 25px;
             }
 
             .guarantee-content h2 {
-                font-size: 24px;
+                font-size: 28px;
             }
 
             .benefit-item span {
-                font-size: 16px;
+                font-size: 17px;
             }
 
             .comment-avatar img {
                 width: 50px;
                 height: 50px;
+            }
+
+            .guarantee-image img {
+                width: 80%;
             }
         }
     </style>
@@ -363,53 +344,35 @@
         <h1>¡ESPERA! Tu oferta exclusiva aún no ha terminado...</h1>
     </header>
 
-    <!-- Timer Section -->
-    <section class="timer-section">
+    <!-- VSL Section -->
+    <section class="vsl-section">
         <div class="container">
-            <h2>Esta página se cerrará en:</h2>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar"></div>
-            </div>
-            <p class="urgency-title">¡OFERTA ESPECIAL POR TIEMPO LIMITADO!</p>
+            <h2>Esta página se cerrará en breve...</h2>
 
             <div class="video-container">
                 <div id="vid_6915e4f72a46a100099ba9b2" style="position:relative;width:100%;padding: 56.25% 0 0;">
                     <img id="thumb_6915e4f72a46a100099ba9b2" src="https://images-vturb.ssl.fastly.net/video/6915e4f72a46a100099ba9b2/thumbs/thumb.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;" alt="Video thumbnail">
                     <div id="backdrop_6915e4f72a46a100099ba9b2" style="position:absolute;top:0;width:100%;height:100%;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);"></div>
                 </div>
-                <script type="text/javascript" id="scr_6915e4f72a46a100099ba9b2">
-                    var s=document.createElement("script");
-                    s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/6915e4f72a46a100099ba9b2/player.js",
-                    s.async=!0,document.head.appendChild(s);
-                </script>
             </div>
 
-            <p class="cta-text">¡Atención! Esta es una oferta ÚNICA de esta página.<br>Haz clic en el botón de abajo AHORA para aprovechar:</p>
+            <!-- Conteúdo que aparece após 7 minutos -->
+            <div class="hidden-content" id="expanded-content">
+                <p class="urgency-title">¡OFERTA ESPECIAL POR TIEMPO LIMITADO!</p>
 
-            <div class="cta-button">
-                <a href="#" id="cta-link">
-                    <img src="imagem/botao-upsell-02-3.png" alt="Botón de compra">
-                </a>
+                <p class="cta-text">¡Atención! Esta es una oferta ÚNICA de esta página.<br>Usa el widget abajo para aprovechar esta oportunidad:</p>
+
+                <p class="warning-text">
+                    ⚠️ <strong>Pero atención:</strong><br>
+                    <strong>Esta es una condición exclusiva de esta página y no volverá a aparecer.</strong><br>
+                    En cuanto cierres o actualices esta pantalla, la oferta quedará bloqueada automáticamente.
+                </p>
             </div>
-
-            <div class="payment-icons">
-                <img src="imagem/cartoes.png" alt="Formas de pago">
-            </div>
-
-            <p class="warning-text">
-                ⚠️ <strong>Pero atención:</strong><br>
-                <strong>Esta es una condición exclusiva de esta página y no volverá a aparecer.</strong><br>
-                En cuanto cierres o actualices esta pantalla, la oferta quedará bloqueada automáticamente.
-            </p>
-
-            <a href="#" class="decline-link">
-                No, gracias, prefiero correr el riesgo de quedarme flácida, aun sabiendo que no podré tener acceso a esta oferta en el futuro.
-            </a>
         </div>
     </section>
 
-    <!-- Product Section -->
-    <section class="product-section">
+    <!-- Product Section - Hidden until 7 minutes -->
+    <section class="product-section hidden-content" id="product-section">
         <div class="container">
             <h2>¿Estás lista para evitar la flacidez?</h2>
             <p class="subtitle">Mira abajo a lo que tendrás acceso.</p>
@@ -454,8 +417,8 @@
         </div>
     </section>
 
-    <!-- Guarantee Section -->
-    <section class="guarantee-section">
+    <!-- Guarantee Section - Hidden until 7 minutes -->
+    <section class="guarantee-section hidden-content" id="guarantee-section">
         <div class="container">
             <div class="guarantee-box">
                 <div class="guarantee-image">
@@ -463,7 +426,7 @@
                 </div>
                 <div class="guarantee-content">
                     <h2>¡Garantía de 30 Días!</h2>
-                    <p>Si no te sientes satisfecho o crees que no valió la pena invertir en el programa de la Doctora María González, solo envía un correo a <strong><a href="mailto:contacto@trucodelagelatina.com" style="color: #fff;">contacto@trucodelagelatina.com</a></strong>, indicando tu nombre y que deseas el reembolso, ¡y listo! Te devolveremos el 100% de tu dinero de inmediato.</p>
+                    <p>Si no te sientes satisfecho o crees que no valió la pena invertir en el programa de la Doctora María González, solo envía un correo a <strong><a href="mailto:contacto@trucodelagelatina.com">contacto@trucodelagelatina.com</a></strong>, indicando tu nombre y que deseas el reembolso, ¡y listo! Te devolveremos el 100% de tu dinero de inmediato.</p>
                 </div>
             </div>
         </div>
@@ -553,28 +516,28 @@
     <div id="hotmart-sales-funnel" data-src="https://pay.hotmart.com/T96158486J?checkoutMode=10"></div>
 
     <!-- Scripts -->
-    <script>
-        // Progress Bar Animation
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.getElementById('progressBar').style.width = '100%';
-            }, 100);
-        });
+    <script type="text/javascript" id="scr_6915e4f72a46a100099ba9b2">
+        var s=document.createElement("script");
+        s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/6915e4f72a46a100099ba9b2/player.js";
+        s.async=true;
+        document.head.appendChild(s);
+    </script>
 
-        // Hotmart Widget - Mostra após 7 minutos
+    <script>
+        // Mostra conteúdo expandido e widget após 7 minutos
         setTimeout(function() {
+            // Mostra conteúdo expandido
+            document.getElementById('expanded-content').style.display = 'block';
+            document.getElementById('product-section').style.display = 'block';
+            document.getElementById('guarantee-section').style.display = 'block';
+
+            // Mostra widget Hotmart
             var widget = document.getElementById("hotmart-sales-funnel");
             if (widget) {
                 widget.style.display = "block";
-                console.log("Hotmart widget displayed after 7 minutes");
+                console.log("Hotmart widget e conteúdo expandido exibidos após 7 minutos");
             }
-        }, 420000); // 7 minutos
-
-        // CTA Link
-        document.getElementById('cta-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'https://pay.hotmart.com/T96158486J?checkoutMode=10';
-        });
+        }, 420000); // 420000ms = 7 minutos
 
         // Google Analytics
         window.dataLayer = window.dataLayer || [];
