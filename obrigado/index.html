@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oportunidade Única</title>
+    <title>¡Compra Exitosa!</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         /* Reset e Estilos Gerais */
@@ -20,234 +20,154 @@
             line-height: 1.6;
         }
 
-        /* Barra Azul do Topo */
-        .top-banner {
-            background-color: #0e4f83; /* Azul escuro da imagem */
+        /* Barra de Progresso 100% */
+        .progress-container-top {
+            width: 100%;
+            background-color: #e0e0e0;
+            height: 40px;
+        }
+
+        .progress-bar-success {
+            width: 100%;
+            height: 100%;
+            background-color: #27ae60; /* Verde Sucesso */
             color: white;
-            text-align: center;
-            padding: 15px 10px;
-            font-weight: 700;
-            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.1rem;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Container Principal */
         .main-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             text-align: center;
-            background-color: #f7f7f7;
         }
 
-        /* Aviso Amarelo */
-        .warning-box {
-            font-size: 1.2rem;
-            color: #444;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-        .warning-icon {
-            color: #fbc02d; /* Cor amarela */
-            font-size: 1.4rem;
-        }
-        .warning-text-blue {
-            color: #3498db; /* Azul claro para o texto '!AVISO!' se preferir, ou cinza escuro como na imagem */
-        }
-
-        /* Barra de Progresso */
-        .progress-container {
-            background-color: #dcdcdc;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 0 auto 20px auto;
-            max-width: 100%;
-            height: 35px;
-            position: relative;
-        }
-
-        .progress-bar {
-            background-color: #1e88e5; /* Azul da barra */
-            width: 95%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-            color: white;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        /* Subtitulo */
-        .sub-headline {
-            font-size: 1.1rem;
+        /* Ícone de Sucesso */
+        .success-icon {
+            font-size: 4rem;
+            color: #27ae60;
             margin-bottom: 20px;
-            text-transform: uppercase;
+        }
+
+        /* Títulos e Textos */
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: #555;
+        }
+
+        .highlight-text {
+            font-weight: bold;
             color: #000;
         }
 
-        /* Container do Vídeo */
-        .video-wrapper {
-            margin: 20px auto;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* Texto abaixo do vídeo */
-        .offer-text {
+        /* Seção do WhatsApp */
+        .whatsapp-section {
             margin-top: 30px;
-            color: #555;
-            font-size: 1rem;
+            padding-top: 20px;
+            border-top: 2px dashed #eee;
         }
 
-        .offer-highlight {
-            font-weight: bold;
-            color: #d32f2f; /* Vermelho */
-        }
-        
-        .warning-inline {
-            color: #fbc02d;
-            font-weight: bold;
-        }
-
-        .text-block {
+        .whatsapp-label {
+            font-weight: 700;
             margin-bottom: 15px;
+            display: block;
+            font-size: 1.1rem;
+            color: #002a52;
         }
 
-        /* Link de Recusa */
-        .no-thanks {
-            display: inline-block;
-            margin-top: 30px;
-            margin-bottom: 40px;
-            color: #777;
-            text-decoration: underline;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-        .no-thanks:hover {
-            color: #333;
-        }
-
-        /* Rodapé Azul */
-        .footer-section {
-            background-color: #002a52; /* Azul bem escuro do rodapé */
-            color: white;
-            padding: 40px 20px;
-        }
-
-        .footer-content {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
+        /* Botão WhatsApp */
+        .btn-whatsapp {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 30px;
-            text-align: left;
-        }
-
-        .guarantee-seal img {
-            width: 150px;
-            height: auto;
-            display: block;
-        }
-
-        .footer-text h2 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .footer-text p {
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-
-        .email-link {
+            background-color: #25D366; /* Verde WhatsApp */
             color: white;
-            font-weight: bold;
             text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px rgba(37, 211, 102, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+            max-width: 350px;
         }
 
-        /* Responsividade para Celular */
+        .btn-whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(37, 211, 102, 0.4);
+            background-color: #1ebe57;
+        }
+
+        .btn-whatsapp span {
+            margin-left: 10px;
+        }
+
+        /* Responsividade */
         @media (max-width: 600px) {
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
+            .main-container {
+                margin: 20px 15px;
+                padding: 20px;
             }
-            
-            .top-banner {
-                font-size: 1rem;
-            }
-            
-            .progress-bar {
-                font-size: 0.8rem;
+            h1 {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="top-banner">
-        ¡USA ESTO PARA POTENCIAR LA PÉRDIDA DE PESO!
+    <div class="progress-container-top">
+        <div class="progress-bar-success">
+            ¡COMPRA 100% COMPLETADA!
+        </div>
     </div>
 
     <div class="main-container">
-        <div class="warning-box">
-            <span class="warning-icon">⚠️</span> <span style="color:#1e88e5; font-weight:bold;">¡AVISO!</span> Tu compra aún está 95% completada.
-        </div>
+        
+        <div class="success-icon">✅</div>
 
-        <div class="progress-container">
-            <div class="progress-bar">
-                <span>Tu compra está al 95%...</span>
-                <span>95%</span>
-            </div>
-        </div>
+        <h1>¡Felicidades por tu compra!</h1>
 
-        <div class="sub-headline">
-            MIRA ABAJO CÓMO ACCEDER AL PROTOCOLO COMPLETO
-        </div>
+        <p>
+            Recibirás un correo electrónico con el nombre <span class="highlight-text">truque da gelatina</span>, 
+            confirmando tu compra y liberando el acceso al producto.
+        </p>
 
-        <div class="video-wrapper">
-            <vturb-smartplayer id="vid-69206614fa3f799e41ce551a" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer> 
-            <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/69206614fa3f799e41ce551a/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
-        </div>
-        <div class="offer-text">
-            <p class="text-block">
-                <span class="warning-inline">⚠️ Recuerda:</span> Esta oportunidad es única, y la aplicación Walktrim se vende por<br>
-                separado por <span class="offer-highlight">$ 30 MENSUALES.</span>
+        <p>
+            Caso no lo encuentres en tu bandeja de entrada, recuerda verificar también las 
+            carpetas de <span class="highlight-text">spam o promociones</span>.
+        </p>
+
+        <div class="whatsapp-section">
+            <p>
+                Para facilitar, haz clic en el botón de abajo y recibe tu acceso instantáneamente por WhatsApp.
             </p>
 
-            <p class="text-block">
-                No tendrás esta oportunidad nuevamente.
-            </p>
+            <span class="whatsapp-label">Nuestro Soporte</span>
 
-            <p class="text-block">
-                Hoy, Walktrim es la aplicación potenciadora de pérdida de peso más descargada<br>
-                y mejor valorada en Google Play Store y Apple Store.
-            </p>
+            <a href="https://wa.me/SEU_NUMERO_AQUI?text=Hola,%20acabo%20de%20comprar%20el%20protocolo%20y%20quiero%20mi%20acceso" class="btn-whatsapp" target="_blank">
+                📲 <span>Recibir acceso por WhatsApp</span>
+            </a>
         </div>
 
-        <a href="#" class="no-thanks">No, prefiero dejar pasar esta oportunidad</a>
-    </div>
-
-    <div class="footer-section">
-        <div class="footer-content">
-            <div class="guarantee-seal">
-                <img src="https://cdn-icons-png.flaticon.com/512/4905/4905948.png" alt="Garantia 30 Dias" style="filter: invert(1) sepia(1) saturate(5) hue-rotate(-50deg);">
-            </div>
-            
-            <div class="footer-text">
-                <h2>¡Garantía de 30 Días!</h2>
-                <p>
-                    Si no te sientes satisfecho o crees que no valió la pena invertir en el app 
-                    Walktrim, solo envía un correo a <a href="mailto:contacto@trucodelagelatina.com" class="email-link">contacto@trucodelagelatina.com</a>, 
-                    indicando tu nombre y que deseas el reembolso, ¡y listo! Te devolveremos el 
-                    100% de tu dinero de inmediato.
-                </p>
-            </div>
-        </div>
     </div>
 
 </body>
