@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oportunidade Única</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- HOTMART Checkout Elements - Carrega imediatamente -->
+    <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
+
     <style>
         /* Reset e Estilos Gerais */
         * {
@@ -22,7 +26,7 @@
 
         /* Barra Azul do Topo */
         .top-banner {
-            background-color: #0e4f83; /* Azul escuro da imagem */
+            background-color: #0e4f83;
             color: white;
             text-align: center;
             padding: 15px 10px;
@@ -48,7 +52,7 @@
             font-weight: 700;
         }
         .warning-icon {
-            color: #fbc02d; /* Cor amarela */
+            color: #fbc02d;
             font-size: 1.4rem;
         }
 
@@ -64,8 +68,8 @@
         }
 
         .progress-bar {
-            background-color: #1e88e5; /* Azul da barra */
-            width: 75%; /* ATUALIZADO PARA 75% */
+            background-color: #1e88e5;
+            width: 75%;
             height: 100%;
             display: flex;
             align-items: center;
@@ -92,18 +96,37 @@
             justify-content: center;
         }
 
-        /* Texto abaixo do vídeo */
+        /* Widget Container - Oculto inicialmente */
+        .widget-container {
+            margin: 30px auto;
+            width: 100%;
+            max-width: 800px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .widget-container.visible {
+            opacity: 1;
+        }
+
+        /* Texto abaixo do widget - Oculto inicialmente */
         .offer-text {
             margin-top: 30px;
             color: #555;
             font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .offer-text.visible {
+            opacity: 1;
         }
 
         .offer-highlight {
             font-weight: bold;
-            color: #d32f2f; /* Vermelho */
+            color: #d32f2f;
         }
-        
+
         .warning-inline {
             color: #fbc02d;
             font-weight: bold;
@@ -122,14 +145,21 @@
             text-decoration: underline;
             font-size: 0.9rem;
             cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
         }
+
+        .no-thanks.visible {
+            opacity: 1;
+        }
+
         .no-thanks:hover {
             color: #333;
         }
 
         /* Rodapé Azul */
         .footer-section {
-            background-color: #002a52; /* Azul bem escuro do rodapé */
+            background-color: #002a52;
             color: white;
             padding: 40px 20px;
         }
@@ -173,11 +203,11 @@
                 flex-direction: column;
                 text-align: center;
             }
-            
+
             .top-banner {
                 font-size: 1rem;
             }
-            
+
             .progress-bar {
                 font-size: 0.8rem;
             }
@@ -207,10 +237,16 @@
         </div>
 
         <div class="video-wrapper">
-            <vturb-smartplayer id="vid-6920666e813dc92a81d58340" style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer> 
+            <vturb-smartplayer id="vid-6920666e813dc92a81d58340" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
             <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/6920666e813dc92a81d58340/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
         </div>
-        <div class="offer-text">
+
+        <!-- HOTMART Widget Container -->
+        <div class="widget-container" id="widget-container">
+            <div id="hotmart-sales-funnel"></div>
+        </div>
+
+        <div class="offer-text" id="offer-text">
             <p class="text-block">
                 <span class="warning-inline">⚠️ Recuerda:</span> Esta oportunidad es única, y la aplicación Walktrim se vende por<br>
                 separado por <span class="offer-highlight">$ 30 MENSUALES.</span>
@@ -226,7 +262,6 @@
             </p>
         </div>
 
-        <a href="#" class="no-thanks">No, prefiero dejar pasar esta oportunidad</a>
     </div>
 
     <div class="footer-section">
@@ -234,18 +269,30 @@
             <div class="guarantee-seal">
                 <img src="imagem/garantia.png" alt="Garantia 30 Dias">
             </div>
-            
+
             <div class="footer-text">
                 <h2>¡Garantía de 30 Días!</h2>
                 <p>
-                    Si no te sientes satisfecho o crees que no valió la pena invertir en el app 
-                    Walktrim, solo envía un correo a <a href="mailto:contacto@trucodelagelatina.com" class="email-link">contacto@trucodelagelatina.com</a>, 
-                    indicando tu nombre y que deseas el reembolso, ¡y listo! Te devolveremos el 
+                    Si no te sientes satisfecho o crees que no valió la pena invertir en el app
+                    Walktrim, solo envía un correo a <a href="mailto:contacto@trucodelagelatina.com" class="email-link">contacto@trucodelagelatina.com</a>,
+                    indicando tu nombre y que deseas el reembolso, ¡y listo! Te devolveremos el
                     100% de tu dinero de inmediato.
                 </p>
             </div>
         </div>
     </div>
+
+    <script>
+        // Inicializa o widget Hotmart imediatamente
+        checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+
+        // Exibe o widget e os textos após 9 minutos e 20 segundos (560 segundos)
+        setTimeout(function() {
+            document.getElementById('widget-container').classList.add('visible');
+            document.getElementById('offer-text').classList.add('visible');
+            document.getElementById('no-thanks').classList.add('visible');
+        }, 560000); // 9min 20s = 560000ms
+    </script>
 
 </body>
 </html>
