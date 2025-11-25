@@ -11,7 +11,7 @@
   .alert-image{ display:block; width:100%; max-width:720px; height:auto; margin:8px auto 16px }
   .processing{ margin:12px 0 8px; font-weight:700 }
   .progress-container{ width:86%; max-width:420px; height:20px; background:#ddd; margin:10px auto 6px; border-radius:8px; overflow:hidden }
-  .progress-bar{ width:68%; height:100%; background:#4CAF50; color:#fff; font-size:12px; line-height:20px; font-weight:700 }
+  .progress-bar{ width:0%; height:100%; background:#4CAF50; color:#fff; font-size:12px; line-height:20px; font-weight:700; transition:width 2.5s ease-out }
 
   h2{ margin:10px 0 8px; font-size:26px }
   h3{ margin:10px 0 10px; font-size:18px }
@@ -21,7 +21,8 @@
   .hero img{ display:block; width:100%; height:auto; border-radius:8px }
   .price{ margin:10px 0 12px; font-size:18px }
 
-  .actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:12px }
+  .actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:12px; opacity:0; transition:opacity 0.5s ease-in; pointer-events:none }
+  .actions.visible{ opacity:1; pointer-events:auto }
   .btn{ display:inline-block; border:none; border-radius:10px; padding:14px 22px; font-size:16px; font-weight:800; cursor:pointer; color:#fff; transition:transform .06s ease-in-out, opacity .15s; min-width:220px }
   .btn:active{ transform:scale(0.98) }
   .btn-green{ background:var(--green) }
@@ -59,16 +60,17 @@
 
     <p class="processing">Processando sua ativação...</p>
     <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68" aria-label="Progresso do pedido">
-      <div class="progress-bar">68%</div>
+      <div class="progress-bar" id="progressBar">0%</div>
     </div>
 
     <p>ENQUANTO SUA COMPRA PROCESSA…<br>VOCÊ ACABOU DE RECEBER OUTRO <strong>BÔNUS EXCLUSIVO</strong><br> SOMENTE NESTA PÁGINA!</p>
 
-<vturb-smartplayer id="vid-68c72b688d74d8c4f6098eed" style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer> <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/68c72b688d74d8c4f6098eed/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
+<vturb-smartplayer id="vid-692629e38d670288e16aff77" style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer> <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/692629e38d670288e16aff77/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
+
     <h3>⚡ <strong>Multiplique</strong> seus ganhos com o poder da nossa <strong>Inteligência Artificial</strong>!</h3>
     <p>Você já deu o primeiro passo. Agora é <strong>hora de acelerar</strong> seus lucros com um <strong>assistente inteligente</strong> que faz o <strong>trabalho pesado</strong> por você.</p>
 
-    <div class="actions">
+    <div class="actions" id="actions">
       <button class="btn btn-green" id="accept">✅ SIM! ACEITO A OFERTA</button>
       <button class="btn btn-red" id="decline">❌ PULAR</button>
     </div>
@@ -88,7 +90,7 @@
         <div class="err" id="err"></div>
       </div>
 
-      <button class="pay" id="pay">Pagar 349 MZN</button>
+      <button class="pay" id="pay">Pagar 147 MZN</button>
       <p class="hint">Ao clicar em pagar, processaremos o upsell imediatamente.</p>
     </div>
   </div>
@@ -103,6 +105,20 @@
   const toast = $('#toast');
   const overlay = $('#overlay');
   function setToast(msg, ok=false){ toast.textContent = msg; toast.className = 'toast ' + (ok? 'ok':'err'); toast.style.display = 'block'; setTimeout(()=> toast.style.display='none', 3800); }
+
+  // 🎯 Animar barra de progresso ao carregar
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const bar = $('#progressBar');
+      bar.style.width = '68%';
+      bar.textContent = '68%';
+    }, 100);
+  });
+
+  // 🎯 Mostrar botões após 2min30s
+  setTimeout(() => {
+    $('#actions').classList.add('visible');
+  }, 150000); // 150000ms = 2min 30s
 
   // 🎯 DADOS DE RASTREAMENTO GLOBAIS
   let trackingData = {
@@ -133,7 +149,7 @@
       if (result.status === 'ok') {
         trackingData = result.data;
         console.log('✅ Dados de rastreamento carregados:', trackingData);
-        
+
         if (trackingData.phone) {
           $('#phone').value = trackingData.phone;
         }
@@ -196,7 +212,7 @@
     if(!metodo){ err.textContent='Selecione um método.'; err.style.display='block'; return; }
     if(!validarNumero(numero, metodo)){ err.textContent='Número inválido para o método escolhido.'; err.style.display='block'; return; }
 
-    const amount = getQuery('amount','349');
+    const amount = getQuery('amount','147');
     const reference = getQuery('ref','upsell1');
 
     const payload = {
@@ -225,22 +241,22 @@
         method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
       });
       const data = await resp.json().catch(()=>({}));
-      
+
       if(resp.ok && (data.status==='ok' || data.success)){
         setToast(data.message||'Pagamento confirmado! Redirecionando...', true);
-        
+
         setTimeout(() => {
           window.location.href = 'https://visionpub.online/up-2/';
         }, 3000);
       } else {
         setToast(data.message||'Falha ao processar o pagamento.');
       }
-    }catch(e){ 
-      setToast('Erro de conexão. Tenta novamente.'); 
+    }catch(e){
+      setToast('Erro de conexão. Tenta novamente.');
     }
-    finally{ 
-      $('#pay').disabled=false; 
-      overlay.style.display='none'; 
+    finally{
+      $('#pay').disabled=false;
+      overlay.style.display='none';
     }
   });
 </script>
