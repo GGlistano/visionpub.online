@@ -112,13 +112,16 @@
     }
     .payment-options {
       display: flex;
-      gap: 10px;
+      gap: 16px;
+      justify-content: center;
+      max-width: 360px;
+      margin: 0 auto;
     }
     .payment-option {
       flex: 1;
       text-align: center;
       border: 1px solid #ccc;
-      padding: 12px;
+      padding: 14px;
       border-radius: 8px;
       cursor: pointer;
       background: white;
@@ -126,9 +129,10 @@
     }
     .payment-option.selected {
       border-color: #049D43;
+      border-width: 2px;
     }
     .payment-option img {
-      max-width: 60px;
+      max-width: 70px;
       height: auto;
       margin-bottom: 4px;
     }
@@ -258,6 +262,68 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    /* Estilos para seção de depoimentos */
+    .depoimentos-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid #e0e0e0;
+    }
+
+    .depoimentos-title {
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 24px;
+      color: #2c3e50;
+    }
+
+    .depoimento-item {
+      margin-bottom: 24px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .depoimento-item iframe {
+      width: 100%;
+      max-width: 300px;
+      height: 533px;
+      border: none;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Estilos para selo de garantia */
+    .garantia-section {
+      margin-top: 40px;
+      padding: 30px 0;
+      text-align: center;
+      border-top: 2px solid #e0e0e0;
+    }
+
+    .garantia-section img {
+      max-width: 200px;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .garantia-text {
+      margin-top: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #2c3e50;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .depoimento-item iframe {
+        max-width: 280px;
+        height: 497px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -283,7 +349,7 @@
     <label for="email-input">E-mail</label>
     <input id="email-input" type="email" />
     <div id="email-erro" class="error-message" style="display:none;">Por favor, preencha seu e-mail.</div>
-    
+
     <label for="whatsapp-input">Número de WhatsApp</label>
     <input id="whatsapp-input" type="text" />
     <div id="whatsapp-erro" class="error-message" style="display:none;">
@@ -306,10 +372,6 @@
         <img src="images/emola.png" alt="e-Mola" />
         <div>e-Mola</div>
       </div>
-      <div class="payment-option" onclick="selectPayment(this, 'visa')">
-        <img src="images/visa (2) (1).png" alt="Visa/Mastercard" />
-        <div>Visa/Mastercard</div>
-      </div>
     </div>
 
     <div class="phone-field" id="phone-section">
@@ -328,17 +390,54 @@
       Compra segura com criptografia. Ao finalizar, você aceita os termos.<br />
       Nenhum dado sensível é armazenado.
     </div>
-    <div style="font-size:13px; line-height:1.5; color:#666; margin-top:20px; text-align:center;">
-  <p>
-    Ao finalizar sua compra, você declara que leu e concorda com os 
-    <a href="https://visionpub.online/privacidade/" target="_blank" style="color:#1a73e8; text-decoration:none;">
-      Termos de Uso e Política de Privacidade
-    </a>.
-  </p>
-  <p style="margin-top:6px;">
-    © <script>document.write(new Date().getFullYear())</script> VisionPub. Todos os direitos reservados.
-  </p>
-</div>
+
+    <!-- Seção de Depoimentos -->
+    <div class="depoimentos-section">
+      <div class="depoimentos-title">Veja o que nossos clientes dizem:</div>
+
+      <div class="depoimento-item">
+        <iframe src="https://player.vimeo.com/video/1140519393?title=0&byline=0&portrait=0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="depoimento-item">
+        <iframe src="https://player.vimeo.com/video/1140519140?title=0&byline=0&portrait=0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="depoimento-item">
+        <iframe src="https://player.vimeo.com/video/1140519844?title=0&byline=0&portrait=0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <!-- Seção de Garantia -->
+    <div class="garantia-section">
+      <img src="images/garantia.png" alt="Garantia de 30 dias" />
+      <div class="garantia-text">
+        Garantia incondicional de 30 dias<br />
+        Se não gostar, devolvemos seu dinheiro
+      </div>
+    </div>
+
+    <!-- Footer com Termos e Copyright -->
+    <div style="font-size:13px; line-height:1.5; color:#666; margin-top:30px; text-align:center;">
+      <p>
+        Ao finalizar sua compra, você declara que leu e concorda com os
+        <a href="https://visionpub.online/privacidade/" target="_blank" style="color:#1a73e8; text-decoration:none;">
+          Termos de Uso e Política de Privacidade
+        </a>.
+      </p>
+      <p style="margin-top:6px;">
+        © <script>document.write(new Date().getFullYear())</script> VisionPub. Todos os direitos reservados.
+      </p>
+    </div>
 
   </div>
 
@@ -421,7 +520,7 @@
         document.getElementById('email-erro').style.display = 'block';
         erro = true;
       }
-      
+
       if (!whatsapp.value.trim()) {
         whatsapp.classList.add('error');
         document.getElementById('whatsapp-erro').style.display = 'block';
@@ -443,7 +542,7 @@
 
       try {
         const whatsapp = document.getElementById('whatsapp-input');
-        
+
         const resposta = await fetch('https://backenv2-production.up.railway.app/api/pagar', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -485,9 +584,9 @@
           localStorage.setItem('email', _email);
           localStorage.setItem('nome', _nome);
           localStorage.setItem('whatsapp', _zap);
-          
+
           mostrarPopup('success', resultado.message || 'Compra aprovada com sucesso!');
-          
+
           // 🎯 CRIAR TOKEN DE RASTREAMENTO E REDIRECIONAR
           try {
             const tokenResponse = await fetch('https://backenv2-production.up.railway.app/api/create-token', {
@@ -507,7 +606,7 @@
             });
 
             const tokenResult = await tokenResponse.json();
-            
+
             if (tokenResult.status === 'ok') {
               // Redirecionar com token
               setTimeout(() => {
