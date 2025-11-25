@@ -343,15 +343,15 @@
     <div class="divider"></div>
 
     <label for="nome-input">Nome completo</label>
-    <input id="nome-input" type="text" />
+    <input id="nome-input" type="text" placeholder="EX: seu nome" />
     <div id="nome-erro" class="error-message" style="display:none;">Por favor, preencha seu nome completo.</div>
 
     <label for="email-input">E-mail</label>
-    <input id="email-input" type="email" />
+    <input id="email-input" type="email" placeholder="EX: seuemail@gmail.com" />
     <div id="email-erro" class="error-message" style="display:none;">Por favor, preencha seu e-mail.</div>
 
     <label for="whatsapp-input">Número de WhatsApp</label>
-    <input id="whatsapp-input" type="text" />
+    <input id="whatsapp-input" type="text" placeholder="EX: 841234567" />
     <div id="whatsapp-erro" class="error-message" style="display:none;">
       Por favor, preencha o número de WhatsApp.
     </div>
@@ -393,7 +393,7 @@
 
     <!-- Seção de Depoimentos -->
     <div class="depoimentos-section">
-      <div class="depoimentos-title">Veja o que os usuarios da ferramenta dizem:</div>
+      <div class="depoimentos-title">Veja o que os usuários da ferramenta dizem:</div>
 
       <div class="depoimento-item">
         <iframe src="https://player.vimeo.com/video/1140519393?title=0&byline=0&portrait=0"
@@ -419,7 +419,7 @@
 
     <!-- Seção de Garantia -->
     <div class="garantia-section">
-      <img src="images/garantia.png" alt="Garantia de 30 dias" />
+      <img src="garantia.png" alt="Garantia de 30 dias" />
       <div class="garantia-text">
         Garantia incondicional de 30 dias<br />
         Se não gostar, devolvemos seu dinheiro
@@ -510,20 +510,25 @@
       document.getElementById('whatsapp-erro').style.display = 'none';
 
       // Validação básica
+      let primeiroErro = null;
+
       if (!nome.value.trim()) {
         nome.classList.add('error');
         document.getElementById('nome-erro').style.display = 'block';
+        if (!primeiroErro) primeiroErro = nome;
         erro = true;
       }
       if (!email.value.trim()) {
         email.classList.add('error');
         document.getElementById('email-erro').style.display = 'block';
+        if (!primeiroErro) primeiroErro = email;
         erro = true;
       }
 
       if (!whatsapp.value.trim()) {
         whatsapp.classList.add('error');
         document.getElementById('whatsapp-erro').style.display = 'block';
+        if (!primeiroErro) primeiroErro = whatsapp;
         erro = true;
       }
 
@@ -532,10 +537,16 @@
       if (!numeroValido || !metodo) {
         phone.classList.add('error');
         document.getElementById('phone-erro').style.display = 'block';
+        if (!primeiroErro) primeiroErro = phone;
         erro = true;
       }
 
-      if (erro) return;
+      if (erro) {
+        if (primeiroErro) {
+          primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
 
       pagarBtn.disabled = true;
       const overlayIntervalo = mostrarOverlayProcessando(45);
@@ -726,4 +737,3 @@
 </script>
 </body>
 </html>
-
