@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Efeito Nostalgia - 3 Frases que Ativam o Instinto de Conquista</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: hsl(240 10% 4%);
+      min-height: 100vh;
+      color: hsl(0 0% 95%);
+    }
+
+    .hero {
+      background: linear-gradient(180deg, hsl(280 85% 25% / 0.3) 0%, hsl(240 10% 4%) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 16px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .subtitle {
+      color: hsl(280 85% 55%);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 5vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    .text-gradient {
+      background: linear-gradient(to right, hsl(280 85% 55%), hsl(320 85% 55%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-highlight {
+      color: hsl(320 85% 55%);
+    }
+
+    .description {
+      color: hsl(240 5% 65%);
+      font-size: 18px;
+      margin-bottom: 32px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .video-container {
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid hsl(280 85% 55% / 0.5);
+      box-shadow: 0 0 50px hsl(280 85% 55% / 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .subtitle {
+        font-size: 12px;
+      }
+
+      .description {
+        font-size: 16px;
+      }
+    }
+
+    /* =========================
+       TICKER (rodapé deslizando)
+       ========================= */
+    .ticker {
+      border-top: 1px solid hsl(0 0% 100% / 0.08);
+      border-bottom: 1px solid hsl(0 0% 100% / 0.08);
+      background: hsl(0 0% 0% / 0.20);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .ticker .row {
+      display: inline-block;
+      padding: 10px 0;
+      animation: marq 18s linear infinite;
+      color: hsl(0 0% 100% / 0.78);
+      font-size: 12px;
+      letter-spacing: 0.2px;
+    }
+
+    .ticker span {
+      opacity: 0.75;
+    }
+
+    @keyframes marq {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* =========================
+       COMMENTS (estilo Facebook)
+       ========================= */
+    #commentsya {
+      background: #0b0b10;
+      padding: 22px 0 40px;
+    }
+
+    .commentsya {
+      width: min(680px, 94vw);
+      margin: 0 auto;
+      display: block;
+    }
+
+    .cmnts {
+      background: #ffffff;
+      border: 1px solid #dfe3e8;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,.22);
+      color: #1c1e21;
+      text-align: left;
+    }
+
+    p.comments {
+      margin: 0;
+      padding: 10px 14px;
+      background: #f2f3f5;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    p.buttons {
+      margin: 0;
+      padding: 8px 14px;
+      font-size: 13px;
+      color: #365899;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    p.buttons span {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    p.buttons .like {
+      font-weight: 600;
+    }
+
+    .new-likes-header {
+      margin: 0;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #1c1e21;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .color-blue {
+      color: #365899;
+      font-weight: 600;
+    }
+
+    .more {
+      margin: 0;
+      padding: 10px 14px;
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 13px;
+      color: #365899;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .more .left {
+      cursor: pointer;
+    }
+    .more .right {
+      color: #90949c;
+    }
+
+    /* Cada comentário - estrutura corrigida */
+    .item {
+      display: flex;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #fff;
+    }
+
+    .profileimg {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .comment-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .comtxt {
+      margin: 0;
+      background: #f2f3f5;
+      border-radius: 18px;
+      padding: 8px 12px;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #1c1e21;
+      display: inline-block;
+      max-width: 100%;
+    }
+
+    .comtxt .name {
+      font-weight: 600;
+      color: #365899;
+    }
+
+    .combot {
+      margin: 4px 0 0 12px;
+      font-size: 12px;
+      color: #90949c;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .combot .new-like {
+      color: #365899;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .combot .separator {
+      margin: 0 2px;
+    }
+
+    .likes-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      color: #365899;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .likes-count img {
+      width: 14px;
+      height: 14px;
+    }
+
+  </style>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <p class="subtitle">A Estratégia Secreta que Ele Não Espera</p>
+
+      <h1>
+        Essas <span class="text-gradient">3 simples frases</span> são capazes de ativar nele o
+        <span class="text-highlight">instinto de conquista imediato</span> e fazer ele agir da mesma maneira de quando te conheceu
+      </h1>
+
+      <p class="description">
+        Mesmo que ele esteja distante, frio ou até tenha te bloqueado. Funciona mesmo que você já tenha tentado de tudo.
+      </p>
+
+      <!-- Video -->
+      <div class="video-container">
+        <vturb-smartplayer id="vid-6948358f25bdf7820c052c18" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
+        <script type="text/javascript">
+          var s = document.createElement("script");
+          s.src = "https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/6948358f25bdf7820c052c18/v4/player.js";
+          s.async = true;
+          document.head.appendChild(s);
+        </script>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé ticker (deslizando) -->
+  <div class="ticker">
+    <div class="row">
+      <span>• Método prático •</span>&nbsp;&nbsp;Reconquista sem se humilhar&nbsp;&nbsp;
+      <span>•</span>&nbsp;&nbsp;3 fases simples&nbsp;&nbsp;<span>•</span>&nbsp;&nbsp;
+      Mensagens certas na hora certa&nbsp;&nbsp;<span>•</span>&nbsp;&nbsp;
+      Faça ele voltar a te perseguir&nbsp;&nbsp;<span>•</span>&nbsp;&nbsp;
+      Método prático • Reconquista sem se humilhar • 3 fases simples • Mensagens certas na hora certa •
+    </div>
+  </div>
+
+  <!-- START Comments -->
+  <div id="commentsya">
+    <div class="commentsya">
+      <div class="cmnts">
+
+        <p class="buttons">
+          <span class="like">Curtir</span> · 
+          <span>Comentar</span> · 
+          <span>Compartilhar</span>
+        </p>
+
+        <p class="new-likes-header">
+          <span class="color-blue">5.570 curtiram isso.</span>
+        </p>
+
+        <p class="more">
+          <span class="left">Ver comentários anteriores</span>
+          <span class="right">15 de 9.777</span>
+        </p>
+
+        <!-- Comentário 1 -->
+        <div class="item">
+          <img class="profileimg" src="https://i.imgur.com/Xg3Xii5.jpg" alt="">
+          <div class="comment-content">
+            <p class="comtxt"><span class="name">Márcio Lopes da Silva kkkkk</span>, voltei com minha namorada só porque ela fez esse curso, ela me contou agora que noivamos... Pelo menos deu certo!</p>
+            <p class="combot">
+              <span class="ago">Agora mesmo</span>
+              <span class="separator">·</span>
+              <span class="new-like">Curtir</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Comentário 2 -->
+        <div class="item">
+          <img class="profileimg" src="https://i.imgur.com/se6AyMn.jpg" alt="">
+          <div class="comment-content">
+            <p class="comtxt"><span class="name">Kamila Lima</span> Meu deeeeus, eu tava bloqueada e ele n"ao para de ficar mandando mensagem gennteee</p>
+            <p class="combot">
+              <span class="ago">Agora mesmo</span>
+              <span class="separator">·</span>
+              <span class="new-like">Curtir</span>
+              <span class="likes-count"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Eo_circle_light-blue_thumbs-up.svg/512px-Eo_circle_light-blue_thumbs-up.svg.png" alt="">45</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Comentário 3 -->
+        <div class="item">
+          <img class="profileimg" src="https://i.imgur.com/UyWQTpC.jpg" alt="">
+          <div class="comment-content">
+            <p class="comtxt"><span class="name">Margaretii Kobai</span> meu namorado me disse que nem queria mais, agora ele ta vindo no portão de casa todo dia</p>
+            <p class="combot">
+              <span class="ago">2 minutos atrás</span>
+              <span class="separator">·</span>
+              <span class="new-like">Curtir</span>
+              <span class="likes-count"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Eo_circle_light-blue_thumbs-up.svg/512px-Eo_circle_light-blue_thumbs-up.svg.png" alt="">101</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Comentário 4 -->
+        <div class="item">
+          <img class="profileimg" src="https://i.imgur.com/0AEGbP2.jpg" alt="">
+          <div class="comment-content">
+            <p class="comtxt"><span class="name">Cristiane Almeida</span> olocooo, comecei ontem e ele ja ta curtindo minhas coisas, nem acredito, to pasmaaa</p>
+            <p class="combot">
+              <span class="ago">7 minutos atrás</span>
+              <span class="separator">·</span>
+              <span class="new-like">Curtir</span>
+              <span class="likes-count"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Eo_circle_light-blue_thumbs-up.svg/512px-Eo_circle_light-blue_thumbs-up.svg.png" alt="">6</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Comentário 5 -->
+        <div class="item">
+          <img class="profileimg" src="https://i.imgur.com/2i6LWAd.jpg" alt="">
+          <div class="comment-content">
+            <p class="comtxt"><span class="name">Larissa Santuss</span> @Cristiane Almeida, eu falei pra você que dava certo kkkk</p>
+            <p class="combot">
+              <span class="ago">17 minutos atrás</span>
+              <span class="separator">·</span>
+              <span class="new-like">Curtir</span>
+              <span class="likes-count"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Eo_circle_light-blue_thumbs-up.svg/512px-Eo_circle_light-blue_thumbs-up.svg.png" alt="">12</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Comentário 6 -->
+        <div class="item">
+          <img class="profileimg" src="https://i.imgur.com/sQ6kGYS.jpg" alt="">
+          <div class="comment-content">
+            <p class="comtxt"><span class="name">Giovanna Kastro</span> Me salvou de verdade, ele tava com outra já e era o amor da minha vida, agora ele terminou com ela e disse que quer casar comigo</p>
+            <p class="combot">
+              <span class="ago">22 minutos atrás</span>
+              <span class="separator">·</span>
+              <span class="new-like">Curtir</span>
+              <span class="likes-count"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Eo_circle_light-blue_thumbs-up.svg/512px-Eo_circle_light-blue_thumbs-up.svg.png" alt="">6</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Comentário 7 -->
+        <div class="item">
+          <img class="profileimg" src="https://i.imgur.com/Zhku7Su.jpg" alt="">
+          <div class="comment-content">
+            <p class="comtxt"><span class="name">Julia</span> eu to chocaaadaaa, a gente tinha terminado a mais de 6 meses... Depois que apliquei ele me mandou mensagem falando que sou o amor da vida dele</p>
+            <p class="combot">
+              <span class="ago">24 minutos atrás</span>
+              <span class="separator">·</span>
+              <span class="new-like">Curtir</span>
+              <span class="likes-count"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Eo_circle_light-blue_thumbs-up.svg/512px-Eo_circle_light-blue_thumbs-up.svg.png" alt="">2</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Comentário 8 -->
+        <div class="item">
+          <img class="profileimg" src="https://i.imgur.com/6cyerx3.jpg" alt="">
+          <div class="comment-content">
+            <p class="comtxt"><span class="name">Antonia Leal</span> eu nem transava mais com meu marido, depois disso ele me quer toda hora</p>
+            <p class="combot">
+              <span class="ago">28 minutos atrás</span>
+              <span class="separator">·</span>
+              <span class="new-like">Curtir</span>
+              <span class="likes-count"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Eo_circle_light-blue_thumbs-up.svg/512px-Eo_circle_light-blue_thumbs-up.svg.png" alt="">5</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Comentário 9 -->
+        <div class="item">
+          <img class="profileimg" src="https://i.imgur.com/S8evvGl.jpg" alt="">
+          <div class="comment-content">
+            <p class="comtxt"><span class="name">Serena Tereza</span> AQUI DEU CERTO MENINASS, ele TA NO MEU PE !!!!</p>
+            <p class="combot">
+              <span class="ago">35 minutos atrás</span>
+              <span class="separator">·</span>
+              <span class="new-like">Curtir</span>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- END Comments -->
+</body>
+</html>
