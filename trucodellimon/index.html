@@ -41,6 +41,31 @@
         footer { background: #000; color: white; text-align: center; padding: 30px 20px; font-size: 11px; line-height: 1.6; }
         footer a { color: #385898; text-decoration: none; margin: 0 5px; }
     </style>
+    <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1212770254001333');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1212770254001333&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+    <script>
+  window.pixelId = "691114dc282a9899c364979c";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
 </head>
 <body>
 
@@ -165,9 +190,15 @@ const countdown = setInterval(() => {
   }
 }, 1000);
 </script>
-
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
 </body>
 
 </html>
+
 
 
