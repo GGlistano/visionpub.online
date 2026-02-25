@@ -1,204 +1,277 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saúde - Truque do Limão</title>
+    <title>Hábitos de Vida Saudável</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background-color: #f0f2f5; color: #333; }
-        
-        /* Header & Aviso */
-        header { background: #cc0000; color: white; text-align: center; padding: 10px; font-weight: bold; text-transform: uppercase; font-size: 18px; }
-        .aviso { background: #990000; color: #fff; padding: 10px; font-size: 12px; text-align: center; line-height: 1.4; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* Container Principal */
-        .container { max-width: 500px; margin: auto; background: white; min-height: 100vh; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
 
-        /* Área do Vídeo */
-        .video-container { width: 100%; padding: 20px 0; background: #fff; }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
 
-        /* Contador */
-        .watching-now { text-align: center; padding: 15px; font-weight: bold; color: #333; border-bottom: 1px solid #eee; }
-        .watching-now span { color: #cc0000; }
+        .header-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-        /* Imagens de Referência e Mídia */
-        .img-full { width: 90%; margin: 15px 5%; display: block; }
+        .content {
+            padding: 48px 64px;
+        }
 
-        /* Comentários */
-        .comments-section { padding: 15px; }
-        .comment-count { font-weight: bold; font-size: 14px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        
-        .comment { display: flex; margin-bottom: 20px; font-size: 13px; }
-        .comment img { width: 45px; height: 45px; border-radius: 50%; margin-right: 10px; object-fit: cover; }
-        .comment-content { background: #f0f2f5; padding: 10px; border-radius: 15px; flex: 1; }
-        .comment-name { font-weight: bold; color: #385898; margin-bottom: 3px; }
-        .comment-footer { font-size: 11px; color: #65676b; margin-top: 5px; font-weight: bold; }
-        .comment-footer span { cursor: pointer; margin-right: 10px; }
+        h1 {
+            font-size: 2.5rem;
+            color: #27ae60;
+            margin-bottom: 32px;
+            line-height: 1.2;
+            font-weight: 700;
+        }
 
-        .reply { margin-left: 55px; }
+        h2 {
+            font-size: 2rem;
+            color: #2ecc71;
+            margin-top: 48px;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            font-weight: 600;
+        }
 
-        /* Footer */
-        footer { background: #000; color: white; text-align: center; padding: 30px 20px; font-size: 11px; line-height: 1.6; }
-        footer a { color: #385898; text-decoration: none; margin: 0 5px; }
+        p {
+            margin-bottom: 16px;
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            text-align: justify;
+            color: #34495e;
+        }
+
+        .highlight {
+            background-color: #e8f5e9;
+            padding: 24px;
+            border-left: 4px solid #27ae60;
+            margin: 32px 0;
+        }
+
+        .highlight p {
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        a {
+            color: #27ae60;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.3s;
+        }
+
+        a:hover {
+            border-bottom: 1px solid #27ae60;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 16px 48px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            margin-top: 40px;
+            transition: background-color 0.3s, transform 0.2s;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button:hover {
+            background-color: #229954;
+            transform: translateY(-2px);
+            border-bottom: none;
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        .cta-container {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #e8f5e9;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 32px 24px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 24px 16px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.35rem;
+            }
+        }
     </style>
-    <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1212770254001333');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1212770254001333&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-    <script>
-  window.pixelId = "691114dc282a9899c364979c";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
 </head>
 <body>
+    <div class="container">
+        <img src="https://www.saudebemestar.pt/media/89605/vida_saudavel.jpg" alt="Vida Saudável" class="header-image">
 
-<header>SALUD</header>
-<div class="aviso">
-  ⚠️ AVISO: Este video puede ser eliminado en breve. <b id="timer">36:21</b>
-</div>
+        <div class="content">
+            <h1>Hábitos de vida saudável</h1>
 
-<div class="container">
-    <div class="video-container">
-        <vturb-smartplayer id="vid-69820378664ebd56a21a8f26" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
-        <script type="text/javascript"> 
-            var s=document.createElement("script"); 
-            s.src="https://scripts.converteai.net/a13aea94-d31c-49a3-8677-a63a60dfb1d1/players/69820378664ebd56a21a8f26/v4/player.js", 
-            s.async=!0,document.head.appendChild(s); 
-        </script>
+            <p>Uma vida saudável é seguramente o maior desejo de todos nós. Afinal, sem saúde a vida não tem o mesmo significado. O melhor caminho para se sentir feliz, enérgico e saudável no futuro é levar uma vida feliz, enérgica e saudável no presente. Os benefícios e os prazeres produzidos são simultaneamente imediatos e a longo prazo.</p>
+
+            <p>Estamos cada vez mais a caminhar num sentido, em que as pessoas se apercebem, finalmente, que ser saudável é muito mais do que não estar doente.</p>
+
+            <p>Não podemos permitir que a vida passe por nós sem que a vivamos com energia e estímulos que nos transmitam felicidade. Devemos tornar a vida apetecível e estimulante, bastando para isso, que tenhamos uma atitude assertiva, ativa e participativa perante a mesma.</p>
+
+            <p>Muitas vezes, não conseguimos deter o trajeto da vida. Pese embora esse facto, a vida também é fruto das nossas atitudes e comportamentos. Nós somos, por isso, o resultado das nossas vivências.</p>
+
+            <h2>Como ter uma vida saudável?</h2>
+
+            <p>"O que fazer para ser saudável?", "como começar uma vida saudável?", ou "como ter uma vida saudável e feliz?", são questões colocadas, frequentemente, pelas pessoas.</p>
+
+            <p>Debrucemo-nos, primeiramente, sobre a questão: o que é ser saudável? Segundo a organização Mundial de Saúde (OMS) saúde é "o bem-estar físico, mental e social, mais do que a mera ausência de doença…". Ou seja, ser saudável não é apenas a ausência de doença, mas essencialmente o bem estar físico e mental do indivíduo. Não é por acaso que a OMS define a saúde desta forma, dando à palavra um significado muito mais amplo do que apenas o simples antónimo de doença.</p>
+
+            <p>Ainda que a saúde apareça, naturalmente, associada à palavra medicina, esta vai muito para além do significado que, muitas vezes, o senso comum lhe atribui, associando-a apenas, normalmente à medicina curativa. A medicina é, todavia, bem mais do que isso, pois a sua preocupação maior é a prevenção de doenças.</p>
+
+            <p>Os médicos estão conscientes que a prevenção é fundamental num sistema de saúde que se quer "saudável".</p>
+
+            <p>O estilo de vida das pessoas, a má alimentação, o stress, entre outros fatores, estão a contribuir, fortemente, para agudizar os problemas. Poderíamos citar, como exemplos, a diabetes e a hipertensão arterial, doenças muito associadas aos hábitos das populações modernas.</p>
+
+            <p>Muitos dos problemas que a medicina moderna ajuda a solucionar poderiam ser, facilmente, evitados se fossem seguidas algumas das recomendações essências à prática de um estilo de vida saudável.</p>
+
+            <p>Mudar hábitos e condutas é imperativo e inadiável. Não queremos dizer com isto que devamos seguir à risca, todas as regras para obter uma vida saudável, como se tratasse de um plano rígido, penoso e até castrador para as pessoas. A vida deve ser vivida com intensidade e com prazer pelo que nunca devemos tornar-nos em meros aprisionados a atitudes/ comportamentos que não obstante serem mais saudáveis, seriam simultaneamente penosas e limitadoras.</p>
+
+            <div class="highlight">
+                <p>A vida é feita de opções. Tome as suas em consciência, encontre o equilíbrio entre os prós e contras dos seus gostos pessoais, rumo a uma vida mais saudável e sem esquecer em última análise, que é a sua qualidade de vida que pretende melhorar.</p>
+            </div>
+
+            <p>Falamos de mudar atitudes, que nos estimulem e nos conduzam à felicidade, e concomitantemente melhorem a nossa condição de saúde. Tal nem sempre é possível, é certo, mas numa larga maioria dos casos, é perfeitamente atingível.</p>
+
+            <p>A título de exemplo, imagine-se numa simples caminhada na natureza ou a saborear a sua peça de fruta preferida. São dois exemplos simples em que é completamente viável, em simultâneo, disfrutar da vida e melhorar a condição de saúde.</p>
+
+            <h2>Alimentação, exercício físico</h2>
+
+            <p>Viver saudável também está nas nossas mãos. Não julguemos que podemos comer quantidades excessivas de açúcar todos os dias e que caso um dia, venhamos a padecer de diabetes será, meramente, uma questão do destino e de má sorte. Não podemos julgar que estando sujeitos, diariamente, a elevadas doses de stress e de forma persistente não pagaremos um dia um elevado preço por isso. Não achemos que podemos ser fumadores durante anos e não colheremos problemas respiratórios e uma degradação da nossa qualidade de vida.</p>
+
+            <p>As nossas atitudes fazem-se refletir mais tarde ou mais cedo na nossa saúde.</p>
+
+            <p>Obviamente, a nossa atitude perante a vida é um fator determinante para a tornar mais saudável. Pense a vida pela positiva e sinta-se bem consigo próprio antes de qualquer atitude.</p>
+
+            <p>Pelo menos, tenha em atenção duas coisas importantes. Em primeiro lugar a nutrição. Uma boa alimentação pode fazer muito mais pela sua saúde do que aquilo que imagina. Nutrição e vida saudável são conceitos indissociáveis.</p>
+
+            <p>Em segundo lugar o exercício físico. Este, desde que efetuado de forma adequada, pode também melhorar consideravelmente a sua saúde e bem estar, contribuindo assim para uma melhor qualidade de vida.</p>
+
+            <p>Pense no exercício físico como algo positivo e relaxante e não como algo rígido e "que tem de ser". Descubra qual a atividade que mais gosta e perceba os benefícios que ela lhe pode proporcionar.</p>
+
+            <div class="highlight">
+                <p>Mude apenas estes dois fatores e descubra uma vida mais saudável.</p>
+            </div>
+
+            <h2>Qualidade de vida</h2>
+
+            <p>Quantos de nós já sentimos o desconforto causado por uma simples dor de costas. Ou sentiu o incómodo causado por constipações repetitivas, muitas vezes, causadas por debilidades do nosso sistema imunitário.</p>
+
+            <p>Muitos exemplos poderíamos apontar, contudo, todos nós entendemos que a doença ou o mal estar, nos diminuem, drasticamente, a qualidade de vida.</p>
+
+            <p>Vivemos hoje numa era onde o tempo passou a ditar as regras. A escassez de tempo leva as pessoas a viver numa constante corrida contra esse bem precioso.</p>
+
+            <p>Não temos tempo para fazer uma boa alimentação, não temos tempo para fazer exercício físico, não temos tempo para falar com as pessoas, não temos tempo para muitas coisas consideradas essenciais na nossa vida. Estes comportamentos, infelizmente, são geradores de diversos problemas, acarretando graves consequências para a nossa saúde e bem estar.</p>
+
+            <p>Na presença destes problemas, se por um lado, as pessoas são fortemente afetadas na sua saúde, por outro lado, a sua qualidade de vida degrada-se imenso.</p>
+
+            <p>Em suma, diríamos que não é possível possuirmos uma boa qualidade de vida sem que tenhamos hábitos de vida saudáveis.</p>
+
+            <h2>Longevidade saudável</h2>
+
+            <p>A esperança média de vida há umas décadas atrás era, substancialmente, inferior.</p>
+
+            <p>Com a melhoria das condições de vida e dos avanços da medicina ela tem vindo a subir gradualmente. Ainda bem que assim é, pois todos nós desejamos viver melhor e por mais tempo.</p>
+
+            <p>O objectivo actual não é apenas viver mais anos. É ter uma saúde duradoura, isto é, levar uma vida ativa, saudável, feliz e com objetivos. Contudo, viver mais não é sinónimo de viver melhor.</p>
+
+            <p>Muitas vezes, o aumento da esperança média de vida faz-se à custa de tratamentos, mais ou menos sofisticados, que apesar de eficazes, degradam imenso a qualidade de vida das pessoas. Não deveríamos apenas querer viver mais, mas também viver melhor.</p>
+
+            <p>A longevidade também está nas nossas mãos. Acreditamos, convictamente, que devemos centrar a nossa atenção na manutenção de uma condição saudável, tomando como certo que as nossas atitudes no presente terão um profundo impacto na nossa saúde futura.</p>
+
+            <div class="highlight">
+                <p>Se quer viver saudável e por mais tempo comece hoje a tomar medidas nesse sentido, ou seja, medidas assertivas, saudáveis e que contribuam ao mesmo tempo para o seu bem estar atual.</p>
+            </div>
+
+            <h2>Benefícios de uma vida saudável</h2>
+
+            <p>Os benefícios de uma vida saudável são inúmeros para as pessoas. Não será, por isso, necessário descrevê-los com exaustão, pois todos nós sabemos o quanto é gratificante sentirmo-nos saudáveis ou, então, pelo contrário o quão penoso é sentirmo-nos doentes.</p>
+
+            <p>No entanto, os benefícios de uma vida saudável não se ficam por aqui. Os custos com a saúde são cada vez mais incomportáveis para as pessoas, seja de uma forma direta ou indireta através dos seus impostos que são canalizados para o Serviço Nacional de Saúde.</p>
+
+            <p>Há estudos que demonstram, claramente que por cada euro investido em prevenção, poderemos ter um substancial retorno em poupança com os tratamentos curativos de saúde.</p>
+
+            <p>Ou seja, a prioridade do investimento deveria ser canalizada para a prevenção das doenças. Por outro lado, os custos sociais e económicos acarretados pelas doenças ao nível do absentismo no emprego, entre outros, têm um peso bastante significativo, com crescentes despesas em proteção social.</p>
+
+            <h2>Saúde e bem estar</h2>
+
+            <p>É indiscutível que existe hoje um grande enfoque na saúde curativa, onde a medicina tem evoluído, extraordinariamente, nos últimos anos. Como vimos, estes avanços da medicina trouxeram, indiscutivelmente, uma maior esperança de vida e uma melhor qualidade de vida às pessoas.</p>
+
+            <p>Na ausência de saúde toda a nossa vida fica condicionada e não podemos, por isso, vivê-la e saboreá-la na sua plenitude.</p>
+
+            <p>Devemos, pois, refletir sobre o nosso futuro, já que a nossa qualidade de vida também será o reflexo da forma como vivemos hoje.</p>
+
+            <p>Deverá, por isso, emergir um novo paradigma, onde a promoção da saúde e de atitudes mais assertivas por parte das pessoas permitam prevenir a doença, com enormes benefícios para a sua saúde, conseguindo melhorar a qualidade de vida e o bem estar. Em suma, pretende-se que cada um de nós desenvolva um estilo de vida mais saudável, onde se coloque em primeiro lugar a saúde.</p>
+
+            <p>Por tudo isto, acreditamos, convictamente, que a aposta na prevenção da doença, a promoção da saúde e o bem estar, são de capital importância.</p>
+
+            <div class="highlight">
+                <p>Faça como nós, comece hoje a descobrir os benefícios de uma vida saudável!</p>
+            </div>
+
+            <p>Se gostou deste artigo e também comunga dos nossos valores, então ajude a passar a mensagem, partilhando-a nas redes sociais.</p>
+
+            <p><strong>A saúde de todos, agradece.</strong></p>
+
+            <div class="cta-container">
+                <a href="https://pay.hotmart.com/error?errorMessage=005&checkoutLoadId=CKTID-T104400310V1-1772033205947-1978" class="cta-button">Adquirir Agora</a>
+            </div>
+        </div>
     </div>
-    
-    <div class="watching-now">
-        <span style="color: #cc0000;">👁️</span> <span id="viewer-count">621</span> Personas viendo ahora
-    </div>
-
-    <img src="https://truquedolimao.com/assets/referencias-cientificas-B0v14Yhj.webp" class="img-full" alt="Referências Científicas">
-
-    <div class="comments-section">
-        <div class="comment-count">9 de 6.234 comentários</div>
-
-        <div class="comment">
-            <img src="https://truquedolimao.com/assets/ftp1-dq0-ZPmB.jpeg">
-            <div class="comment-content">
-                <div class="comment-name">Sônia Carla</div>
-                Por fin este video volvió a estar disponible, 2 semanas esperando, viendo a todo el mundo hablando de este truco en Facebook, ¡ya me estaba volviendo loca jajajaja!
-                <div class="comment-footer"><span>Me gusta</span> <span>Responder</span> 👍 137 LIKES • 15 m</div>
-            </div>
-        </div>
-
-        <div class="comment reply">
-            <img src="https://truquedolimao.com/assets/Av2-DyUNxyGf.jpeg">
-            <div class="comment-content">
-                <div class="comment-name">Cristina Santos</div>
-                Ni me digas, mujer, estuve viendo a Juliette y a Carlinhos Maia, ansiosa por hoy
-                <div class="comment-footer"><span>Me gusta</span> <span>Responder</span> 👍 15 LIKES • 8 m</div>
-            </div>
-        </div>
-
-        <div class="comment">
-            <img src="https://truquedolimao.com/assets/Av3-DpqnGLiS.jpeg">
-            <div class="comment-content">
-                <div class="comment-name">Augusto Filho</div>
-                Lo juro… ya no aguantaba mirarme al espejo y sentir vergüenza de mí, dieta, caminatas, hasta pensé en comprar Mounjaro, pero es muy caro y nada funcionaba. Vi el video y en 3 semanas usando Truco del Limón perdí 9 kilos, ¡increíble!
-                <div class="comment-footer"><span>Me gusta</span> <span>Responder</span> 👍 203 LIKES • 28 m</div>
-            </div>
-        </div>
-
-        <div class="comment">
-            <img src="https://truquedolimao.com/assets/Av4-CbcU91hT.jpeg">
-            <div class="comment-content">
-                <div class="comment-name">Neusa Andrade</div>
-                Me gusta porque ella cuenta el chisme completo. Hermosa ANA, vine solo para ver otra vez… ya me lo sé de memoria. Mi problema de presión ya no existe y mi peso bajó de 82 kg a 61 kg sin gastar 3 mil reales. Estoy súper agradecida.
-                <div class="comment-footer"><span>Me gusta</span> <span>Responder</span> 👍 421 LIKES • 43 m</div>
-            </div>
-        </div>
-
-        <div class="comment reply">
-            <img src="https://truquedolimao.com/assets/Av5-D1NpqOJ1.jpeg">
-            <div class="comment-content">
-                <div class="comment-name">Marcos Bastos</div>
-                Le mostré los exámenes a mi nutricionista y tuve una evolución muy buena en 3 meses.
-                <div class="comment-footer"><span>Me gusta</span> <span>Responder</span> 👍 15 LIKES • 11 m</div>
-            </div>
-        </div>
-    </div>
-
-    <img src="https://truquedolimao.com/assets/emisoras-DAdqFXwY.webp" class="img-full" alt="Mídias">
-
-    <footer>
-        <p>Copyright ©2025 | Todos Direitos Reservados</p>
-        <p>Facebook. Todas las opiniones y contenidos expresados en este sitio son responsabilidad exclusiva de sus autores y no reflejan la opinión ni las políticas de Facebook.</p>
-        <a href="#">Política de Privacidade</a> | <a href="#">Termos e Condições</a>
-    </footer>
-</div>
-
-<script>
-    // Lógica do contador de visualizações
-    function updateViewers() {
-        const countElement = document.getElementById('viewer-count');
-        const min = 500;
-        const max = 1500;
-        const newCount = Math.floor(Math.random() * (max - min + 1)) + min;
-        
-        // Efeito suave de transição (opcional)
-        countElement.style.opacity = 0;
-        setTimeout(() => {
-            countElement.innerText = newCount;
-            countElement.style.opacity = 1;
-        }, 300);
-    }
-
-    setInterval(updateViewers, 3000);
-    updateViewers(); // Inicia com um valor aleatório imediato
-</script>
-<script>
-let totalSeconds = 36 * 60 + 21; // 36:21 em segundos
-
-const timerEl = document.getElementById("timer");
-
-const countdown = setInterval(() => {
-  let minutes = Math.floor(totalSeconds / 60);
-  let seconds = totalSeconds % 60;
-
-  // formata com zero à esquerda
-  minutes = minutes < 10 ? "0" + minutes : minutes;
-  seconds = seconds < 10 ? "0" + seconds : seconds;
-
-  timerEl.textContent = `${minutes}:${seconds}`;
-
-  totalSeconds--;
-
-  if (totalSeconds < 0) {
-    clearInterval(countdown);
-    timerEl.textContent = "00:00";
-  }
-}, 1000);
-</script>
-<script
-  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-  data-utmify-prevent-subids
-  async
-  defer
-></script>
 </body>
-
 </html>
-
-
-
