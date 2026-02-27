@@ -156,19 +156,19 @@
             carpetas de <span class="highlight-text">spam o promociones</span>.
         </p>
 
-        <div class="whatsapp-section">
-            <p>
-                Para facilitar, haz clic en el botón de abajo y recibe tu acceso instantáneamente por WhatsApp.
-            </p>
+        <!-- HOTMART - Sales Funnel Widget -->
+<!--- sales funnel container --->
+<div id="hotmart-sales-funnel"></div>
 
-            <span class="whatsapp-label">Nuestro Soporte</span>
-
-            <a href="https://wa.me/SEU_NUMERO_AQUI?text=Hola,%20acabo%20de%20comprar%20el%20protocolo%20y%20quiero%20mi%20acceso" class="btn-whatsapp" target="_blank">
-                📲 <span>Recibir acceso por WhatsApp</span>
-            </a>
-        </div>
+<!--- script load and setup --->
+<script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
+<script>
+checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel')
+</script>
+<!-- HOTMART - Sales Funnel Widget -->
 
     </div>
 
 </body>
 </html>
+
